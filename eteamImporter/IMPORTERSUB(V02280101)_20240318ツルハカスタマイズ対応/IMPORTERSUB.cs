@@ -1744,8 +1744,8 @@ namespace IMPORTERSUB
     							object[] values = new object[2];
     							reader.GetValues(values);
 
-    							this.Code               = bcod;
-    							this.Bflg               = Convert.ToInt16(values[0]);
+    							this.Code = bcod;
+    							this.Bflg = Convert.ToInt16(values[0]);
 
 // 2021/01/15 Ver02.22.08 不具合対応（科目仕入区分参照） --->
 //                              this._defaultSiireKubun = DBNull.Value.Equals(values[1]) ? null : Convert.ToInt16(values[1]);
@@ -15424,6 +15424,16 @@ namespace IMPORTERSUB
 //    <--- 2020/08/25 Ver02.22.05 Ver01.19.05.9901の行番号対応の不備修正
 // <--- 2019/12/26 Ver01.19.05.9901 自動諸口＋分離時の行番号対応(諸口が絡むデータの場合、貸借の行番号を適切にカウントする様にする)
 
+// ▼ ツルハ様カスタマイズ ▼
+                // *----------------------------------------------------------------------------------------------------*
+                // 【部門科目・科目取引先の自動登録】
+                //      ・各残高テーブル、各予算１～４テーブル、（外貨使用なら）各外貨残高テーブル
+                // *----------------------------------------------------------------------------------------------------*
+
+
+
+// ▲ ツルハ様カスタマイズ ▲
+
                 // *----------------------------------------------------------------------------------------------------*
                 // 【3コードマスタレコード作成条件】
                 //      ・自動登録（41:ワークフロー、51:BtoB連携）
@@ -19232,7 +19242,7 @@ namespace IMPORTERSUB
     	}
 
         #region 各種マスター存在チェック
-        // 部門科目残高存在チェック
+        // 部門科目存在チェック
     	private bool BkzanExists_FNC(IDbConnection H_Con, short H_Kesn, string H_Bcod, string H_Kicd)
     	{
     		bool functionReturnValue = false;
@@ -19262,7 +19272,7 @@ namespace IMPORTERSUB
 
     		return functionReturnValue;    
     	}
-    
+        // 科目枝番存在チェック
     	private bool EnameExists_FNC(IDbConnection H_Con, short H_Kesn, string H_Kicd, string H_Ecod)
     	{
     		bool functionReturnValue = false;
@@ -19292,7 +19302,7 @@ namespace IMPORTERSUB
 
     		return functionReturnValue;    
     	}
-    
+        // 部門科目枝番存在チェック
     	private bool BkenmExists_FNC(IDbConnection H_Con, short H_Kesn, string H_Bcod, string H_Kicd, string H_Ecod)
     	{
     		bool functionReturnValue = false;
@@ -19323,7 +19333,7 @@ namespace IMPORTERSUB
 
     		return functionReturnValue;    
     	}
-    
+        // 部門存在チェック
     	private bool BnameExists_FNC(IDbConnection H_Con, string H_Bcod, int H_Dymd)
     	{
     		bool functionReturnValue = false;
@@ -19353,7 +19363,7 @@ namespace IMPORTERSUB
 
     		return functionReturnValue;    
     	}
-    
+        // 取引先存在チェック
     	private bool TrnamExists_FNC(IDbConnection H_Con, string H_Trcd, int H_Dymd)
     	{
     		bool functionReturnValue = false;
@@ -19383,7 +19393,7 @@ namespace IMPORTERSUB
 
     		return functionReturnValue;    
     	}
-    
+        // 取引先科目存在チェック
     	private bool TrzanExists_FNC(IDbConnection H_Con, short H_Kesn, string H_Trcd, string H_Kicd)
     	{
     		bool functionReturnValue = false;
@@ -19413,39 +19423,42 @@ namespace IMPORTERSUB
 
     		return functionReturnValue;    
     	}
-    
-    	private bool BkezanExists_FNC(IDbConnection H_Con, short H_Kesn, string H_Bcod, string H_Kicd, string H_Ecod)
-    	{
-    		bool functionReturnValue = false;
-    
-    		IDbCommand L_Cmd    = default(IDbCommand);
-    		object     L_Result = null;
-    
-    		try
-            {
-    			L_Cmd = H_Con.CreateCommand();
-    			L_Cmd.CommandText = "SELECT ECOD FROM BKEZAN WHERE KESN = :p AND BCOD = :p AND KICD = :p AND ECOD = :p";
-    			L_Cmd.Parameters.Clear();
-    			AddParameter_FNC(ref L_Cmd, "@KESN", DbType.Int32, H_Kesn);
-    			AddParameter_FNC(ref L_Cmd, "@BCOD", DbType.String, H_Bcod);
-    			AddParameter_FNC(ref L_Cmd, "@KICD", DbType.String, H_Kicd);
-    			AddParameter_FNC(ref L_Cmd, "@ECOD", DbType.String, H_Ecod);
-    			ReplacePlaceHolder_FNC(ref L_Cmd);
 
-    			L_Result = L_Cmd.ExecuteScalar();
-    		}
-            catch (Exception ex)
-            {
-    			throw new MyException(MC_RESULT_ERR_DBREAD, ex);
-    		}
+        #region 2024/03/19 不要のためコメントアウト
+        //     	private bool BkezanExists_FNC(IDbConnection H_Con, short H_Kesn, string H_Bcod, string H_Kicd, string H_Ecod)
+        //    	{
+        //    		bool functionReturnValue = false;
 
-    		if (L_Result == null) { functionReturnValue = false; }
-            else                  { functionReturnValue = true;  }
+        //    		IDbCommand L_Cmd    = default(IDbCommand);
+        //    		object     L_Result = null;
 
-    		return functionReturnValue;    
-    	}
-    
-    	private bool BtkzanExists_FNC(IDbConnection H_Con, short H_Kesn, string H_Bcod, string H_Trcd, string H_Kicd)
+        //    		try
+        //            {
+        //    			L_Cmd = H_Con.CreateCommand();
+        //    			L_Cmd.CommandText = "SELECT ECOD FROM BKEZAN WHERE KESN = :p AND BCOD = :p AND KICD = :p AND ECOD = :p";
+        //    			L_Cmd.Parameters.Clear();
+        //    			AddParameter_FNC(ref L_Cmd, "@KESN", DbType.Int32, H_Kesn);
+        //    			AddParameter_FNC(ref L_Cmd, "@BCOD", DbType.String, H_Bcod);
+        //    			AddParameter_FNC(ref L_Cmd, "@KICD", DbType.String, H_Kicd);
+        //    			AddParameter_FNC(ref L_Cmd, "@ECOD", DbType.String, H_Ecod);
+        //    			ReplacePlaceHolder_FNC(ref L_Cmd);
+
+        //    			L_Result = L_Cmd.ExecuteScalar();
+        //    		}
+        //            catch (Exception ex)
+        //            {
+        //    			throw new MyException(MC_RESULT_ERR_DBREAD, ex);
+        //    		}
+
+        //    		if (L_Result == null) { functionReturnValue = false; }
+        //            else                  { functionReturnValue = true;  }
+
+        //    		return functionReturnValue;    
+        //    	}
+        #endregion
+
+        // 部門取引先科目存在チェック
+        private bool BtkzanExists_FNC(IDbConnection H_Con, short H_Kesn, string H_Bcod, string H_Trcd, string H_Kicd)
     	{
     		bool functionReturnValue = false;
     
@@ -19475,7 +19488,7 @@ namespace IMPORTERSUB
 
     		return functionReturnValue;    
     	}
-    
+        // 工事存在チェック
     	private bool KjnameExists_FNC(IDbConnection H_Con, short H_Kesn, string H_Kjcd)
     	{
     		bool functionReturnValue = false;
@@ -19504,7 +19517,7 @@ namespace IMPORTERSUB
 
     		return functionReturnValue;    
     	}
-    
+        // 工事工種存在チェック
     	private bool KjsnameExists_FNC(IDbConnection H_Con, short H_Kesn, string H_Kscd)
     	{
     		bool functionReturnValue = false;
@@ -19533,7 +19546,7 @@ namespace IMPORTERSUB
 
     		return functionReturnValue;    
     	}
-    
+        // プロジェクト存在チェック
     	private bool PrjnamExists_FNC(IDbConnection H_Con, short H_Kesn, string H_Pjcd)
     	{
     		bool functionReturnValue = false;
@@ -19561,7 +19574,7 @@ namespace IMPORTERSUB
 
     		return functionReturnValue;    
     	}
-    
+        // セグメント存在チェック
     	private bool SgtblExists_FNC(IDbConnection H_Con, short H_Kesn, string H_Sgcd)
     	{
     		bool functionReturnValue = false;
@@ -19590,7 +19603,7 @@ namespace IMPORTERSUB
 
     		return functionReturnValue;    
     	}
-    
+        // セグメント科目存在チェック
     	private bool SgkzanExists_FNC(IDbConnection H_Con, short H_Kesn, string H_Sgcd, string H_Kicd)
     	{
     		bool functionReturnValue = false;
@@ -19620,7 +19633,7 @@ namespace IMPORTERSUB
 
     		return functionReturnValue;    
     	}
-    
+        // セグメント取引先科目存在チェック
     	private bool StkzanExists_FNC(IDbConnection H_Con, short H_Kesn, string H_Sgcd, string H_Trcd, string H_Kicd)
     	{
     		bool functionReturnValue = false;
@@ -19651,7 +19664,7 @@ namespace IMPORTERSUB
 
     		return functionReturnValue;    
     	}
-    
+        // ヘッダーフィールド存在チェック
     	private bool HFExists_FNC(short H_Mode, IDbConnection H_Con, short H_Kesn, string H_Code)
     	{
     		bool functionReturnValue = false;
@@ -19691,7 +19704,7 @@ namespace IMPORTERSUB
 
     		return functionReturnValue;    
     	}
-    
+        // ユニバーサルフィールド存在チェック
     	private bool DummyTblExists_FNC(short H_Mode, IDbConnection H_Con, short H_Kesn, string H_Code)
     	{
     		bool functionReturnValue = false;
@@ -19733,7 +19746,7 @@ namespace IMPORTERSUB
 
     		return functionReturnValue;    
     	}
-    
+        // UF科目存在チェック
     	private bool DummyZanExists_FNC(short H_Mode, IDbConnection H_Con, short H_Kesn, string H_Code, string H_Kicd)
     	{
     		bool functionReturnValue = false;
@@ -19784,7 +19797,7 @@ namespace IMPORTERSUB
 
     		return functionReturnValue;    
     	}
-    
+        // 摘要コード存在チェック
     	private bool ZmtkyExists_FNC(IDbConnection H_Con, short H_Kesn, short H_Tcod)
     	{
     		bool functionReturnValue = false;
@@ -19818,7 +19831,7 @@ namespace IMPORTERSUB
 
     		return functionReturnValue;    
     	}
-    
+        // 支払方法存在チェック
     	private bool PaywayExists_FNC(IDbConnection H_Con, short H_Kflg, short H_Kbno)
     	{
     		bool functionReturnValue = false;
@@ -19851,7 +19864,6 @@ namespace IMPORTERSUB
 
     		return functionReturnValue;    
     	}
-    
     	// 伝票入力レイアウトパターン存在チェック
     	private bool Chk_IJPT_FNC(IDbConnection H_Con, short H_Kesn, int H_PTNO, int H_DTYP)
     	{
@@ -19892,7 +19904,7 @@ namespace IMPORTERSUB
 
     		return functionReturnValue;    
     	}
-    
+        // 承認ルートグループ名称存在チェック
     	private bool SngnmExists_FNC(IDbConnection H_Con, short H_Kesn, int H_Sgno)
     	{
     		bool functionReturnValue = false;
@@ -19921,7 +19933,7 @@ namespace IMPORTERSUB
 
     		return functionReturnValue;    
     	}
-    
+        // 承認仕訳入力者存在チェック
     	private bool SnuseExists_FNC(IDbConnection H_Con, short H_Kesn, int H_Iuno, int H_Sgno)
     	{
     		bool functionReturnValue = false;
@@ -28558,10 +28570,10 @@ namespace IMPORTERSUB
     		//  (1, 2)        セグメント取引先科目使用フラグ
     		bool[,] Use3CodeStat = new bool[3, 4];
     
-    		// 決算期単位で反復します。最大2周(当期の場合、翌期まで)    
+    		// 決算期単位で反復します。最大2周(当期の場合、翌期まで)
     		for (L_KesnCnt = H_Zdata.Kesn; L_KesnCnt <= (H_Zdata.Kesn == H_Touki ? H_Zdata.Kesn + 1 : H_Zdata.Kesn); L_KesnCnt++)
             {
-    			//  対象となる科目の3コードの使用状態を取得    
+    			// 対象となる科目の3コードの使用状態を取得    
     			Get3CodeStat(L_Cmd, L_KesnCnt, H_Zdata.Rkmk, H_Zdata.Skmk, ref Use3CodeStat);
 
                 #region ■■■ 部門科目取引先レコード[借方] ■■■
@@ -28812,6 +28824,145 @@ namespace IMPORTERSUB
                 #endregion
             }
         }
+
+// ▼ ツルハ様カスタマイズ ▼
+        // *===========================================================================================*
+        //   部門科目自動登録
+        //       ・部門科目残高（BKZAN）
+        //       ・部門科目予算１～４（BKYSN1～BKYSN4）
+        // *===========================================================================================*
+        private void MakeBKZANRecord(IDbConnection H_Con, structZDATA H_Zdata, DataTable H_dtVolum, ref IDbCommand L_Cmd, short H_Touki)
+        {
+            short       L_KesnCnt = 0;
+            IDataReader L_Reader  = default(IDataReader);
+            string      L_Filter  = "";
+            bool        L_Exist   = false;
+
+            // 決算期単位で反復します。最大2周(当期の場合、翌期まで)
+            for (L_KesnCnt = H_Zdata.Kesn; L_KesnCnt <= (H_Zdata.Kesn == H_Touki ? H_Zdata.Kesn + 1 : H_Zdata.Kesn); L_KesnCnt++)
+            {
+                #region 借方
+                L_Filter          = "KESN = " + L_KesnCnt + " AND BCOD = " + H_Zdata.Rbmn + " AND KICD = " + H_Zdata.Rkmk;
+                L_Cmd.CommandText = "SELECT * FROM BKZAN WHERE " + L_Filter;
+                L_Reader          = L_Cmd.ExecuteReader();
+
+                if (L_Reader.Read())
+                {
+                    L_Exist = true;
+                }
+                else
+                {
+                    L_Exist = false;
+                }
+                L_Reader.Close();
+
+                if (L_Exist == false)
+                {
+                    L_Cmd.CommandText = "INSERT INTO BKZAN ( " +
+                                                "KESN, BCOD, KICD, BSGN, " +
+                                                "R000, S000, R010, S010, R015, S015, R020, S020, R025, S025, R030, S030, " +
+                                                "R035, S035, R040, S040, R045, S045, R050, S050, R055, S055, R060, S060, " +
+                                                "R065, S065, R070, S070, R075, S075, R080, S080, R085, S085, R090, S090, " +
+                                                "R095, S095, R100, S100, R105, S105, R110, S110, R115, S115, R120, S120, " +
+                                                "R125, S125, GTNK  )"   +
+                                            "ON EXISTING SKIP VALUES "  +
+                                                "( " + L_KesnCnt + ", " + H_Zdata.Rbmn + ", " + H_Zdata.Rkmk + ", 0, " +
+                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                                "0, 0, 0 )";
+                    L_Cmd.ExecuteNonQuery();
+
+                    for (int i = 1; i < 5; i++)
+                    {
+                        L_Cmd.CommandText = "INSERT INTO BKYSN" + i.ToString("0") + "( " +
+                                                "KESN, BCOD, KICD, " +
+                                                "Y000, Y005, Y010, Y015, Y020, Y025, Y030, Y035, Y040, Y045, Y050, Y055, Y060, " +
+                                                "Y065, Y070, Y075, Y080, Y085, Y090, Y095, Y100, Y105, Y110, Y115, Y120, Y125) " +
+                                            "ON EXISTING SKIP VALUES " +
+                                                "( " + L_KesnCnt + ", " + H_Zdata.Rbmn + ", " + H_Zdata.Rkmk + ", 0, " +
+                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                                "0, 0, 0 )";
+                        L_Cmd.ExecuteNonQuery();
+                    }
+                }
+                #endregion
+                #region 貸方
+                L_Filter          = "KESN = " + L_KesnCnt + " AND BCOD = " + H_Zdata.Sbmn + " AND KICD = " + H_Zdata.Skmk;
+                L_Cmd.CommandText = "SELECT * FROM BKZAN WHERE " + L_Filter;
+                L_Reader          = L_Cmd.ExecuteReader();
+
+                if (L_Reader.Read())
+                {
+                    L_Exist = true;
+                }
+                else
+                {
+                    L_Exist = false;
+                }
+                L_Reader.Close();
+
+                if (L_Exist == false)
+                {
+                    // 部門科目残高
+                    L_Cmd.CommandText = "INSERT INTO BKZAN ( " +
+                                                "KESN, BCOD, KICD, BSGN, " +
+                                                "R000, S000, R010, S010, R015, S015, R020, S020, R025, S025, R030, S030, " +
+                                                "R035, S035, R040, S040, R045, S045, R050, S050, R055, S055, R060, S060, " +
+                                                "R065, S065, R070, S070, R075, S075, R080, S080, R085, S085, R090, S090, " +
+                                                "R095, S095, R100, S100, R105, S105, R110, S110, R115, S115, R120, S120, " +
+                                                "R125, S125, GTNK  " +
+                                            "ON EXISTING SKIP VALUES " +
+                                                "( " + L_KesnCnt + ", " + H_Zdata.Sbmn + ", " + H_Zdata.Skmk + ", 0, " +
+                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                                "0, 0, 0 ";
+                    L_Cmd.ExecuteNonQuery();
+
+                    // 部門科目予算１～４
+                    for (int i = 1; i < 5; i++)
+                    {
+                        L_Cmd.CommandText = "INSERT INTO BKYSN" + i.ToString("0") + "( " +
+                                                "KESN, BCOD, KICD, " +
+                                                "Y000, Y005, Y010, Y015, Y020, Y025, Y030, Y035, Y040, Y045, Y050, Y055, Y060, " +
+                                                "Y065, Y070, Y075, Y080, Y085, Y090, Y095, Y100, Y105, Y110, Y115, Y120, Y125) " +
+                                            "ON EXISTING SKIP VALUES " +
+                                                "( " + L_KesnCnt + ", " + H_Zdata.Sbmn + ", " + H_Zdata.Skmk + ", 0, " +
+                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                                "0, 0, 0 )";
+                        L_Cmd.ExecuteNonQuery();
+                    }
+                }
+                #endregion
+            }
+        }
+        // *===========================================================================================*
+        //   科目取引先自動登録
+        //       ・取引先科目残高（TRZAN）
+        //       ・取引先科目予算１～４（TRYSN1～TRYSN4）
+        // *===========================================================================================*
+        private void MakeTRZANRecord(IDbConnection H_Con, structZDATA H_Zdata, DataTable H_dtVolum, ref IDbCommand L_Cmd, short H_Touki)
+        {
+            short       L_KesnCnt = 0;
+            IDataReader L_Reader  = default(IDataReader);
+
+            // 決算期単位で反復します。最大2周(当期の場合、翌期まで)
+            for (L_KesnCnt = H_Zdata.Kesn; L_KesnCnt <= (H_Zdata.Kesn == H_Touki ? H_Zdata.Kesn + 1 : H_Zdata.Kesn); L_KesnCnt++)
+            {
+
+            }
+
+        }
+// ▲ ツルハ様カスタマイズ ▲
 
         #region 各マスター存在チェック
         // *===========================================================================================*
@@ -29285,68 +29436,70 @@ namespace IMPORTERSUB
     		return functionReturnValue;    
     	}
 
-    	// *===========================================================================================*
-    	//    部門科目枝番残高(BKEZAN)レコード存在判定
-    	// 		【パラメータ】
-    	//            H_Con       :会社DBハンドル
-    	//            H_dtVolum   :会社情報データ(Volum)
-    	//            H_Kesn      :決算期(ex. 13)
-    	//            H_Bmcd      :部門コード
-    	//            H_Ecod      :枝番コード
-    	//            H_Kicd      :科目内部コード
-    	// 		【返送値】
-    	//            TRUE ：存在する
-    	// 		　　FALSE：存在しない
-    	// *===========================================================================================*
-    	private bool ChkImpData_Bke(IDbConnection H_Con, DataTable H_dtVolum, short H_Kesn, string H_Bmcd, string H_Ecod, string H_Kicd)
-    	{
-    		bool functionReturnValue = false;
+        #region 2024/03/19 未使用のためコメントアウト
+        // *===========================================================================================*
+        //    部門科目枝番残高(BKEZAN)レコード存在判定
+        // 		【パラメータ】
+        //            H_Con       :会社DBハンドル
+        //            H_dtVolum   :会社情報データ(Volum)
+        //            H_Kesn      :決算期(ex. 13)
+        //            H_Bmcd      :部門コード
+        //            H_Ecod      :枝番コード
+        //            H_Kicd      :科目内部コード
+        // 		【返送値】
+        //            TRUE ：存在する
+        // 		　　FALSE：存在しない
+        // *===========================================================================================*
+//        private bool ChkImpData_Bke(IDbConnection H_Con, DataTable H_dtVolum, short H_Kesn, string H_Bmcd, string H_Ecod, string H_Kicd)
+//    	{
+//    		bool functionReturnValue = false;
     
-    		DataRow L_VolumRow = default(DataRow);
+//    		DataRow L_VolumRow = default(DataRow);
     
-    		functionReturnValue = true;
+//    		functionReturnValue = true;
     
-    		L_VolumRow = H_dtVolum.Select("KESN = " + H_Kesn)[0];    
-    		if ((Convert.ToInt32(L_VolumRow[(int)eVOLUM.VOLUM_BMFLG]) == 1) && (Convert.ToInt32(L_VolumRow[(int)eVOLUM.VOLUM_EDFLG]) == 1))
-            {
-    			if ((!string.IsNullOrEmpty(H_Bmcd)) && (!string.IsNullOrEmpty(H_Ecod)) && (!string.IsNullOrEmpty(H_Kicd)))
-                {
-    				if (BkezanExists_FNC(H_Con, H_Kesn, H_Bmcd, H_Kicd, H_Ecod) == false)
-                    {
-    					functionReturnValue = false;
-    				}
-    			}
-    		}
-            else if (Convert.ToInt32(L_VolumRow[(int)eVOLUM.VOLUM_BMFLG]) == 0)
-            {
-    			if (!string.IsNullOrEmpty(H_Bmcd))
-                {
-    			}
-    			functionReturnValue = false;
-    		}
-            else if (Convert.ToInt32(L_VolumRow[(int)eVOLUM.VOLUM_EDFLG]) == 0)
-            {
-    			if (!string.IsNullOrEmpty(H_Ecod))
-                {
-                }
-    			functionReturnValue = false;
-    		}
-    		return functionReturnValue;    
-    	}
-    
-    	// *===========================================================================================*
-    	//    セグメント科目残高(SGKZAN)レコード存在判定
-    	// 		【パラメータ】
-    	//            H_Con       :会社DBハンドル
-    	//            H_dtVolum   :会社情報データ(Volum)
-    	//            H_Kesn      :決算期(ex. 13)
-    	//            H_Sgcd      :セグメントコード
-    	//            H_Kicd      :科目内部コード
-    	// 		【返送値】
-    	//            TRUE ：存在する
-    	// 		　　FALSE：存在しない
-    	// *===========================================================================================*
-    	private bool ChkImpData_Seg(IDbConnection H_Con, DataTable H_dtVolum, short H_Kesn, string H_Sgcd, string H_Kicd)
+//    		L_VolumRow = H_dtVolum.Select("KESN = " + H_Kesn)[0];    
+//    		if ((Convert.ToInt32(L_VolumRow[(int)eVOLUM.VOLUM_BMFLG]) == 1) && (Convert.ToInt32(L_VolumRow[(int)eVOLUM.VOLUM_EDFLG]) == 1))
+//            {
+//    			if ((!string.IsNullOrEmpty(H_Bmcd)) && (!string.IsNullOrEmpty(H_Ecod)) && (!string.IsNullOrEmpty(H_Kicd)))
+//                {
+//    				if (BkezanExists_FNC(H_Con, H_Kesn, H_Bmcd, H_Kicd, H_Ecod) == false)
+//                    {
+//    					functionReturnValue = false;
+//    				}
+//    			}
+//    		}
+//            else if (Convert.ToInt32(L_VolumRow[(int)eVOLUM.VOLUM_BMFLG]) == 0)
+//            {
+//    			if (!string.IsNullOrEmpty(H_Bmcd))
+//                {
+//    			}
+//    			functionReturnValue = false;
+//    		}
+//            else if (Convert.ToInt32(L_VolumRow[(int)eVOLUM.VOLUM_EDFLG]) == 0)
+//            {
+//    			if (!string.IsNullOrEmpty(H_Ecod))
+//                {
+//                }
+//    			functionReturnValue = false;
+//    		}
+//    		return functionReturnValue;    
+//    	}
+        #endregion
+
+        // *===========================================================================================*
+        //    セグメント科目残高(SGKZAN)レコード存在判定
+        // 		【パラメータ】
+        //            H_Con       :会社DBハンドル
+        //            H_dtVolum   :会社情報データ(Volum)
+        //            H_Kesn      :決算期(ex. 13)
+        //            H_Sgcd      :セグメントコード
+        //            H_Kicd      :科目内部コード
+        // 		【返送値】
+        //            TRUE ：存在する
+        // 		　　FALSE：存在しない
+        // *===========================================================================================*
+        private bool ChkImpData_Seg(IDbConnection H_Con, DataTable H_dtVolum, short H_Kesn, string H_Sgcd, string H_Kicd)
     	{
     		bool functionReturnValue = false;
     
