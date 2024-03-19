@@ -7838,8 +7838,12 @@ namespace IMPORTERSUB
                         {
     						if (TrzanExists_FNC(H_Con, L_Kesn, L_Trcd, L_Kicd[L_Katt]) == false)
                             {
-    							SetErrLog_SUB(ref H_ErrLog, ref L_ErrCnt, H_Data, L_ColIdx, "取引先科目が" + MC_ERRLOG_MITOUROKU);
-    						}
+// ▼ ツルハ様カスタマイズ ▼
+//    							SetErrLog_SUB(ref H_ErrLog, ref L_ErrCnt, H_Data, L_ColIdx, "取引先科目が" + MC_ERRLOG_MITOUROKU);
+                                MakeTRZANRecord(H_Con, L_Kesn, H_Touki, L_Katt, L_Trcd, L_Kicd[L_Katt]);
+// ▲ ツルハ様カスタマイズ ▲
+
+                            }
     						if ((!string.IsNullOrEmpty(L_Bcod)) && (Convert.ToInt32(L_KnameRow[L_Katt][(int)eKNAME.KNAME_BTK01]) == 1))
                             {
     							//  判定追加 - 未登録であっても「自動登録する」のであればエラーにしない
@@ -28950,15 +28954,124 @@ namespace IMPORTERSUB
         //       ・取引先科目残高（TRZAN）
         //       ・取引先科目予算１～４（TRYSN1～TRYSN4）
         // *===========================================================================================*
-        private void MakeTRZANRecord(IDbConnection H_Con, structZDATA H_Zdata, DataTable H_dtVolum, ref IDbCommand L_Cmd, short H_Touki)
+        private void MakeTRZANRecord(IDbConnection H_Con, short L_Kesn, short H_Touki, short L_Katt, string L_Trcd, string L_Kicd)
         {
             short       L_KesnCnt = 0;
             IDataReader L_Reader  = default(IDataReader);
+            IDbCommand  L_Cmd     = default(IDbCommand);
+            string      L_Filter  = "";
+            bool        L_Exist   = false;
 
             // 決算期単位で反復します。最大2周(当期の場合、翌期まで)
-            for (L_KesnCnt = H_Zdata.Kesn; L_KesnCnt <= (H_Zdata.Kesn == H_Touki ? H_Zdata.Kesn + 1 : H_Zdata.Kesn); L_KesnCnt++)
+            for (L_KesnCnt = L_Kesn; L_KesnCnt <= (L_Kesn == H_Touki ? L_Kesn + 1 : L_Kesn); L_KesnCnt++)
             {
+                #region 借方
+                if (L_Katt == 0)
+                {
+                    L_Filter = "KESN = " + L_KesnCnt + " AND TRCD = '" + L_Trcd + "' AND KICD = '" + L_Kicd + "'";
+                    L_Cmd = H_Con.CreateCommand();
+                    L_Cmd.CommandText = "SELECT * FROM TRZAN WHERE " + L_Filter;
+                    L_Reader = L_Cmd.ExecuteReader();
 
+                    if (L_Reader.Read())
+                    {
+                        L_Exist = true;
+                    }
+                    else
+                    {
+                        L_Exist = false;
+                    }
+                    L_Reader.Close();
+
+                    if (L_Exist == false)
+                    {
+                        L_Cmd.CommandText = "INSERT INTO TRZAN ( " +
+                                                    "KESN, TRCD, KICD, ESGN, GTNK, " +
+                                                    "R000, S000, R010, S010, R015, S015, R020, S020, R025, S025, R030, S030, " +
+                                                    "R035, S035, R040, S040, R045, S045, R050, S050, R055, S055, R060, S060, " +
+                                                    "R065, S065, R070, S070, R075, S075, R080, S080, R085, S085, R090, S090, " +
+                                                    "R095, S095, R100, S100, R105, S105, R110, S110, R115, S115, R120, S120, " +
+                                                    "R125, S125) " +
+                                                "VALUES " +
+                                                    "( " + L_KesnCnt + ", '" + L_Trcd + "', '" + L_Kicd + "', 0, 0, " +
+                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                                    "0, 0)";
+                        L_Cmd.ExecuteNonQuery();
+
+                        for (int i = 1; i < 5; i++)
+                        {
+                            L_Cmd.CommandText = "INSERT INTO TRYSN" + i.ToString("0") + "( " +
+                                                    "KESN, TRCD, KICD, " +
+                                                    "Y000, Y005, Y010, Y015, Y020, Y025, Y030, Y035, Y040, Y045, Y050, Y055, Y060, " +
+                                                    "Y065, Y070, Y075, Y080, Y085, Y090, Y095, Y100, Y105, Y110, Y115, Y120, Y125) " +
+                                                "ON EXISTING SKIP VALUES " +
+                                                    "( " + L_KesnCnt + ", " + L_Trcd + ", " + L_Kicd + ", 0, " +
+                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                                    "0, 0 )";
+                            L_Cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+                #endregion
+                #region 貸方
+                else
+                {
+//                    L_Filter = "KESN = " + L_KesnCnt + " AND TRCD = " + H_Zdata.Stor + " AND KICD = " + H_Zdata.Skmk;
+//                    L_Cmd.CommandText = "SELECT * FROM TRZAN WHERE " + L_Filter;
+//                    L_Reader = L_Cmd.ExecuteReader();
+
+//                    if (L_Reader.Read())
+//                    {
+//                        L_Exist = true;
+//                    }
+//                    else
+//                    {
+//                        L_Exist = false;
+//                    }
+//                    L_Reader.Close();
+
+//                    if (L_Exist == false)
+//                    {
+//                        L_Cmd.CommandText = "INSERT INTO TRZAN ( " +
+//                                                    "KESN, TRCD, KICD, BSGN, " +
+//                                                    "R000, S000, R010, S010, R015, S015, R020, S020, R025, S025, R030, S030, " +
+//                                                    "R035, S035, R040, S040, R045, S045, R050, S050, R055, S055, R060, S060, " +
+//                                                    "R065, S065, R070, S070, R075, S075, R080, S080, R085, S085, R090, S090, " +
+//                                                    "R095, S095, R100, S100, R105, S105, R110, S110, R115, S115, R120, S120, " +
+//                                                    "R125, S125, GTNK  )" +
+//                                                "ON EXISTING SKIP VALUES " +
+//                                                    "( " + L_KesnCnt + ", " + H_Zdata.Stor + ", " + H_Zdata.Skmk + ", 0, " +
+//                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+//                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+//                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+//                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+//                                                    "0, 0, 0 )";
+//                        L_Cmd.ExecuteNonQuery();
+
+//                        for (int i = 1; i < 5; i++)
+//                        {
+//                            L_Cmd.CommandText = "INSERT INTO TRYSN" + i.ToString("0") + "( " +
+//                                                    "KESN, TRCD, KICD, " +
+//                                                    "Y000, Y005, Y010, Y015, Y020, Y025, Y030, Y035, Y040, Y045, Y050, Y055, Y060, " +
+//                                                    "Y065, Y070, Y075, Y080, Y085, Y090, Y095, Y100, Y105, Y110, Y115, Y120, Y125) " +
+//                                                "ON EXISTING SKIP VALUES " +
+//                                                    "( " + L_KesnCnt + ", " + H_Zdata.Stor + ", " + H_Zdata.Skmk + ", 0, " +
+//                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+//                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+//                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+//                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+//                                                    "0, 0, 0 )";
+//                            L_Cmd.ExecuteNonQuery();
+//                        }
+//                    }
+                }
+                #endregion
             }
 
         }
