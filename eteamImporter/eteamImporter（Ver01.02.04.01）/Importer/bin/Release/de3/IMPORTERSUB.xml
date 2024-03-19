@@ -1,0 +1,297 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+IMPORTERSUB
+</name>
+</assembly>
+<members>
+<member name="T:IMPORTERSUB.My.Resources.Resources">
+<summary>
+  ローカライズされた文字列などを検索するための、厳密に型指定されたリソース クラスです。
+</summary>
+</member>
+<member name="P:IMPORTERSUB.My.Resources.Resources.ResourceManager">
+<summary>
+  このクラスで使用されているキャッシュされた ResourceManager インスタンスを返します。
+</summary>
+</member>
+<member name="P:IMPORTERSUB.My.Resources.Resources.Culture">
+<summary>
+  すべてについて、現在のスレッドの CurrentUICulture プロパティをオーバーライドします
+  現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
+</summary>
+</member>
+<member name="P:IMPORTERSUB.My.Resources.Resources.MB_SUBSYS_ERROR">
+<summary>
+  [{0}]の会社は {1} を使用しない設定になっています。 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:IMPORTERSUB.My.Resources.Resources.MB_SUBSYS_ID_NOT_EXIST">
+<summary>
+  サブシステムID {0} は存在していません。 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:IMPORTERSUB.My.Resources.Resources.PASSWORD">
+<summary>
+   に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="M:IMPORTERSUB.C_Siwake.Clear">
+ <summary>
+ メンバ変数のクリア
+ </summary>
+</member>
+<member name="M:IMPORTERSUB.DBSUB.Kesi_LogicChk(System.Data.Odbc.OdbcConnection,System.Int32,System.Int32@,System.Int32@)">
+ <summary>
+ 消込システムの使用の論理チェック
+ </summary>
+ <param name="hSql">会社DBへの接続</param>
+ <param name="nSubsys">サブシステムの登録有無(1:あり 1以外:なし)</param>
+ <param name="nKesn">開始決算期</param>
+ <param name="nCkei">開始経過月</param>
+ <returns>0:未使用 1:使用準備中(サブシステム登録あり＆初期設定未了) 2:使用 -1:SQLエラー -11:共通DB設定異常</returns>
+ <remarks>DBSUB_Kesi_LogicChk</remarks>
+</member>
+<member name="M:IMPORTERSUB.DBSUB.Kesi_TableChk(System.Data.Odbc.OdbcConnection)">
+ <summary>
+ 消込システムのテーブル存在チェック
+ </summary>
+ <param name="hSql">会社DBへの接続</param>
+ <returns>0:Ok 1:NG -1:SQLエラー</returns>
+ <remarks>DBSUB_Kesi_TableChk</remarks>
+</member>
+<member name="M:IMPORTERSUB.DBSUB.Kesi_StartChk(System.Data.Odbc.OdbcConnection,System.Int32@,System.Int32@)">
+ <summary>
+ 消込システムの開始設定チェック
+ </summary>
+ <param name="hSql">会社DBへの接続</param>
+ <param name="nKesn">開始決算期</param>
+ <param name="nCkei">開始経過月</param>
+ <returns>1:Ok 0:NG -1:SQLエラー</returns>
+ <remarks></remarks>
+</member>
+<member name="M:IMPORTERSUB.DBSUB.CheckSubsys(System.Data.Odbc.OdbcConnection,System.String,System.Int32,System.Boolean)">
+ <summary>
+ サブシステムの使用可否をチェックする
+ </summary>
+ <param name="db">共通DBへの接続</param>
+ <param name="ccod">会社コード</param>
+ <param name="subid">サブシステムID</param>
+ <returns>使用可能な場合1</returns>
+ <remarks>指定された会社で指定されたサブシステムが使用可能である場合Trueを返します。
+ 指定されたサブシステムIDが存在しない場合、
+ 指定された会社で許可されていない場合は
+ メッセージボックスを表示し、Falseを返します。
+ </remarks>
+</member>
+<member name="T:IMPORTERSUB.Import.BumonInfo">
+ <summary>部門情報
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:IMPORTERSUB.Import.BumonInfo.Initialize">
+ <summary>
+ 初期化
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:IMPORTERSUB.Import.BumonInfo.LoadDataFromDb(System.Data.IDbConnection,System.Int16,System.String)">
+ <summary>
+ DBからデータ読込
+ </summary>
+ <param name="kaisyaDbConnection"></param>
+ <param name="kesn"></param>
+ <param name="bcod"></param>
+ <remarks></remarks>
+</member>
+<member name="M:IMPORTERSUB.Import.BumonInfo.HasDefaultSiireKubun">
+ <summary>
+ 仕入区分が設定されているかどうか
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:IMPORTERSUB.Import.BumonInfo.GetSiireKubunInZdata">
+ <summary>
+ 仕訳テーブルの仕入区分の値を取得する
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="T:IMPORTERSUB.Import.EdabanInfo">
+ <summary>
+ 枝番情報
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="P:IMPORTERSUB.Import.EdabanInfo.IsExists">
+ <summary>
+ 存在する枝番がどうか
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:IMPORTERSUB.Import.EdabanInfo.Initialize">
+ <summary>
+ 初期化
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:IMPORTERSUB.Import.EdabanInfo.LoadDataFromDb(System.Data.IDbConnection,System.Int16,System.String,System.String)">
+ <summary>
+ DBからデータ読込
+ </summary>
+ <param name="kaisyaDbConnection"></param>
+ <param name="kesn"></param>
+ <param name="kicd"></param>
+ <param name="ecod"></param>
+ <remarks></remarks>
+</member>
+<member name="M:IMPORTERSUB.Import.EdabanInfo.HasDefaultKazeiKubun">
+ <summary>
+ 課税区分が設定されているかどうか
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:IMPORTERSUB.Import.EdabanInfo.HasDefaultBunriKubun">
+ <summary>
+ 課税区分が設定されているかどうか
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:IMPORTERSUB.Import.CheckSeiriFlag(System.String,System.Data.DataRow[])">
+ <summary>
+ 整理月フラグのチェック
+ </summary>
+ <param name="SeiriFlgValue"></param>
+ <param name="Volum2"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:IMPORTERSUB.Import.GetLatestZritu(System.String,System.Int32,System.Data.DataTable)">
+ <summary>
+ 指定した税率より使用可能な最新の税率を取得します。
+ </summary>
+ <param name="H_Text">税率</param>
+ <param name="H_Dymd">伝票日付</param>
+ <param name="H_dtSritu">消費税テーブル情報(共通)</param>
+ <returns>使用できる税率が指定された場合：指定された税率, 使用できない税率が指定された場合：使用できる税率のうち最新の税率</returns>
+</member>
+<member name="M:IMPORTERSUB.Import.GetDefaultLocalZritu(System.String)">
+ <summary>
+ 指定した税率区分よりデフォルトの税率を取得します(共通DBより税率が取得できなかった時用)
+ </summary>
+ <param name="H_SY07">税率区分</param>
+ <returns>デフォルト税率(文字列リテラル)</returns>
+</member>
+<member name="M:IMPORTERSUB.Import.ChkDcno_FNC(System.Data.Odbc.OdbcConnection,System.Int16,System.Int16,System.Int32,System.Int32,System.Data.DataTable)">
+ <summary>
+ 未使用のごみ関数
+ </summary>
+ <param name="H_Con"></param>
+ <param name="H_Kesn"></param>
+ <param name="H_Dkei"></param>
+ <param name="H_Dcno"></param>
+ <param name="H_Dymd"></param>
+ <param name="H_dtDcno"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:IMPORTERSUB.Import.CheckAccessRireki(System.Data.Odbc.OdbcConnection)">
+ <summary>
+ アクセス履歴を保存するする必要があるかを返します
+ </summary>
+ <param name="db">共通DBへの接続</param>
+ <returns>アクセス履歴を保存する必要がある場合、True</returns>
+ <remarks></remarks>
+</member>
+<member name="M:IMPORTERSUB.Import.GetApplyKnameRow(System.Data.DataTable,System.Data.DataRow,IMPORTERSUB.Import.BumonInfo,IMPORTERSUB.Import.EdabanInfo)">
+ <summary>
+ 部門仕入区分、枝番課税区分を反映したKNAMEのDataRowを取得する
+ </summary>
+ <param name="knameTable"></param>
+ <param name="resourceKanmeRow"></param>
+ <param name="bumonInfo"></param>
+ <param name="edabanInfo"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:IMPORTERSUB.Import.IsImportableHeiyouUriageZeigakuKeisanHousiki(System.String,System.Int16,System.Int16,System.Int32,System.String)">
+ <summary>
+ 併用売上税額計算方式がインポート可能かどうか
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:IMPORTERSUB.Import.IsUriageKeiKamoku(System.Int16,System.Int16)">
+ <summary>
+ 売上系科目かどうか
+ </summary>
+</member>
+<member name="M:IMPORTERSUB.Import.GetSiireZeigakuKouzyoKeikaSotiWariaiDefaultValue(System.Int16,System.Int16,System.String,System.String)">
+ <summary>
+ 仕入税額控除経過措置割合のデフォルトを取得
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:IMPORTERSUB.Import.IsSiireKeiKamoku(System.Int16,System.Int16)">
+ <summary>
+ 仕入系科目かどうか
+ </summary>
+</member>
+<member name="M:IMPORTERSUB.Import.GetMenzeiZigyousyaTorihikisakiList(System.Data.IDbConnection)">
+ <summary>
+ 免税事業者の取引先リストを取得
+ </summary>
+</member>
+<member name="M:IMPORTERSUB.Import.IsImportableSiireZeigakuKouzyoKeikaSotiWariai(System.String,System.Int16,System.Int16,System.String)">
+ <summary>
+ 仕入税額控除経過措置割合がインポート可能かどうか
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:IMPORTERSUB.TableDefinisions">
+ <summary>
+ テーブル定義集約クラス
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:IMPORTERSUB.TableDefinisions.LoadDefinisionFromDb(System.Data.IDbConnection)">
+ <summary>
+ DBからテーブル定義を読込
+ </summary>
+ <param name="kaisyaDbConnection"></param>
+ <remarks></remarks>
+</member>
+<member name="T:IMPORTERSUB.BumonTableDefinision">
+ <summary>
+ 部門テーブル定義
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:IMPORTERSUB.BumonTableDefinision.LoadDefinisionFromDb(System.Data.IDbConnection)">
+ <summary>
+ DBからテーブル定義を読込
+ </summary>
+ <param name="kaisyaDbConnection"></param>
+ <remarks></remarks>
+</member>
+<member name="T:IMPORTERSUB.EnameTableDefinision">
+ <summary>
+ 枝番テーブル定義
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:IMPORTERSUB.EnameTableDefinision.LoadDefinisionFromDb(System.Data.IDbConnection)">
+ <summary>
+ DBからテーブル定義を読込
+ </summary>
+ <param name="kaisyaDbConnection"></param>
+ <remarks></remarks>
+</member>
+</members>
+</doc>

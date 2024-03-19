@@ -1,0 +1,80 @@
+2023/07/14 11:02:08
+Column 'SMENZEIKEIKA' を null に設定できません。DBNull を使用してください。
+   場所 System.Data.DataRow.set_Item(DataColumn column, Object value)
+   場所 System.Data.DataRow.set_Item(String columnName, Object value)
+   場所 IMPORTERSUB.C_SetData.SetSiwake(C_Siwake& valcls) 場所 C:\SOURCE\230712(V121502)_IMPORTERSUB(VB版)(de3)\C_SetData.vb:行 201
+   場所 Importer.Program.GetSiwake(String path, String fname, String RNo) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 485
+   場所 Importer.Program.GetImportParam(String[] args) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 264
+   場所 Importer.Program.Main(String[] args) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 124
+2023/07/14 11:02:45
+Column 'SMENZEIKEIKA' を null に設定できません。DBNull を使用してください。
+   場所 System.Data.DataRow.set_Item(DataColumn column, Object value)
+   場所 System.Data.DataRow.set_Item(String columnName, Object value)
+   場所 IMPORTERSUB.C_SetData.SetSiwake(C_Siwake& valcls) 場所 C:\SOURCE\230712(V121502)_IMPORTERSUB(VB版)(de3)\C_SetData.vb:行 201
+   場所 Importer.Program.GetSiwake(String path, String fname, String RNo) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 485
+   場所 Importer.Program.GetImportParam(String[] args) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 264
+   場所 Importer.Program.Main(String[] args) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 124
+2023/07/14 13:44:57
+Column 'ZMENZEIKEIKA' を null に設定できません。DBNull を使用してください。
+   場所 System.Data.DataRow.set_Item(DataColumn column, Object value)
+   場所 System.Data.DataRow.set_Item(String columnName, Object value)
+   場所 IMPORTERSUB.C_SetData.SetSiwake(C_Siwake& valcls) 場所 C:\SOURCE\230712(V121502)_IMPORTERSUB(VB版)(de3)\C_SetData.vb:行 206
+   場所 Importer.Program.GetSiwake(String path, String fname, String RNo) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 485
+   場所 Importer.Program.GetImportParam(String[] args) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 264
+   場所 Importer.Program.Main(String[] args) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 124
+2023/07/14 13:45:16
+Column 'ZMENZEIKEIKA' を null に設定できません。DBNull を使用してください。
+   場所 System.Data.DataRow.set_Item(DataColumn column, Object value)
+   場所 System.Data.DataRow.set_Item(String columnName, Object value)
+   場所 IMPORTERSUB.C_SetData.SetSiwake(C_Siwake& valcls) 場所 C:\SOURCE\230712(V121502)_IMPORTERSUB(VB版)(de3)\C_SetData.vb:行 206
+   場所 Importer.Program.GetSiwake(String path, String fname, String RNo) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 485
+   場所 Importer.Program.GetImportParam(String[] args) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 264
+   場所 Importer.Program.Main(String[] args) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 124
+2023/07/14 13:47:11
+Column 'RMENZEIKEIKA' を null に設定できません。DBNull を使用してください。
+   場所 System.Data.DataRow.set_Item(DataColumn column, Object value)
+   場所 System.Data.DataRow.set_Item(String columnName, Object value)
+   場所 IMPORTERSUB.C_SetData.SetSiwake(C_Siwake& valcls) 場所 C:\SOURCE\230712(V121502)_IMPORTERSUB(VB版)(de3)\C_SetData.vb:行 196
+   場所 Importer.Program.GetSiwake(String path, String fname, String RNo) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 485
+   場所 Importer.Program.GetImportParam(String[] args) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 264
+   場所 Importer.Program.Main(String[] args) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 124
+2023/07/14 13:48:37
+Column 'RMENZEIKEIKA' を null に設定できません。DBNull を使用してください。
+   場所 System.Data.DataRow.set_Item(DataColumn column, Object value)
+   場所 System.Data.DataRow.set_Item(String columnName, Object value)
+   場所 IMPORTERSUB.C_SetData.SetSiwake(C_Siwake& valcls) 場所 C:\SOURCE\230712(V121502)_IMPORTERSUB(VB版)(de3)\C_SetData.vb:行 196
+   場所 Importer.Program.GetSiwake(String path, String fname, String RNo) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 485
+   場所 Importer.Program.GetImportParam(String[] args) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 264
+   場所 Importer.Program.Main(String[] args) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 124
+2023/07/14 13:48:46
+Column 'RMENZEIKEIKA' を null に設定できません。DBNull を使用してください。
+   場所 System.Data.DataRow.set_Item(DataColumn column, Object value)
+   場所 System.Data.DataRow.set_Item(String columnName, Object value)
+   場所 IMPORTERSUB.C_SetData.SetSiwake(C_Siwake& valcls) 場所 C:\SOURCE\230712(V121502)_IMPORTERSUB(VB版)(de3)\C_SetData.vb:行 196
+   場所 Importer.Program.GetSiwake(String path, String fname, String RNo) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 485
+   場所 Importer.Program.GetImportParam(String[] args) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 264
+   場所 Importer.Program.Main(String[] args) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 124
+2023/07/14 13:51:37
+Column 'RMENZEIKEIKA' を null に設定できません。DBNull を使用してください。
+   場所 System.Data.DataRow.set_Item(DataColumn column, Object value)
+   場所 System.Data.DataRow.set_Item(String columnName, Object value)
+   場所 IMPORTERSUB.C_SetData.SetSiwake(C_Siwake& valcls) 場所 C:\SOURCE\230712(V121502)_IMPORTERSUB(VB版)(de3)\C_SetData.vb:行 196
+   場所 Importer.Program.GetSiwake(String path, String fname, String RNo) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 485
+   場所 Importer.Program.GetImportParam(String[] args) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 264
+   場所 Importer.Program.Main(String[] args) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 124
+2023/07/14 13:53:20
+Column 'RMENZEIKEIKA' を null に設定できません。DBNull を使用してください。
+   場所 System.Data.DataRow.set_Item(DataColumn column, Object value)
+   場所 System.Data.DataRow.set_Item(String columnName, Object value)
+   場所 IMPORTERSUB.C_SetData.SetSiwake(C_Siwake& valcls) 場所 C:\SOURCE\230712(V121502)_IMPORTERSUB(VB版)(de3)\C_SetData.vb:行 196
+   場所 Importer.Program.GetSiwake(String path, String fname, String RNo) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 485
+   場所 Importer.Program.GetImportParam(String[] args) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 264
+   場所 Importer.Program.Main(String[] args) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 124
+2023/07/15 20:43:06
+Column 'RMENZEIKEIKA' を null に設定できません。DBNull を使用してください。
+   場所 System.Data.DataRow.set_Item(DataColumn column, Object value)
+   場所 System.Data.DataRow.set_Item(String columnName, Object value)
+   場所 IMPORTERSUB.C_SetData.SetSiwake(C_Siwake& valcls) 場所 C:\SOURCE\230712(V121502)_IMPORTERSUB(VB版)(de3)\C_SetData.vb:行 196
+   場所 Importer.Program.GetSiwake(String path, String fname, String RNo) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 485
+   場所 Importer.Program.GetImportParam(String[] args) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 264
+   場所 Importer.Program.Main(String[] args) 場所 C:\SOURCE\eteamImporter\Importer\Program_de3.cs:行 124
