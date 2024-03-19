@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NineRays.ILOMD.Options.Project>
+  <PathToSignTool>
+  </PathToSignTool>
+  <AssemblyList>
+    <NineRays.ILOMD.Options.AssemblyFileName>
+      <ObfuscationOptions>
+        <NineRays.ILOMD.Options.Options>
+          <AntiILDASM>Complete</AntiILDASM>
+          <Members>Methods, Resources</Members>
+          <StringEncryptionMode>Encrypt</StringEncryptionMode>
+          <SoftwareWatermark>
+          </SoftwareWatermark>
+        </NineRays.ILOMD.Options.Options>
+      </ObfuscationOptions>
+      <StrongNameKeyFile>.\ICSPS.pfx</StrongNameKeyFile>
+      <StrongNameKeyFilePassword>OPENde2v3</StrongNameKeyFilePassword>
+      <Name>bin\Release\IMPORTERSUB.dll</Name>
+    </NineRays.ILOMD.Options.AssemblyFileName>
+  </AssemblyList>
+  <StrongNameKeyFile>
+  </StrongNameKeyFile>
+  <LayoutInfo>&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;utf-16&amp;quot;?&amp;gt;
+&amp;lt;Layout&amp;gt;
+  &amp;lt;Window Guid=&amp;quot;f0cf3ecb-0eda-4cd3-874f-e0ce383ba2e6&amp;quot; LastFocused=&amp;quot;133083034112675021&amp;quot; DockedSize=&amp;quot;200&amp;quot; PopupSize=&amp;quot;0&amp;quot; FloatingLocation=&amp;quot;-1, -1&amp;quot; FloatingSize=&amp;quot;550, 400&amp;quot; LastOpenDockSituation=&amp;quot;Document&amp;quot; LastFixedDockSituation=&amp;quot;Document&amp;quot; LastFixedDockLocation=&amp;quot;Right&amp;quot; LastFloatingWindowGuid=&amp;quot;00000000-0000-0000-0000-000000000000&amp;quot; LastDockContainerCount=&amp;quot;0&amp;quot; LastDockContainerIndex=&amp;quot;0&amp;quot; DockedWorkingSize=&amp;quot;250, 400&amp;quot; DockedWindowGroupGuid=&amp;quot;00000000-0000-0000-0000-000000000000&amp;quot; DockedIndexInWindowGroup=&amp;quot;0&amp;quot; DockedSplitPath=&amp;quot;0&amp;quot; DocumentWorkingSize=&amp;quot;250, 400&amp;quot; DocumentWindowGroupGuid=&amp;quot;533b8b08-6632-45be-bb42-a5438eb023da&amp;quot; DocumentIndexInWindowGroup=&amp;quot;0&amp;quot; DocumentSplitPath=&amp;quot;0&amp;quot; FloatingWorkingSize=&amp;quot;250, 400&amp;quot; FloatingWindowGroupGuid=&amp;quot;00000000-0000-0000-0000-000000000000&amp;quot; FloatingIndexInWindowGroup=&amp;quot;0&amp;quot; FloatingSplitPath=&amp;quot;0&amp;quot; /&amp;gt;
+  &amp;lt;Window Guid=&amp;quot;d011ae1a-b131-40cb-8ce1-4454c2694fcd&amp;quot; LastFocused=&amp;quot;132797730363221938&amp;quot; DockedSize=&amp;quot;425&amp;quot; PopupSize=&amp;quot;0&amp;quot; FloatingLocation=&amp;quot;-1, -1&amp;quot; FloatingSize=&amp;quot;250, 400&amp;quot; LastOpenDockSituation=&amp;quot;Docked&amp;quot; LastFixedDockSituation=&amp;quot;Docked&amp;quot; LastFixedDockLocation=&amp;quot;Left&amp;quot; LastFloatingWindowGuid=&amp;quot;00000000-0000-0000-0000-000000000000&amp;quot; LastDockContainerCount=&amp;quot;1&amp;quot; LastDockContainerIndex=&amp;quot;0&amp;quot; DockedWorkingSize=&amp;quot;364, 531&amp;quot; DockedWindowGroupGuid=&amp;quot;b1524f7a-0a2a-4194-a4ae-d2fc838bba27&amp;quot; DockedIndexInWindowGroup=&amp;quot;1&amp;quot; DockedSplitPath=&amp;quot;0&amp;quot; DocumentWorkingSize=&amp;quot;250, 400&amp;quot; DocumentWindowGroupGuid=&amp;quot;00000000-0000-0000-0000-000000000000&amp;quot; DocumentIndexInWindowGroup=&amp;quot;0&amp;quot; DocumentSplitPath=&amp;quot;0&amp;quot; FloatingWorkingSize=&amp;quot;250, 400&amp;quot; FloatingWindowGroupGuid=&amp;quot;00000000-0000-0000-0000-000000000000&amp;quot; FloatingIndexInWindowGroup=&amp;quot;0&amp;quot; FloatingSplitPath=&amp;quot;0&amp;quot; /&amp;gt;
+  &amp;lt;Window Guid=&amp;quot;16bbe2d2-5504-4cd4-82f2-6737d26493b8&amp;quot; LastFocused=&amp;quot;132797730308945055&amp;quot; DockedSize=&amp;quot;425&amp;quot; PopupSize=&amp;quot;0&amp;quot; FloatingLocation=&amp;quot;-1, -1&amp;quot; FloatingSize=&amp;quot;250, 400&amp;quot; LastOpenDockSituation=&amp;quot;Docked&amp;quot; LastFixedDockSituation=&amp;quot;Docked&amp;quot; LastFixedDockLocation=&amp;quot;Left&amp;quot; LastFloatingWindowGuid=&amp;quot;00000000-0000-0000-0000-000000000000&amp;quot; LastDockContainerCount=&amp;quot;1&amp;quot; LastDockContainerIndex=&amp;quot;0&amp;quot; DockedWorkingSize=&amp;quot;364, 531&amp;quot; DockedWindowGroupGuid=&amp;quot;b1524f7a-0a2a-4194-a4ae-d2fc838bba27&amp;quot; DockedIndexInWindowGroup=&amp;quot;2&amp;quot; DockedSplitPath=&amp;quot;0&amp;quot; DocumentWorkingSize=&amp;quot;250, 400&amp;quot; DocumentWindowGroupGuid=&amp;quot;00000000-0000-0000-0000-000000000000&amp;quot; DocumentIndexInWindowGroup=&amp;quot;0&amp;quot; DocumentSplitPath=&amp;quot;0&amp;quot; FloatingWorkingSize=&amp;quot;250, 400&amp;quot; FloatingWindowGroupGuid=&amp;quot;00000000-0000-0000-0000-000000000000&amp;quot; FloatingIndexInWindowGroup=&amp;quot;0&amp;quot; FloatingSplitPath=&amp;quot;0&amp;quot; /&amp;gt;
+  &amp;lt;Window Guid=&amp;quot;1ab51f96-7428-4b68-9f25-0af0d8415f26&amp;quot; LastFocused=&amp;quot;133083034082799774&amp;quot; DockedSize=&amp;quot;425&amp;quot; PopupSize=&amp;quot;0&amp;quot; FloatingLocation=&amp;quot;-1, -1&amp;quot; FloatingSize=&amp;quot;250, 400&amp;quot; LastOpenDockSituation=&amp;quot;Docked&amp;quot; LastFixedDockSituation=&amp;quot;Docked&amp;quot; LastFixedDockLocation=&amp;quot;Left&amp;quot; LastFloatingWindowGuid=&amp;quot;00000000-0000-0000-0000-000000000000&amp;quot; LastDockContainerCount=&amp;quot;1&amp;quot; LastDockContainerIndex=&amp;quot;0&amp;quot; DockedWorkingSize=&amp;quot;364, 531&amp;quot; DockedWindowGroupGuid=&amp;quot;b1524f7a-0a2a-4194-a4ae-d2fc838bba27&amp;quot; DockedIndexInWindowGroup=&amp;quot;0&amp;quot; DockedSplitPath=&amp;quot;0&amp;quot; DocumentWorkingSize=&amp;quot;250, 400&amp;quot; DocumentWindowGroupGuid=&amp;quot;00000000-0000-0000-0000-000000000000&amp;quot; DocumentIndexInWindowGroup=&amp;quot;0&amp;quot; DocumentSplitPath=&amp;quot;0&amp;quot; FloatingWorkingSize=&amp;quot;250, 400&amp;quot; FloatingWindowGroupGuid=&amp;quot;00000000-0000-0000-0000-000000000000&amp;quot; FloatingIndexInWindowGroup=&amp;quot;0&amp;quot; FloatingSplitPath=&amp;quot;0&amp;quot; /&amp;gt;
+  &amp;lt;Container Dock=&amp;quot;3&amp;quot; ContentSize=&amp;quot;425&amp;quot;&amp;gt;
+    &amp;lt;SplitLayoutSystem WorkingSize=&amp;quot;250, 400&amp;quot; SplitMode=&amp;quot;0&amp;quot;&amp;gt;
+      &amp;lt;ControlLayoutSystem WorkingSize=&amp;quot;364, 531&amp;quot; Guid=&amp;quot;b1524f7a-0a2a-4194-a4ae-d2fc838bba27&amp;quot; Collapsed=&amp;quot;0&amp;quot; SelectedControl=&amp;quot;1ab51f96-7428-4b68-9f25-0af0d8415f26&amp;quot;&amp;gt;
+        &amp;lt;Controls&amp;gt;
+          &amp;lt;Control Guid=&amp;quot;1ab51f96-7428-4b68-9f25-0af0d8415f26&amp;quot; /&amp;gt;
+          &amp;lt;Control Guid=&amp;quot;d011ae1a-b131-40cb-8ce1-4454c2694fcd&amp;quot; /&amp;gt;
+          &amp;lt;Control Guid=&amp;quot;16bbe2d2-5504-4cd4-82f2-6737d26493b8&amp;quot; /&amp;gt;
+        &amp;lt;/Controls&amp;gt;
+      &amp;lt;/ControlLayoutSystem&amp;gt;
+    &amp;lt;/SplitLayoutSystem&amp;gt;
+  &amp;lt;/Container&amp;gt;
+&amp;lt;/Layout&amp;gt;</LayoutInfo>
+</NineRays.ILOMD.Options.Project>
