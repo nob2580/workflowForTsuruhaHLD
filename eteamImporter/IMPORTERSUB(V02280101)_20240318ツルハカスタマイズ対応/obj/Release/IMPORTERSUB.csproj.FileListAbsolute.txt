@@ -178,3 +178,10 @@ C:\SOURCE\latestImporter\IMPORTERSUB(V02280100)_20231226_電子取引拡張子�
 C:\SOURCE\latestImporter\IMPORTERSUB(V02280100)_20231226_電子取引拡張子制限排除対応\obj\Release\IMPORTERSUB.csproj.CopyComplete
 C:\SOURCE\latestImporter\IMPORTERSUB(V02280100)_20231226_電子取引拡張子制限排除対応\obj\Release\IMPORTERSUB.dll
 C:\SOURCE\latestImporter\IMPORTERSUB(V02280100)_20231226_電子取引拡張子制限排除対応\obj\Release\IMPORTERSUB.pdb
+C:\SOURCE\workflowForTsuruhaHLD\eteamImporter\IMPORTERSUB(V02280101)_20240318ツルハカスタマイズ対応\bin\Release\IMPORTERSUB.dll
+C:\SOURCE\workflowForTsuruhaHLD\eteamImporter\IMPORTERSUB(V02280101)_20240318ツルハカスタマイズ対応\bin\Release\IMPORTERSUB.pdb
+C:\SOURCE\workflowForTsuruhaHLD\eteamImporter\IMPORTERSUB(V02280101)_20240318ツルハカスタマイズ対応\obj\Release\IMPORTERSUB.csprojAssemblyReference.cache
+C:\SOURCE\workflowForTsuruhaHLD\eteamImporter\IMPORTERSUB(V02280101)_20240318ツルハカスタマイズ対応\obj\Release\IMPORTERSUB.csproj.CoreCompileInputs.cache
+C:\SOURCE\workflowForTsuruhaHLD\eteamImporter\IMPORTERSUB(V02280101)_20240318ツルハカスタマイズ対応\obj\Release\IMPORTERSUB.csproj.CopyComplete
+C:\SOURCE\workflowForTsuruhaHLD\eteamImporter\IMPORTERSUB(V02280101)_20240318ツルハカスタマイズ対応\obj\Release\IMPORTERSUB.dll
+C:\SOURCE\workflowForTsuruhaHLD\eteamImporter\IMPORTERSUB(V02280101)_20240318ツルハカスタマイズ対応\obj\Release\IMPORTERSUB.pdb

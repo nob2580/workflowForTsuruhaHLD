@@ -2838,9 +2838,14 @@ namespace IMPORTERSUB
     	// 		　 エラーあり：FALSE
     	// 
     	// *===========================================================================================*
-    	private bool ZData_Bunri_FNC(IDbConnection H_Con, ref structZDATA H_ZData, string H_BKbn, int H_KrKs, int H_Sy0, int H_SY02, ref structZDATA H_ZDataBunri, ref int H_InpErr, ref int H_RegErr, ref string H_ValuOya,
+// ▼ ツルハ様カスタマイズ ▼
+//    	private bool ZData_Bunri_FNC(IDbConnection H_Con, ref structZDATA H_ZData, string H_BKbn, int H_KrKs, int H_Sy0, int H_SY02, ref structZDATA H_ZDataBunri, ref int H_InpErr, ref int H_RegErr, ref string H_ValuOya,
+//    	                             ref string H_ValuZei, DataRow H_drSvolum, DataTable H_dtKname, structSVOLKM[] H_SVolumKm, DataRow H_drVolum, ref structERRORLOG[] H_ErrLog, int H_PnGaiSiwake, int H_PnGaiSyosu,
+//                                   ref decimal H_GValuOya, ref decimal H_GValuZei, ref decimal H_GValutai, int H_PnUseDkec, ref int H_Lno, ref string[] H_ErrMsg)
+        private bool ZData_Bunri_FNC(IDbConnection H_Con, ref structZDATA H_ZData, string H_BKbn, int H_KrKs, int H_Sy0, int H_SY02, ref structZDATA H_ZDataBunri, ref int H_InpErr, ref int H_RegErr, ref string H_ValuOya,
     	                             ref string H_ValuZei, DataRow H_drSvolum, DataTable H_dtKname, structSVOLKM[] H_SVolumKm, DataRow H_drVolum, ref structERRORLOG[] H_ErrLog, int H_PnGaiSiwake, int H_PnGaiSyosu,
-                                     ref decimal H_GValuOya, ref decimal H_GValuZei, ref decimal H_GValutai, int H_PnUseDkec, ref int H_Lno, ref string[] H_ErrMsg)
+                                     ref decimal H_GValuOya, ref decimal H_GValuZei, ref decimal H_GValutai, int H_PnUseDkec, ref int H_Lno, ref string[] H_ErrMsg, short H_Touki)
+// ▲ ツルハ様カスタマイズ ▲
         {
             #region 変数初期化
             string  L_lvChildKicd       = null;
@@ -4925,49 +4930,75 @@ namespace IMPORTERSUB
                 #endregion
 
                 #region ----未登録チェック----(単一コードは親でチェックしているので行わない)
+// ▼ ツルハ様カスタマイズ ▼
                 //  部門科目
-    			if (!string.IsNullOrEmpty(L_lvOyaBcod) && Convert.ToInt32(H_drSvolum[(int)eSVOLUM.SVOLUM_SSW1]) == 1)
+                #region 消費税科目は固定部門付加のためコメントアウト
+//              if (!string.IsNullOrEmpty(L_lvOyaBcod) && Convert.ToInt32(H_drSvolum[(int)eSVOLUM.SVOLUM_SSW1]) == 1)
+//              {
+////  分離仕訳の事前未入力・未登録チェック対応(英数マスタ桁数未満対応) ↓
+//   			    if (ChkCodeType_FNC(L_lvOyaBcod, Convert.ToInt16(H_drVolum[(int)eVOLUM.VOLUM_BMTY])))
+//                  {
+//   				    if (L_lvOyaBcod.Length <= Convert.ToInt32(H_drVolum[(int)eVOLUM.VOLUM_BMLN]))
+//                      {
+//   					    L_lvOyaBcod = EditCode_FNC(L_lvOyaBcod, (H_drVolum[(int)eVOLUM.VOLUM_BMTY]).ToString(), Convert.ToInt32(H_drVolum[(int)eVOLUM.VOLUM_BMLN]));
+////  分離仕訳の事前未入力・未登録チェック対応(英数マスタ桁数未満対応) ↑
+//   					    if (!(BkzanExists_FNC(H_Con, H_ZData.Kesn, L_lvOyaBcod, L_lvChildKicd)))
+//                          {
+//   						    H_RegErr = H_RegErr | MC_DinpCheck_BmKm;
+//   						    H_ErrMsg[i] = "部門科目が未登録です。";
+//   						    // 2019/06/24 Ver.01.19.01 urata
+////  分離仕訳の事前未入力・未登録チェック対応 ↓
+//                              Bunri_ErrVal[i] = L_lvOyaBcod;
+//                              i++;
+////  分離仕訳の事前未入力・未登録チェック対応 ↑
+//   					    }
+//   				    }
+//   			    }
+//   		    }
+                #endregion
+                if (!string.IsNullOrEmpty(P_SYBMNCD) && Convert.ToInt32(H_drSvolum[(int)eSVOLUM.SVOLUM_SSW1]) == 1)
                 {
-//  ↓ 分離仕訳の事前未入力・未登録チェック対応(英数マスタ桁数未満対応) ↓
-    				if (ChkCodeType_FNC(L_lvOyaBcod, Convert.ToInt16(H_drVolum[(int)eVOLUM.VOLUM_BMTY])))
+                    if (ChkCodeType_FNC(P_SYBMNCD, Convert.ToInt16(H_drVolum[(int)eVOLUM.VOLUM_BMTY])))
                     {
-    					if (L_lvOyaBcod.Length <= Convert.ToInt32(H_drVolum[(int)eVOLUM.VOLUM_BMLN]))
+                        if (P_SYBMNCD.Length <= Convert.ToInt32(H_drVolum[(int)eVOLUM.VOLUM_BMLN]))
                         {
-    						L_lvOyaBcod = EditCode_FNC(L_lvOyaBcod, (H_drVolum[(int)eVOLUM.VOLUM_BMTY]).ToString(), Convert.ToInt32(H_drVolum[(int)eVOLUM.VOLUM_BMLN]));
-//  ↑ 分離仕訳の事前未入力・未登録チェック対応(英数マスタ桁数未満対応) ↑
-    						if (!(BkzanExists_FNC(H_Con, H_ZData.Kesn, L_lvOyaBcod, L_lvChildKicd)))
+                            P_SYBMNCD = EditCode_FNC(P_SYBMNCD, (H_drVolum[(int)eVOLUM.VOLUM_BMTY]).ToString(), Convert.ToInt32(H_drVolum[(int)eVOLUM.VOLUM_BMLN]));
+
+                            if (!(BkzanExists_FNC(H_Con, H_ZData.Kesn, P_SYBMNCD, L_lvChildKicd)))
                             {
-    							H_RegErr = H_RegErr | MC_DinpCheck_BmKm;
-    							H_ErrMsg[i] = "部門科目が未登録です。";
-    							// 2019/06/24 Ver.01.19.01 urata
-//  ↓ 分離仕訳の事前未入力・未登録チェック対応 ↓
-                                Bunri_ErrVal[i] = L_lvOyaBcod;
-                                i++;
-//  ↑ 分離仕訳の事前未入力・未登録チェック対応 ↑
-    						}
-    					}
-    				}
-    			}
-    			//  取引先科目
-    			if (!string.IsNullOrEmpty(L_lvOyaTrcd) && Convert.ToInt32(H_drSvolum[(int)eSVOLUM.SVOLUM_SSW2]) == 1) {
+                                MakeBKZANRecord(H_Con, H_ZData.Kesn, H_Touki, P_SYBMNCD, L_lvChildKicd);
+                            }
+                        }
+                    }
+                }
+
+                //  取引先科目
+                if (!string.IsNullOrEmpty(L_lvOyaTrcd) && Convert.ToInt32(H_drSvolum[(int)eSVOLUM.SVOLUM_SSW2]) == 1) {
 //  ↓ 分離仕訳の事前未入力・未登録チェック対応(英数マスタ桁数未満対応) ↓
     				if (ChkCodeType_FNC(L_lvOyaTrcd, Convert.ToInt16(H_drVolum[(int)eVOLUM.VOLUM_TRTY]))) {
     					if (L_lvOyaTrcd.Length <= Convert.ToInt32(H_drVolum[(int)eVOLUM.VOLUM_TRLN]))
                         {
     						L_lvOyaTrcd = EditCode_FNC(L_lvOyaTrcd, (H_drVolum[(int)eVOLUM.VOLUM_TRTY]).ToString(), Convert.ToInt32(H_drVolum[(int)eVOLUM.VOLUM_TRLN]));
 //  ↑ 分離仕訳の事前未入力・未登録チェック対応(英数マスタ桁数未満対応) ↑
-    						if (!(TrzanExists_FNC(H_Con, H_ZData.Kesn, L_lvOyaTrcd, L_lvChildKicd))) {
-    							H_RegErr = H_RegErr | MC_DinpCheck_TrKm;
-    							H_ErrMsg[i] = "取引先科目が未登録です。";
-    							// 2019/06/24 Ver.01.19.01 urata
-//  ↓ 分離仕訳の事前未入力・未登録チェック対応 ↓
-    							Bunri_ErrVal[i] = L_lvOyaTrcd;
-                                i++;
-//  ↑ 分離仕訳の事前未入力・未登録チェック対応 ↑
-    						}
+//▼ツルハ様カスタマイズ▼
+//    						if (!(TrzanExists_FNC(H_Con, H_ZData.Kesn, L_lvOyaTrcd, L_lvChildKicd))) {
+//    							H_RegErr = H_RegErr | MC_DinpCheck_TrKm;
+//    							H_ErrMsg[i] = "取引先科目が未登録です。";
+//    							// 2019/06/24 Ver.01.19.01 urata
+//    //  ↓ 分離仕訳の事前未入力・未登録チェック対応 ↓
+//    							Bunri_ErrVal[i] = L_lvOyaTrcd;
+//                              i++;
+//    //  ↑ 分離仕訳の事前未入力・未登録チェック対応 ↑
+//    						}
+                            if (!(TrzanExists_FNC(H_Con, H_ZData.Kesn, L_lvOyaTrcd, L_lvChildKicd))) 
+                            {
+                                MakeTRZANRecord(H_Con, H_ZData.Kesn, H_Touki, L_lvOyaTrcd, L_lvChildKicd);
+                            }
+// ▲ ツルハ様カスタマイズ ▲
     					}
     				}
     			}
+
     			//  セグメント科目
     			if (!string.IsNullOrEmpty(L_lvOyaSgcd) && Convert.ToInt32(H_drSvolum[(int)eSVOLUM.SVOLUM_SSW5]) == 1)
                 {
@@ -5012,7 +5043,8 @@ namespace IMPORTERSUB
     						}
     					}
     				}
-    			}    
+    			}
+
                 #region 分離仕訳の３コード自動登録対応(コメントアウト)
 //  ↓ 分離仕訳の３コード自動登録対応 ↓
     			//  *---------------------------------------------------------------------------*
@@ -7754,7 +7786,10 @@ namespace IMPORTERSUB
     					}
     					if ((!string.IsNullOrEmpty(L_Bcod)) && (!string.IsNullOrEmpty(L_Kicd[L_Katt]))) {
     						if (BkzanExists_FNC(H_Con, L_Kesn, L_Bcod, L_Kicd[L_Katt]) == false) {
-    							SetErrLog_SUB(ref H_ErrLog, ref L_ErrCnt, H_Data, L_ColIdx, "部門科目が" + MC_ERRLOG_MITOUROKU);
+// ▼ ツルハ様カスタマイズ ▼
+//    							SetErrLog_SUB(ref H_ErrLog, ref L_ErrCnt, H_Data, L_ColIdx, "部門科目が" + MC_ERRLOG_MITOUROKU);
+                                MakeBKZANRecord(H_Con, L_Kesn, H_Touki, L_Bcod, L_Kicd[L_Katt]);
+// ▲ ツルハ様カスタマイズ ▲
     						}
     					}
     				}
@@ -7840,9 +7875,8 @@ namespace IMPORTERSUB
                             {
 // ▼ ツルハ様カスタマイズ ▼
 //    							SetErrLog_SUB(ref H_ErrLog, ref L_ErrCnt, H_Data, L_ColIdx, "取引先科目が" + MC_ERRLOG_MITOUROKU);
-                                MakeTRZANRecord(H_Con, L_Kesn, H_Touki, L_Katt, L_Trcd, L_Kicd[L_Katt]);
+                                MakeTRZANRecord(H_Con, L_Kesn, H_Touki, L_Trcd, L_Kicd[L_Katt]);
 // ▲ ツルハ様カスタマイズ ▲
-
                             }
     						if ((!string.IsNullOrEmpty(L_Bcod)) && (Convert.ToInt32(L_KnameRow[L_Katt][(int)eKNAME.KNAME_BTK01]) == 1))
                             {
@@ -11507,11 +11541,16 @@ namespace IMPORTERSUB
     			if ((!string.IsNullOrEmpty(H_Data[G_Index_BUNRI])) && (H_Data[G_Index_BUNRI] != "0") && (H_BunriOk_R == 1) && (P_ZeroSiwake[0] == 1))
                 {
     				// If (H_BunriOk_R = 1) And (P_ZeroSiwake(0) = 1) Then
-    				if (ZData_Bunri_FNC(H_Con, ref L_ZData, L_ZData.Bkbn.ToString(), 0, Convert.ToInt32(L_KnameRow[0][(int)eKNAME.KNAME_SY01]), Convert.ToInt32(L_KnameRow[0][(int)eKNAME.KNAME_SY02]),
+// ▼ ツルハ様カスタマイズ ▼
+//    				if (ZData_Bunri_FNC(H_Con, ref L_ZData, L_ZData.Bkbn.ToString(), 0, Convert.ToInt32(L_KnameRow[0][(int)eKNAME.KNAME_SY01]), Convert.ToInt32(L_KnameRow[0][(int)eKNAME.KNAME_SY02]),
+//                                      ref L_ZdataBunri, ref L_InpErr, ref L_RegErr, ref L_ValuOya, ref L_ValuZei, L_SvolumRow, H_dtKname, H_SVolumKm, L_VolumRow, ref H_ErrLog, L_GaikaKamoku_Sel,
+//                                      P_Int_GaikaSyosu, ref L_GVal_Gai, ref L_GVal_Zei, ref L_GVal_Tai, L_PnUseDkec, ref H_Lno, ref L_ErrMsg))
+                    if (ZData_Bunri_FNC(H_Con, ref L_ZData, L_ZData.Bkbn.ToString(), 0, Convert.ToInt32(L_KnameRow[0][(int)eKNAME.KNAME_SY01]), Convert.ToInt32(L_KnameRow[0][(int)eKNAME.KNAME_SY02]),
                                         ref L_ZdataBunri, ref L_InpErr, ref L_RegErr, ref L_ValuOya, ref L_ValuZei, L_SvolumRow, H_dtKname, H_SVolumKm, L_VolumRow, ref H_ErrLog, L_GaikaKamoku_Sel,
-                                        P_Int_GaikaSyosu, ref L_GVal_Gai, ref L_GVal_Zei, ref L_GVal_Tai, L_PnUseDkec, ref H_Lno, ref L_ErrMsg))
+                                        P_Int_GaikaSyosu, ref L_GVal_Gai, ref L_GVal_Zei, ref L_GVal_Tai, L_PnUseDkec, ref H_Lno, ref L_ErrMsg, H_Touki))
+// ▲ ツルハ様カスタマイズ ▲
                     {
-    					//  処理続行    
+    					//  処理続行
     				}
                     else
                     {
@@ -11541,9 +11580,14 @@ namespace IMPORTERSUB
                 else if ((!string.IsNullOrEmpty(H_Data[G_Index_BUNRI])) && (H_Data[G_Index_BUNRI] != "0") && (H_BunriOk_S == 1) && (P_ZeroSiwake[1] == 1))
                 {
     				// ElseIf (H_BunriOk_S = 1) And (P_ZeroSiwake(1) = 1) Then
-    				if (ZData_Bunri_FNC(H_Con, ref L_ZData, L_ZData.Bkbn.ToString(), 1, Convert.ToInt32(L_KnameRow[1][(int)eKNAME.KNAME_SY01]), Convert.ToInt32(L_KnameRow[1][(int)eKNAME.KNAME_SY02]), ref L_ZdataBunri,
+// ▼ ツルハ様カスタマイズ ▼
+//    				if (ZData_Bunri_FNC(H_Con, ref L_ZData, L_ZData.Bkbn.ToString(), 1, Convert.ToInt32(L_KnameRow[1][(int)eKNAME.KNAME_SY01]), Convert.ToInt32(L_KnameRow[1][(int)eKNAME.KNAME_SY02]), ref L_ZdataBunri,
+//                                      ref L_InpErr, ref L_RegErr, ref L_ValuOya, ref L_ValuZei, L_SvolumRow, H_dtKname, H_SVolumKm, L_VolumRow, ref H_ErrLog, L_GaikaKamoku_Sel, P_Int_GaikaSyosu, ref L_GVal_Gai,
+//                                      ref L_GVal_Zei, ref L_GVal_Tai, L_PnUseDkec, ref H_Lno, ref L_ErrMsg))
+                    if (ZData_Bunri_FNC(H_Con, ref L_ZData, L_ZData.Bkbn.ToString(), 1, Convert.ToInt32(L_KnameRow[1][(int)eKNAME.KNAME_SY01]), Convert.ToInt32(L_KnameRow[1][(int)eKNAME.KNAME_SY02]), ref L_ZdataBunri,
                                         ref L_InpErr, ref L_RegErr, ref L_ValuOya, ref L_ValuZei, L_SvolumRow, H_dtKname, H_SVolumKm, L_VolumRow, ref H_ErrLog, L_GaikaKamoku_Sel, P_Int_GaikaSyosu, ref L_GVal_Gai,
-                                        ref L_GVal_Zei, ref L_GVal_Tai, L_PnUseDkec, ref H_Lno, ref L_ErrMsg))
+                                        ref L_GVal_Zei, ref L_GVal_Tai, L_PnUseDkec, ref H_Lno, ref L_ErrMsg, H_Touki))
+// ▲ ツルハ様カスタマイズ ▲
                     {
     					//  処理続行    
     				}
@@ -13738,10 +13782,15 @@ namespace IMPORTERSUB
                 if ((!string.IsNullOrEmpty(H_Data[G_Index_BUNRI])) && (H_Data[G_Index_BUNRI] != "0") && (H_BunriOK_R == 1) && (H_ZeroSiwake_R == 1))
                 {
                     // 分離仕訳作成フラグがONなので 011301 外貨関連項目追加　071019
+// ▼ ツルハ様カスタマイズ ▼
+//                  if (ZData_Bunri_FNC(H_Con, ref H_Zdata, H_Zdata.Bkbn.ToString(), 0, Convert.ToInt32(L_KnameRow[0][(int)eKNAME.KNAME_SY01]), Convert.ToInt32(L_KnameRow[0][(int)eKNAME.KNAME_SY02]), ref H_ZDataBunri,
+//                                      ref L_InpErr, ref L_RegErr, ref L_ValuOya, ref L_ValuZei, L_SvolumRow, H_dtKname, H_SVolumKm, L_VolumRow, ref H_ErrLog, H_GAIKAKamoku_Flg, P_Int_GaikaSyosu, ref L_GVal_Gai, ref L_GVal_Zei,
+//                                      // 2019/06/24 Ver.01.19.01 urata
+//                                      ref L_GVal_Tai, L_PnUseDkec, ref H_Lno, ref L_ErrMsg))
                     if (ZData_Bunri_FNC(H_Con, ref H_Zdata, H_Zdata.Bkbn.ToString(), 0, Convert.ToInt32(L_KnameRow[0][(int)eKNAME.KNAME_SY01]), Convert.ToInt32(L_KnameRow[0][(int)eKNAME.KNAME_SY02]), ref H_ZDataBunri,
                                         ref L_InpErr, ref L_RegErr, ref L_ValuOya, ref L_ValuZei, L_SvolumRow, H_dtKname, H_SVolumKm, L_VolumRow, ref H_ErrLog, H_GAIKAKamoku_Flg, P_Int_GaikaSyosu, ref L_GVal_Gai, ref L_GVal_Zei,
-                                        // 2019/06/24 Ver.01.19.01 urata
-                                        ref L_GVal_Tai, L_PnUseDkec, ref H_Lno, ref L_ErrMsg))
+                                        ref L_GVal_Tai, L_PnUseDkec, ref H_Lno, ref L_ErrMsg, H_Touki))
+// ▲ ツルハ様カスタマイズ ▲
                     {
                         H_Zdata.Zkvl = Convert.ToDecimal(L_ValuZei);
                         H_Zdata.Valu = Convert.ToDecimal(L_ValuOya);
@@ -13768,10 +13817,15 @@ namespace IMPORTERSUB
                 {
                     // 分離仕訳作成フラグがONなので
                     // de2-7931⑤ インポート処理で分離仕訳の作成で処理期の設定を使用するように修正
+// ▼ ツルハ様カスタマイズ ▼
+//                  if (ZData_Bunri_FNC(H_Con, ref H_Zdata, H_Zdata.Bkbn.ToString(), 1, Convert.ToInt32(L_KnameRow[1][(int)eKNAME.KNAME_SY01]), Convert.ToInt32(L_KnameRow[1][(int)eKNAME.KNAME_SY02]), ref H_ZDataBunri,
+//                                      ref L_InpErr, ref L_RegErr, ref L_ValuOya, ref L_ValuZei, L_SvolumRow, H_dtKname, H_SVolumKm, L_VolumRow, ref H_ErrLog, H_GAIKAKamoku_Flg, P_Int_GaikaSyosu, ref L_GVal_Gai, ref L_GVal_Zei,
+//                                      // 2019/06/24 Ver.01.19.01 urata
+//                                      ref L_GVal_Tai, L_PnUseDkec, ref H_Lno, ref L_ErrMsg))
                     if (ZData_Bunri_FNC(H_Con, ref H_Zdata, H_Zdata.Bkbn.ToString(), 1, Convert.ToInt32(L_KnameRow[1][(int)eKNAME.KNAME_SY01]), Convert.ToInt32(L_KnameRow[1][(int)eKNAME.KNAME_SY02]), ref H_ZDataBunri,
                                         ref L_InpErr, ref L_RegErr, ref L_ValuOya, ref L_ValuZei, L_SvolumRow, H_dtKname, H_SVolumKm, L_VolumRow, ref H_ErrLog, H_GAIKAKamoku_Flg, P_Int_GaikaSyosu, ref L_GVal_Gai, ref L_GVal_Zei,
-                                        // 2019/06/24 Ver.01.19.01 urata
-                                        ref L_GVal_Tai, L_PnUseDkec, ref H_Lno, ref L_ErrMsg))
+                                        ref L_GVal_Tai, L_PnUseDkec, ref H_Lno, ref L_ErrMsg, H_Touki))
+// ▲ ツルハ様カスタマイズ ▲
                     {
                         H_Zdata.Zkvl = Convert.ToDecimal(L_ValuZei);
                         H_Zdata.Valu = Convert.ToDecimal(L_ValuOya);
@@ -25887,22 +25941,8 @@ namespace IMPORTERSUB
 
     					try
                         {
-                            #region  ↓ 分離仕訳事前未入力・未登録チェック対応(コメントアウト) ↓
-//             ' ▽ 2019/06/24 Ver.01.13.01 自動分離子仕訳の未入力・未登録チェック urata
-//             If L_ErrLog(0]).ItemNo = G_Index_BUNRI + 1 Then
-//                 L_ErrLog(0]).ItemNo = MC_RESULT_ERR_BUNRI_KO_SIWAKE
-//                 With L_Den_Data(L_SWK_DenNo(L_LineCnt - 1)(0))
-//                     L_LogWriter_2.WriteLine(.STNO && "," && .EDNO && "," && .DYMD && "," && .DCNO && "," && _
-//                     "0" && "," && MC_DEN_SUM_ERRLOG_TYUDAN && "," && L_ErrLog(0]).Description)
-//                     ImpMain_M_FNC = L_ErrLog(0]).ItemNo
-//                 End With
-//             Else
-//  △ 2019/06/24 Ver.01.13.01 urata
-                            #endregion
                             // 現在の仕訳行が含まれる伝票のエラー情報を出力(伝票単位のエラーログ出力)
                             L_LogWriter_2.WriteLine(L_Den_Data[((int[])L_SWK_DenNo[L_LineCnt - 1])[0]].STNO + "," + L_Den_Data[((int[])L_SWK_DenNo[L_LineCnt - 1])[0]].EDNO + "," + L_Den_Data[((int[])L_SWK_DenNo[L_LineCnt - 1])[0]].DYMD + "," + L_Den_Data[((int[])L_SWK_DenNo[L_LineCnt - 1])[0]].DCNO + "," + "0" + "," + MC_DEN_SUM_ERRLOG_TYUDAN + "," + Get_TyuDan_Cmt(L_Den_ErriFlg, L_Zdata.Dcno_h.ToString()));
-// End If
-//  ↑ 分離仕訳事前未入力・未登録チェック対応(コメントアウト) ↑
     					}
                         catch
                         {
@@ -28835,118 +28875,44 @@ namespace IMPORTERSUB
         //       ・部門科目残高（BKZAN）
         //       ・部門科目予算１～４（BKYSN1～BKYSN4）
         // *===========================================================================================*
-        private void MakeBKZANRecord(IDbConnection H_Con, structZDATA H_Zdata, DataTable H_dtVolum, ref IDbCommand L_Cmd, short H_Touki)
+        private void MakeBKZANRecord(IDbConnection H_Con, short L_Kesn, short H_Touki, string L_Bcod, string L_Kicd)
         {
             short       L_KesnCnt = 0;
-            IDataReader L_Reader  = default(IDataReader);
-            string      L_Filter  = "";
-            bool        L_Exist   = false;
+            IDbCommand  L_Cmd     = default(IDbCommand);
 
             // 決算期単位で反復します。最大2周(当期の場合、翌期まで)
-            for (L_KesnCnt = H_Zdata.Kesn; L_KesnCnt <= (H_Zdata.Kesn == H_Touki ? H_Zdata.Kesn + 1 : H_Zdata.Kesn); L_KesnCnt++)
+            for (L_KesnCnt = L_Kesn; L_KesnCnt <= (L_Kesn == H_Touki ? L_Kesn + 1 : L_Kesn); L_KesnCnt++)
             {
-                #region 借方
-                L_Filter          = "KESN = " + L_KesnCnt + " AND BCOD = " + H_Zdata.Rbmn + " AND KICD = " + H_Zdata.Rkmk;
-                L_Cmd.CommandText = "SELECT * FROM BKZAN WHERE " + L_Filter;
-                L_Reader          = L_Cmd.ExecuteReader();
+                L_Cmd = H_Con.CreateCommand();
 
-                if (L_Reader.Read())
-                {
-                    L_Exist = true;
-                }
-                else
-                {
-                    L_Exist = false;
-                }
-                L_Reader.Close();
+                L_Cmd.CommandText = "INSERT INTO BKZAN ( " +
+                                            "KESN, BCOD, KICD, BSGN, " +
+                                            "R000, S000, R010, S010, R015, S015, R020, S020, R025, S025, R030, S030, " +
+                                            "R035, S035, R040, S040, R045, S045, R050, S050, R055, S055, R060, S060, " +
+                                            "R065, S065, R070, S070, R075, S075, R080, S080, R085, S085, R090, S090, " +
+                                            "R095, S095, R100, S100, R105, S105, R110, S110, R115, S115, R120, S120, " +
+                                            "R125, S125, GTNK  )"   +
+                                        "VALUES "  +
+                                            "( " + L_KesnCnt + ", " + L_Bcod + ", " + L_Kicd + ", 0, " +
+                                            "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                            "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                            "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                            "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                            "0, 0, 0 )";
+                L_Cmd.ExecuteNonQuery();
 
-                if (L_Exist == false)
+                for (int i = 1; i < 5; i++)
                 {
-                    L_Cmd.CommandText = "INSERT INTO BKZAN ( " +
-                                                "KESN, BCOD, KICD, BSGN, " +
-                                                "R000, S000, R010, S010, R015, S015, R020, S020, R025, S025, R030, S030, " +
-                                                "R035, S035, R040, S040, R045, S045, R050, S050, R055, S055, R060, S060, " +
-                                                "R065, S065, R070, S070, R075, S075, R080, S080, R085, S085, R090, S090, " +
-                                                "R095, S095, R100, S100, R105, S105, R110, S110, R115, S115, R120, S120, " +
-                                                "R125, S125, GTNK  )"   +
-                                            "ON EXISTING SKIP VALUES "  +
-                                                "( " + L_KesnCnt + ", " + H_Zdata.Rbmn + ", " + H_Zdata.Rkmk + ", 0, " +
-                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-                                                "0, 0, 0 )";
+                    L_Cmd.CommandText = "INSERT INTO BKYSN" + i.ToString("0") + "( " +
+                                            "KESN, BCOD, KICD, " +
+                                            "Y000, Y005, Y010, Y015, Y020, Y025, Y030, Y035, Y040, Y045, Y050, Y055, Y060, " +
+                                            "Y065, Y070, Y075, Y080, Y085, Y090, Y095, Y100, Y105, Y110, Y115, Y120, Y125) " +
+                                        "VALUES " +
+                                            "( " + L_KesnCnt + ", " + L_Bcod + ", " + L_Kicd + ", " +
+                                            "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                            "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 )";
                     L_Cmd.ExecuteNonQuery();
-
-                    for (int i = 1; i < 5; i++)
-                    {
-                        L_Cmd.CommandText = "INSERT INTO BKYSN" + i.ToString("0") + "( " +
-                                                "KESN, BCOD, KICD, " +
-                                                "Y000, Y005, Y010, Y015, Y020, Y025, Y030, Y035, Y040, Y045, Y050, Y055, Y060, " +
-                                                "Y065, Y070, Y075, Y080, Y085, Y090, Y095, Y100, Y105, Y110, Y115, Y120, Y125) " +
-                                            "ON EXISTING SKIP VALUES " +
-                                                "( " + L_KesnCnt + ", " + H_Zdata.Rbmn + ", " + H_Zdata.Rkmk + ", 0, " +
-                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-                                                "0, 0, 0 )";
-                        L_Cmd.ExecuteNonQuery();
-                    }
                 }
-                #endregion
-                #region 貸方
-                L_Filter          = "KESN = " + L_KesnCnt + " AND BCOD = " + H_Zdata.Sbmn + " AND KICD = " + H_Zdata.Skmk;
-                L_Cmd.CommandText = "SELECT * FROM BKZAN WHERE " + L_Filter;
-                L_Reader          = L_Cmd.ExecuteReader();
-
-                if (L_Reader.Read())
-                {
-                    L_Exist = true;
-                }
-                else
-                {
-                    L_Exist = false;
-                }
-                L_Reader.Close();
-
-                if (L_Exist == false)
-                {
-                    // 部門科目残高
-                    L_Cmd.CommandText = "INSERT INTO BKZAN ( " +
-                                                "KESN, BCOD, KICD, BSGN, " +
-                                                "R000, S000, R010, S010, R015, S015, R020, S020, R025, S025, R030, S030, " +
-                                                "R035, S035, R040, S040, R045, S045, R050, S050, R055, S055, R060, S060, " +
-                                                "R065, S065, R070, S070, R075, S075, R080, S080, R085, S085, R090, S090, " +
-                                                "R095, S095, R100, S100, R105, S105, R110, S110, R115, S115, R120, S120, " +
-                                                "R125, S125, GTNK  " +
-                                            "ON EXISTING SKIP VALUES " +
-                                                "( " + L_KesnCnt + ", " + H_Zdata.Sbmn + ", " + H_Zdata.Skmk + ", 0, " +
-                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-                                                "0, 0, 0 ";
-                    L_Cmd.ExecuteNonQuery();
-
-                    // 部門科目予算１～４
-                    for (int i = 1; i < 5; i++)
-                    {
-                        L_Cmd.CommandText = "INSERT INTO BKYSN" + i.ToString("0") + "( " +
-                                                "KESN, BCOD, KICD, " +
-                                                "Y000, Y005, Y010, Y015, Y020, Y025, Y030, Y035, Y040, Y045, Y050, Y055, Y060, " +
-                                                "Y065, Y070, Y075, Y080, Y085, Y090, Y095, Y100, Y105, Y110, Y115, Y120, Y125) " +
-                                            "ON EXISTING SKIP VALUES " +
-                                                "( " + L_KesnCnt + ", " + H_Zdata.Sbmn + ", " + H_Zdata.Skmk + ", 0, " +
-                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-                                                "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-                                                "0, 0, 0 )";
-                        L_Cmd.ExecuteNonQuery();
-                    }
-                }
-                #endregion
             }
         }
         // *===========================================================================================*
@@ -28954,126 +28920,46 @@ namespace IMPORTERSUB
         //       ・取引先科目残高（TRZAN）
         //       ・取引先科目予算１～４（TRYSN1～TRYSN4）
         // *===========================================================================================*
-        private void MakeTRZANRecord(IDbConnection H_Con, short L_Kesn, short H_Touki, short L_Katt, string L_Trcd, string L_Kicd)
+        private void MakeTRZANRecord(IDbConnection H_Con, short L_Kesn, short H_Touki, string L_Trcd, string L_Kicd)
         {
             short       L_KesnCnt = 0;
-            IDataReader L_Reader  = default(IDataReader);
             IDbCommand  L_Cmd     = default(IDbCommand);
-            string      L_Filter  = "";
-            bool        L_Exist   = false;
 
             // 決算期単位で反復します。最大2周(当期の場合、翌期まで)
             for (L_KesnCnt = L_Kesn; L_KesnCnt <= (L_Kesn == H_Touki ? L_Kesn + 1 : L_Kesn); L_KesnCnt++)
             {
-                #region 借方
-                if (L_Katt == 0)
+                L_Cmd = H_Con.CreateCommand();
+
+                // 部門科目残高テーブル
+                L_Cmd.CommandText = "INSERT INTO TRZAN ( " +
+                                            "KESN, TRCD, KICD, ESGN, GTNK, " +
+                                            "R000, S000, R010, S010, R015, S015, R020, S020, R025, S025, R030, S030, " +
+                                            "R035, S035, R040, S040, R045, S045, R050, S050, R055, S055, R060, S060, " +
+                                            "R065, S065, R070, S070, R075, S075, R080, S080, R085, S085, R090, S090, " +
+                                            "R095, S095, R100, S100, R105, S105, R110, S110, R115, S115, R120, S120, " +
+                                            "R125, S125) " +
+                                        "VALUES " +
+                                            "( " + L_KesnCnt + ", '" + L_Trcd + "', '" + L_Kicd + "', 0, 0, " +
+                                            "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                            "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                            "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                            "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                            "0, 0)";
+                L_Cmd.ExecuteNonQuery();
+                // 部門科目予算１～４テーブル
+                for (int i = 1; i < 5; i++)
                 {
-                    L_Filter = "KESN = " + L_KesnCnt + " AND TRCD = '" + L_Trcd + "' AND KICD = '" + L_Kicd + "'";
-                    L_Cmd = H_Con.CreateCommand();
-                    L_Cmd.CommandText = "SELECT * FROM TRZAN WHERE " + L_Filter;
-                    L_Reader = L_Cmd.ExecuteReader();
-
-                    if (L_Reader.Read())
-                    {
-                        L_Exist = true;
-                    }
-                    else
-                    {
-                        L_Exist = false;
-                    }
-                    L_Reader.Close();
-
-                    if (L_Exist == false)
-                    {
-                        L_Cmd.CommandText = "INSERT INTO TRZAN ( " +
-                                                    "KESN, TRCD, KICD, ESGN, GTNK, " +
-                                                    "R000, S000, R010, S010, R015, S015, R020, S020, R025, S025, R030, S030, " +
-                                                    "R035, S035, R040, S040, R045, S045, R050, S050, R055, S055, R060, S060, " +
-                                                    "R065, S065, R070, S070, R075, S075, R080, S080, R085, S085, R090, S090, " +
-                                                    "R095, S095, R100, S100, R105, S105, R110, S110, R115, S115, R120, S120, " +
-                                                    "R125, S125) " +
-                                                "VALUES " +
-                                                    "( " + L_KesnCnt + ", '" + L_Trcd + "', '" + L_Kicd + "', 0, 0, " +
-                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-                                                    "0, 0)";
-                        L_Cmd.ExecuteNonQuery();
-
-                        for (int i = 1; i < 5; i++)
-                        {
-                            L_Cmd.CommandText = "INSERT INTO TRYSN" + i.ToString("0") + "( " +
-                                                    "KESN, TRCD, KICD, " +
-                                                    "Y000, Y005, Y010, Y015, Y020, Y025, Y030, Y035, Y040, Y045, Y050, Y055, Y060, " +
-                                                    "Y065, Y070, Y075, Y080, Y085, Y090, Y095, Y100, Y105, Y110, Y115, Y120, Y125) " +
-                                                "ON EXISTING SKIP VALUES " +
-                                                    "( " + L_KesnCnt + ", " + L_Trcd + ", " + L_Kicd + ", 0, " +
-                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-                                                    "0, 0 )";
-                            L_Cmd.ExecuteNonQuery();
-                        }
-                    }
-                }
-                #endregion
-                #region 貸方
-                else
-                {
-//                    L_Filter = "KESN = " + L_KesnCnt + " AND TRCD = " + H_Zdata.Stor + " AND KICD = " + H_Zdata.Skmk;
-//                    L_Cmd.CommandText = "SELECT * FROM TRZAN WHERE " + L_Filter;
-//                    L_Reader = L_Cmd.ExecuteReader();
-
-//                    if (L_Reader.Read())
-//                    {
-//                        L_Exist = true;
-//                    }
-//                    else
-//                    {
-//                        L_Exist = false;
-//                    }
-//                    L_Reader.Close();
-
-//                    if (L_Exist == false)
-//                    {
-//                        L_Cmd.CommandText = "INSERT INTO TRZAN ( " +
-//                                                    "KESN, TRCD, KICD, BSGN, " +
-//                                                    "R000, S000, R010, S010, R015, S015, R020, S020, R025, S025, R030, S030, " +
-//                                                    "R035, S035, R040, S040, R045, S045, R050, S050, R055, S055, R060, S060, " +
-//                                                    "R065, S065, R070, S070, R075, S075, R080, S080, R085, S085, R090, S090, " +
-//                                                    "R095, S095, R100, S100, R105, S105, R110, S110, R115, S115, R120, S120, " +
-//                                                    "R125, S125, GTNK  )" +
-//                                                "ON EXISTING SKIP VALUES " +
-//                                                    "( " + L_KesnCnt + ", " + H_Zdata.Stor + ", " + H_Zdata.Skmk + ", 0, " +
-//                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-//                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-//                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-//                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-//                                                    "0, 0, 0 )";
-//                        L_Cmd.ExecuteNonQuery();
-
-//                        for (int i = 1; i < 5; i++)
-//                        {
-//                            L_Cmd.CommandText = "INSERT INTO TRYSN" + i.ToString("0") + "( " +
-//                                                    "KESN, TRCD, KICD, " +
-//                                                    "Y000, Y005, Y010, Y015, Y020, Y025, Y030, Y035, Y040, Y045, Y050, Y055, Y060, " +
-//                                                    "Y065, Y070, Y075, Y080, Y085, Y090, Y095, Y100, Y105, Y110, Y115, Y120, Y125) " +
-//                                                "ON EXISTING SKIP VALUES " +
-//                                                    "( " + L_KesnCnt + ", " + H_Zdata.Stor + ", " + H_Zdata.Skmk + ", 0, " +
-//                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-//                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-//                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-//                                                    "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
-//                                                    "0, 0, 0 )";
-//                            L_Cmd.ExecuteNonQuery();
-//                        }
-//                    }
-                }
-                #endregion
+                    L_Cmd.CommandText = "INSERT INTO TRYSN" + i.ToString("0") + "( " +
+                                            "KESN, TRCD, KICD, " +
+                                            "Y000, Y005, Y010, Y015, Y020, Y025, Y030, Y035, Y040, Y045, Y050, Y055, Y060, " +
+                                            "Y065, Y070, Y075, Y080, Y085, Y090, Y095, Y100, Y105, Y110, Y115, Y120, Y125) " +
+                                        "VALUES " +
+                                            "( " + L_KesnCnt + ", " + L_Trcd + ", " + L_Kicd + ", " +
+                                            "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
+                                            "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 )";
+                    L_Cmd.ExecuteNonQuery();
+                }            
             }
-
         }
 // ▲ ツルハ様カスタマイズ ▲
 
