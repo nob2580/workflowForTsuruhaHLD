@@ -1,0 +1,2 @@
+"setting_name","setting_name_wa","setting_val","category","hyouji_jun","editable_flg","hissu_flg","format_regex","description"
+"jidou_bunri_bumon_cd","消費税仕訳 部門コード","","カスタマイズ","901","1","1","\d{1,8}","仕訳連携時、自動分離した消費税仕訳に付加する部門コード"
