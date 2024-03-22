@@ -1,0 +1,5 @@
+"master_id","master_name","henkou_kahi_flg","touroku_user_id","touroku_time","koushin_user_id","koushin_time"
+"kamoku_edaban_zandaka","科目枝番残高","0","default",1999/01/01 00:00:00,"default",1999/01/01 00:00:00
+"bumon_master","負担部門","0","default",1999/01/01 00:00:00,"default",1999/01/01 00:00:00
+"torihikisaki_master","取引先マスター","0","default",1999/01/01 00:00:00,"default",1999/01/01 00:00:00
+"ki_shouhizei_setting","（期別）消費税設定","0","default",1999/01/01 00:00:00,"default",1999/01/01 00:00:00

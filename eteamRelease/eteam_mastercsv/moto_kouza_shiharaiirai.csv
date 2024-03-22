@@ -1,0 +1,5 @@
+振込元金融機関コード,振込元金融機関支店コード,振込元預金種別,振込元口座番号,振込元金融機関名（半角カナ）,振込元金融機関支店名（半角カナ）,種別コード,コード区分,会社コード,会社名（半角カナ）,新規コード,振込区分
+moto_kinyuukikan_cd,moto_kinyuukikan_shiten_cd,moto_yokinshubetsu,moto_kouza_bangou,moto_kinyuukikan_name_hankana,moto_kinyuukikan_shiten_name_hankana,shubetsu_cd,cd_kbn,kaisha_cd,kaisha_name_hankana,shinki_cd,furikomi_kbn
+varchar(4),varchar(3),varchar(1),varchar(7),varchar(15),varchar(15),varchar(2),varchar(1),varchar(10),varchar(40),varchar(1),varchar(1)
+1,1,1,1,2,2,2,2,2,2,2,2
+0001,001,9,0001001,ｻﾝﾌﾟﾙｷﾞﾝｺｳ,ｻﾝﾌﾟﾙｼﾃﾝ,21,0,0000000001,ｶｲｼｬﾒｲ,0,7

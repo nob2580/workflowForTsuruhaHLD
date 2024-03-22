@@ -1,0 +1,9 @@
+"master_id","master_name","henkou_kahi_flg","touroku_user_id","touroku_time","koushin_user_id","koushin_time"
+"segment_master","セグメントマスター","0","default",1999/01/01 00:00:00,"default",1999/01/01 00:00:00
+"segment_kamoku_zandaka","セグメント科目残高","0","default",1999/01/01 00:00:00,"default",1999/01/01 00:00:00
+"shukujitsu_master","祝日マスター","2","default",1999/01/01 00:00:00,"default",1999/01/01 00:00:00
+"open21_kinyuukikan","金融機関","0","default",1999/01/01 00:00:00,"default",1999/01/01 00:00:00
+"torihikisaki_furikomisaki","取引先振込先","0","default",1999/01/01 00:00:00,"default",1999/01/01 00:00:00
+"torihikisaki_hojo","取引先補助","0","default",1999/01/01 00:00:00,"default",1999/01/01 00:00:00
+"torihikisaki_shiharaihouhou","取引先支払方法","0","default",1999/01/01 00:00:00,"default",1999/01/01 00:00:00
+"moto_kouza_shiharaiirai","振込元口座（支払依頼）","2","default",1999/01/01 00:00:00,"default",1999/01/01 00:00:00

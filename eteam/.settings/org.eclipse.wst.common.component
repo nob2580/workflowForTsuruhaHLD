@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="eteam">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes/" source-path="/ImportedClasses"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/bat"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/def"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/WebContent/META-INF/licenses"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/xls"/>
+        <property name="java-output-path" value="/eteam/build/classes"/>
+        <property name="context-root" value="eteam"/>
+    </wb-module>
+</project-modules>

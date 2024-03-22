@@ -1,0 +1,5 @@
+社員番号,ユーザーフル名,代表負担部門コード,役職コード
+shain_no,user_full_name,daihyou_futan_bumon_cd,yakushoku_cd
+varchar(15),varchar(50),varchar(8),varchar(10)
+1,2,2,2
+12345678,山田　太郎,00001001,100

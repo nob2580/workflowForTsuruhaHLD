@@ -1,0 +1,5 @@
+システム管理日,FBデータ作成日フラグ,個人精算支払日,金融機関営業日フラグ,当日区分フラグ,計上日フラグ
+system_kanri_date,fb_data_sakuseibi_flg,kojinseisan_shiharaibi,kinyuukikan_eigyoubi_flg,toujitsu_kbn_flg,keijoubi_flg
+date,varchar(1),date,varchar(1),varchar(1),varchar(1)
+1,2,,2,2,2
+2014/04/01,1,2014/04/02,1,0,0

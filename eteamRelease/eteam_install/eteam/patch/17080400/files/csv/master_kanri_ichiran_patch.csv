@@ -1,0 +1,4 @@
+"master_id","master_name","henkou_kahi_flg","touroku_user_id","touroku_time","koushin_user_id","koushin_time"
+"kaigai_nittou_nado_master","海外用日当等マスター","2","default",1999/01/01 00:00:00,"default",1999/01/01 00:00:00
+"heishu_master","幣種マスター","2","default",1999/01/01 00:00:00,"default",1999/01/01 00:00:00
+"rate_master","幣種別レートマスター","2","default",1999/01/01 00:00:00,"default",1999/01/01 00:00:00

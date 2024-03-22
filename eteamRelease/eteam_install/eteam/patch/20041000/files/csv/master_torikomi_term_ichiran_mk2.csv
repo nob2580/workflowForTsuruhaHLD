@@ -1,0 +1,35 @@
+"master_id","master_name","op_master_id","op_master_name","torikomi_kahi_flg"
+"ki_shiwake","（期別）財務仕訳","(SELECT
+    kesn,
+    dkei,
+    dseq,
+    sseq,
+    to_date( CAST(dymd as VARCHAR(8)) , 'YYYYMMDD') as dymd,
+    dcno,
+    RTRIM(rbmn) AS rbmn,
+    RTRIM(rtor) AS rtor,
+    rkmk,
+    RTRIM(reda) AS reda,
+    rtky,
+    RTRIM(sbmn) AS sbmn,
+    RTRIM(stor) AS stor,
+    skmk,
+    RTRIM(seda) AS seda,
+    stky,
+    valu,
+    fway
+FROM
+    (SELECT
+        h.dymd,
+        h.dcno,
+        z.*
+    FROM zdata_h AS h
+    JOIN zdata AS z ON
+        h.kesn = z.kesn AND
+        h.dseq = z.dseq AND
+        h.dkei = z.dkei
+    WHERE
+        (h.dymd BETWEEN :DYMD_START AND :DYMD_END) AND
+        z.delf = 0
+    ) AS t
+)","（期別）財務仕訳","1"

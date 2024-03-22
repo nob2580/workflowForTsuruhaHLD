@@ -1,0 +1,7 @@
+C:\eteam\workspace\icsp_pkgnew\auth\auth\bin\Release\auth.exe.config
+C:\eteam\workspace\icsp_pkgnew\auth\auth\bin\Release\auth.exe
+C:\eteam\workspace\icsp_pkgnew\auth\auth\bin\Release\auth.pdb
+C:\eteam\workspace\icsp_pkgnew\auth\auth\bin\Release\EDOCUMENTLIB.dll
+C:\eteam\workspace\icsp_pkgnew\auth\auth\obj\Release\auth.csprojResolveAssemblyReference.cache
+C:\eteam\workspace\icsp_pkgnew\auth\auth\obj\Release\auth.exe
+C:\eteam\workspace\icsp_pkgnew\auth\auth\obj\Release\auth.pdb

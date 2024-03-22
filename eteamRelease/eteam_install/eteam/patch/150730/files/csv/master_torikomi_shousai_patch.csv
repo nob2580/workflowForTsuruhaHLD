@@ -1,0 +1,4 @@
+"master_id","et_column_id","et_column_name","et_data_type","op_colume_id","op_column_name","op_data_type","entry_order","pk_flg"
+"kaisha_info","pjcd_shiyou_flg","プロジェクトコード使用フラグ","smallint","PJFLG","プロジェクトコード使用フラグ","smallint",8,"0"
+"project_master","project_cd","プロジェクトコード","varchar","PRJECT","ﾌﾟﾛｼﾞｪｸﾄｺｰﾄﾞ","char",1,"1"
+"project_master","project_name","プロジェクト名","varchar","PRJNAMS","ﾌﾟﾛｼﾞｪｸﾄ名称（略式）","char",2,"0"

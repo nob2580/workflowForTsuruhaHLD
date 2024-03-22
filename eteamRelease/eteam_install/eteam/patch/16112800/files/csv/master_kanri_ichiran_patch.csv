@@ -1,0 +1,8 @@
+"master_id","master_name","henkou_kahi_flg","touroku_user_id","touroku_time","koushin_user_id","koushin_time"
+"furikomi_bi_rule","振込日ルール","2","default",1999/01/01 00:00:00,"default",1999/01/01 00:00:00
+"ki_kesn","（期別）決算期","1","default",1999/01/01 00:00:00,"default",1999/01/01 00:00:00
+"ki_kamoku","（期別）科目","1","default",1999/01/01 00:00:00,"default",1999/01/01 00:00:00
+"ki_bumon","（期別）部門","1","default",1999/01/01 00:00:00,"default",1999/01/01 00:00:00
+"ki_syuukei_bumon","（期別）集計部門","1","default",1999/01/01 00:00:00,"default",1999/01/01 00:00:00
+"ki_kamoku_security","（期別）科目セキュリティ","1","default",1999/01/01 00:00:00,"default",1999/01/01 00:00:00
+"ki_bumon_security","（期別）部門セキュリティ","1","default",1999/01/01 00:00:00,"default",1999/01/01 00:00:00

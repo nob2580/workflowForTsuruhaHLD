@@ -1,0 +1,7 @@
+種別１,種別２,役職コード,単価（邦貨）,幣種コード,通貨単位,単価（外貨）,証憑書類必須フラグ,日当・宿泊費フラグ,税区分,枝番コード
+shubetsu1,shubetsu2,yakushoku_cd,tanka,heishu_cd,currency_unit,tanka_gaika,shouhyou_shorui_hissu_flg,nittou_shukuhakuhi_flg,zei_kubun,edaban
+varchar(20),varchar(20),varchar(10),decimal(15),varchar(4),varchar(20),decimal,varchar(1),varchar(1),varchar(1),varchar(12)
+1,1,1,,2,2,,2,2,,2
+海外宿泊費,北米,010,10000,,,,0,1,,
+海外出張手当,北米,-,6000,,,,0,2,,
+その他,-,-,,,,,0,0,,

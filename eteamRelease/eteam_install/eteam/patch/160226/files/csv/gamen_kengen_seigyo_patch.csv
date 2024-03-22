@@ -1,0 +1,6 @@
+"gamen_id","gamen_name","bumon_shozoku_riyoukanou_flg","system_kanri_riyoukanou_flg","workflow_riyoukanou_flg","kaishasettei_riyoukanou_flg","keirishori_riyoukanou_flg","kinou_seigyo_cd"
+"BumonIchiran","所属部門一覧","0","1","0","1","0",""
+"BumonTsuika","所属部門追加","0","1","0","1","0",""
+"BumonHenkou","所属部門変更","0","1","0","1","0",""
+"ShikyuukingakuIchiran","社員別支給金額一覧","1","1","0","0","1",""
+"MasterDataEditDialog","マスターデータ編集ダイアログ","0","1","0","1","0",""

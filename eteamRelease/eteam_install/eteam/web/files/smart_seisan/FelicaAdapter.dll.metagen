@@ -1,0 +1,97 @@
+ImageRuntimeVersion: v4.0.30319
+Assembly FelicaAdapter, Version=0.0.*, Culture=ロケールに依存しない言語 (ロケールに依存しない国): 
+	hash=SHA1, flags=PublicKey
+Assembly mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: 
+	hash=None, flags=None
+Assembly WindowsBase, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35: 
+	hash=None, flags=None
+Class FelicaAdapter.Suica.SuicaHistory: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(Felica.Suica.CSuicaHistory*): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Interfaces:
+    System.IDisposable
+  Properties:
+    System.String ByteCdString 'get ' : 
+    ATL.CStringT<char\,StrTraitMFC_DLL<char\,ATL::ChTraitsCRT<char> > > ByteCd 'get set' : 
+    Int32 Week 'get set' : 
+    Int32 Day  'get set' : 
+    Int32 Month 'get set' : 
+    Int32 Year 'get set' : 
+    Int32 OutRegion 'get set' : 
+    Int32 InRegion 'get set' : 
+    Boolean IsFareEmpty 'get ' : 
+    Int32 Fare 'get set' : 
+    Int32 Balance 'get set' : 
+    Int32 OutStation 'get set' : 
+    Int32 OutLine 'get set' : 
+    Int32 InStation 'get set' : 
+    Int32 InLine 'get set' : 
+    Int32 ProcessType 'get set' : 
+    Int32 ConsoleType 'get set' : 
+    Int32 SequenceNumber 'get set' : 
+  Methods:
+    Instanciate(CSuicaHistory*): PrivateScope, Public, Static, HideBySig
+    GetStringFromCString(CStringT<char\,StrTraitMFC_DLL<char\,ATL::ChTraitsCRT<char> > >* IsImplicitlyDereferenced): PrivateScope, Public, Static, HideBySig
+    get_SequenceNumber(): PrivateScope, Public, HideBySig, SpecialName
+    set_SequenceNumber(Int32): PrivateScope, Public, HideBySig, SpecialName
+    get_ConsoleType(): PrivateScope, Public, HideBySig, SpecialName
+    set_ConsoleType(Int32): PrivateScope, Public, HideBySig, SpecialName
+    get_ProcessType(): PrivateScope, Public, HideBySig, SpecialName
+    set_ProcessType(Int32): PrivateScope, Public, HideBySig, SpecialName
+    get_InLine(): PrivateScope, Public, HideBySig, SpecialName
+    set_InLine(Int32): PrivateScope, Public, HideBySig, SpecialName
+    get_InStation(): PrivateScope, Public, HideBySig, SpecialName
+    set_InStation(Int32): PrivateScope, Public, HideBySig, SpecialName
+    get_OutLine(): PrivateScope, Public, HideBySig, SpecialName
+    set_OutLine(Int32): PrivateScope, Public, HideBySig, SpecialName
+    get_OutStation(): PrivateScope, Public, HideBySig, SpecialName
+    set_OutStation(Int32): PrivateScope, Public, HideBySig, SpecialName
+    get_Balance(): PrivateScope, Public, HideBySig, SpecialName
+    set_Balance(Int32): PrivateScope, Public, HideBySig, SpecialName
+    get_Fare(): PrivateScope, Public, HideBySig, SpecialName
+    set_Fare(Int32): PrivateScope, Public, HideBySig, SpecialName
+    get_IsFareEmpty(): PrivateScope, Public, HideBySig, SpecialName
+    get_InRegion(): PrivateScope, Public, HideBySig, SpecialName
+    set_InRegion(Int32): PrivateScope, Public, HideBySig, SpecialName
+    get_OutRegion(): PrivateScope, Public, HideBySig, SpecialName
+    set_OutRegion(Int32): PrivateScope, Public, HideBySig, SpecialName
+    get_Year(): PrivateScope, Public, HideBySig, SpecialName
+    set_Year(Int32): PrivateScope, Public, HideBySig, SpecialName
+    get_Month(): PrivateScope, Public, HideBySig, SpecialName
+    set_Month(Int32): PrivateScope, Public, HideBySig, SpecialName
+    get_Day(): PrivateScope, Public, HideBySig, SpecialName
+    set_Day(Int32): PrivateScope, Public, HideBySig, SpecialName
+    get_Week(): PrivateScope, Public, HideBySig, SpecialName
+    set_Week(Int32): PrivateScope, Public, HideBySig, SpecialName
+    get_ByteCd(CStringT<char\,StrTraitMFC_DLL<char\,ATL::ChTraitsCRT<char> > >*): PrivateScope, Public, HideBySig, SpecialName
+    set_ByteCd(CStringT<char\,StrTraitMFC_DLL<char\,ATL::ChTraitsCRT<char> > >*): PrivateScope, Public, HideBySig, SpecialName
+    get_ByteCdString(): PrivateScope, Public, HideBySig, SpecialName
+    Dispose(): PrivateScope, Public, Final, Virtual, HideBySig
+Class FelicaAdapter.Suica.SuicaInfo: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(Felica.Suica.CSuicaInfo*): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Interfaces:
+    System.IDisposable
+  Properties:
+    System.String CardID 'get ' : 
+  Methods:
+    Instanciate(CSuicaInfo*): PrivateScope, Public, Static, HideBySig
+    GetStringFromCString(CStringT<char\,StrTraitMFC_DLL<char\,ATL::ChTraitsCRT<char> > >* IsImplicitlyDereferenced): PrivateScope, Public, Static, HideBySig
+    get_CardID(): PrivateScope, Public, HideBySig, SpecialName
+    Dispose(): PrivateScope, Public, Final, Virtual, HideBySig
+Class FelicaAdapter.Suica.SuicaReader: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Interfaces:
+    System.IDisposable
+  Methods:
+    Open(): PrivateScope, Public, HideBySig
+    Read(Boolean(HasFieldMarshal)): PrivateScope, Public, HideBySig
+    Close(): PrivateScope, Public, HideBySig
+    GetErrorMessage(): PrivateScope, Public, HideBySig
+    GetHistories(): PrivateScope, Public, HideBySig
+    GetSuicaInfo(): PrivateScope, Public, HideBySig
+    Dispose(): PrivateScope, Public, Final, Virtual, HideBySig

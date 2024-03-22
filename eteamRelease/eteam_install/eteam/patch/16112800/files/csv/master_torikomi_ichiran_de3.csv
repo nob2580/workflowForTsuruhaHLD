@@ -1,0 +1,97 @@
+"master_id","master_name","op_master_id","op_master_name","torikomi_kahi_flg"
+"kamoku_master","科目マスター","(SELECT KI.KI AS KI, K.KICD AS KICD, RTRIM(K.KCOD) AS KCOD, K.KNMX AS KNMX, K.KNAM AS KNAM, K.KNLD AS KNLD, K.KOCD AS KOCD, K.KATT AS KATT, K.GSW1 AS GSW1, K.GSW2 AS GSW2, K.SY01 AS SY01, K.SY02 AS SY02, K.SY03 AS SY03, K.SY04 AS SY04, K.SY05 AS SY05, K.SY06 AS SY06, K.SY07 AS SY07, K.SY08 AS SY08, K.KE02 AS KE02, K.KT02 AS KT02, K.KB02 AS KB02, K.BKE01 AS BKE01, K.SG02 AS SG02, K.PJ02 AS PJ02, K.DM12 AS UF12, K.DM22 AS UF22, K.DM32 AS UF32, K.KJ02 AS KJ02, K.KS02 AS KS02, K.TK02 AS TK02, K.BTK01 AS BTK01, K.BTKE01 AS BTKE01, K.TKE01 AS TKE01, K.STK01 AS STK01 FROM AEXP.A_KI AS KI JOIN DBA.KNAME AS K ON K.KESN = KI.KESN) tmp","科目マスター","1"
+"kamoku_edaban_zandaka","科目枝番残高","(select KI.KI AS KI, Z.KICD AS KICD, RTRIM(Z.ECOD) AS ECOD, RTRIM(K.KCOD) AS KCOD, K.KOCD AS KOCD, K.KNMX AS KNMX, K.KNAM AS KNAM, K.KATT AS KATT, CAST(IF E.ENSG = 1 THEN E.ENAM ELSE IF E.TCOD IS NULL THEN '' ELSE ISNULL((SELECT Z.TNAM FROM DBA.ZMTKY Z WHERE Z.KESN = E.KESN AND Z.TCOD = E.TCOD), '') ENDIF ENDIF AS CHAR(20) ) AS ENAM, 0 as K000 from AEXP.A_KI as KI join DBA.EDZAN as Z on Z.KESN = KI.KESN join DBA.KNAME as K on K.KESN = Z.KESN and K.KICD = Z.KICD join DBA.ENAME as E on E.KESN = Z.KESN and E.KICD = Z.KICD and E.ECOD = Z.ECOD) tmp","科目枝番残高","1"
+"bumon_master","負担部門","(SELECT KI.KI AS KI, RTRIM(B.BCOD) AS BCOD, B.BNAM AS BNAM, B.BNLD BNLD, B.BFLG AS BFLG FROM AEXP.A_KI AS KI JOIN DBA.BNAME AS B ON B.KESN = KI.KESN AND B.BFLG = '0') tmp","部門マスター一覧","1"
+"bumon_kamoku_zandaka","部門科目残高","(select KI.KI AS KI, RTRIM(Z.BCOD) AS BCOD, Z.KICD AS KICD, B.BNAM AS BNAM, RTRIM(K.KCOD) AS KCOD, K.KOCD AS KOCD, K.KNMX AS KNMX, K.KNAM AS KNAM, K.KATT AS KATT, 0 as K000 from AEXP.A_KI as KI join DBA.BKZAN as Z on Z.KESN = KI.KESN join DBA.BNAME as B on B.KESN = Z.KESN and B.BCOD = Z.BCOD join DBA.KNAME as K on K.KESN = Z.KESN and K.KICD = Z.KICD) tmp","部門科目残高","1"
+"torihikisaki_master","取引先マスター","(SELECT RTRIM(T.TRCD) AS TRCD, T.TRMX AS TRMX, T.TRNAM AS TRNAM, T.RNLD AS RNLD FROM DBA.TRNAM T) tmp","取引先マスター一覧","1"
+"torihikisaki","取引先","(SELECT TR.TRCD, TR.ZIP, TR.ADDR1, TR.ADDR2, TR.TEL, TR.FAX, FR.MEIGI, FR.MEIGIK, SK.SKBKIND, FR.YOKIN_TYP, FR.KOUZA, FR.TESUU, FR.SOUKIN, FR.BANK_CD, FR.SITEN_ID, SH.SIHARAIDD, SH.SKIJITUDD, SH.V_YAKUJO FROM SS_TORI TR JOIN SS_TSHOH TS ON TS.TRCD = TR.TRCD AND TS.HJCD = TR.HJCD AND TS.SHO_ID = 1 JOIN SS_SHOHO SH ON SH.SHINO = TS.SHINO JOIN SS_SKUBN SK ON SK.SKBNCOD = SH.SKBNCOD JOIN SS_FRIGIN FR ON FR.TRCD = TR.TRCD AND FR.HJCD = TR.HJCD AND FR.GIN_ID = 1 WHERE LENGTH(TR.TRCD) < 13) tmp","取引先マスター（依頼先）","1"
+"torihikisaki_kamoku_zandaka","取引先科目残高","(select KI.KI AS KI, RTRIM(Z.TRCD) AS TRCD, Z.KICD AS KICD, T.TRMX AS TRMX, T.TRNAM AS TRNAM, RTRIM(K.KCOD) AS KCOD, K.KOCD AS KOCD, K.KNMX AS KNMX, K.KNAM AS KNAM, K.KATT AS KATT, 0 as K000 from AEXP.A_KI as KI join DBA.TRZAN as Z on Z.KESN = KI.KESN join DBA.TRNAM as T on T.TRCD = Z.TRCD join DBA.KNAME as K on K.KESN = Z.KESN and K.KICD = Z.KICD) tmp","取引先科目残高","1"
+"uf1_ichiran","ユニバーサルフィールド１一覧","(SELECT KI.KI AS KI, RTRIM(D1.D1CD) AS UF1CD, D1.D1NR AS UF1NR FROM AEXP.A_KI KI JOIN DBA.D1TBL D1 ON D1.KESN = KI.KESN) tmp","ユニバーサルフィールド１一覧","1"
+"uf1_zandaka","ユニバーサルフィールド１残高","(select KI.KI AS KI, RTRIM(Z.D1CD) AS UF1CD, Z.KICD AS KICD, D.D1NR AS UF1NR, RTRIM(K.KCOD) AS KCOD, K.KOCD AS KOCD, K.KNMX AS KNMX, K.KNAM AS KNAM, K.KATT AS KATT, 0 as K000 from AEXP.A_KI as KI join DBA.D1ZAN as Z on Z.KESN = KI.KESN join DBA.D1TBL as D on D.KESN = Z.KESN and D.D1CD = Z.D1CD join DBA.KNAME as K on K.KESN = Z.KESN and K.KICD = Z.KICD) tmp","ユニバーサルフィールド１残高","1"
+"uf2_ichiran","ユニバーサルフィールド２一覧","(SELECT KI.KI AS KI, RTRIM(D2.D2CD) AS UF2CD, D2.D2NR AS UF2NR FROM AEXP.A_KI KI JOIN DBA.D2TBL D2 ON D2.KESN = KI.KESN) tmp","ユニバーサルフィールド２一覧","1"
+"uf2_zandaka","ユニバーサルフィールド２残高","(select KI.KI AS KI, RTRIM(Z.D2CD) AS UF2CD, Z.KICD AS KICD, D.D2NR AS UF2NR, RTRIM(K.KCOD) AS KCOD, K.KOCD AS KOCD, K.KNMX AS KNMX, K.KNAM AS KNAM, K.KATT AS KATT, 0 as K000 from AEXP.A_KI as KI join DBA.D2ZAN as Z on Z.KESN = KI.KESN join DBA.D2TBL as D on D.KESN = Z.KESN and D.D2CD = Z.D2CD join DBA.KNAME as K on K.KESN = Z.KESN and K.KICD = Z.KICD) tmp","ユニバーサルフィールド２残高","1"
+"uf3_ichiran","ユニバーサルフィールド３一覧","(SELECT KI.KI AS KI, RTRIM(D3.D3CD) AS UF3CD, D3.D3NR AS UF3NR FROM AEXP.A_KI KI JOIN DBA.D3TBL D3 ON D3.KESN = KI.KESN) tmp","ユニバーサルフィールド３一覧","1"
+"uf3_zandaka","ユニバーサルフィールド３残高","(select KI.KI AS KI, RTRIM(Z.D3CD) AS UF3CD, Z.KICD AS KICD, D.D3NR AS UF3NR, RTRIM(K.KCOD) AS KCOD, K.KOCD AS KOCD, K.KNMX AS KNMX, K.KNAM AS KNAM, K.KATT AS KATT, 0 as K000 from AEXP.A_KI as KI join DBA.D3ZAN as Z on Z.KESN = KI.KESN join DBA.D3TBL as D on D.KESN = Z.KESN and D.D3CD = Z.D3CD join DBA.KNAME as K on K.KESN = Z.KESN and K.KICD = Z.KICD) tmp","ユニバーサルフィールド３残高","1"
+"kaisha_info","会社情報","(SELECT FIRST KI.KI AS KI,V.D1FLG AS D1FLG, RTRIM(V.D1NM) AS D1NM, V.D2FLG AS D2FLG, RTRIM(V.D2NM) AS D2NM, V.D3FLG AS D3FLG, RTRIM(V.D3NM) AS D3NM, V.PJFLG AS PJFLG from AEXP.A_KI AS KI JOIN DBA.VOLUM AS V ON V.KESN = KI.KESN ORDER BY KI.KI) tmp","会社情報","1"
+"project_master","プロジェクトマスター","(SELECT RTRIM(P.PRJECT) AS PRJECT, P.PRJNAMS AS PRJNAMS FROM DBA.PRPNM AS P WHERE P.CHKU = '0') tmp","プロジェクトマスター","1"
+"ki_kesn","（期別）決算期","(SELECT DISTINCT
+    kesn,
+    ki,
+    CAST(CAST(symd as CHAR(8)) AS DATE) as symd,
+    CAST(CAST(eymd as CHAR(8)) AS DATE) as eymd
+FROM
+    (SELECT
+        ki.KESN,
+        v.*
+    FROM aexp.a_ki ki
+    JOIN aexp.a_volum2 v ON
+        ki.ki = v.ki
+    WHERE
+        RIGHT(v.symd, 2) <> '00' AND
+        RIGHT(v.eymd, 2) <> '00'
+    ) t
+) tmp","（期別）決算期","1"
+"ki_kamoku","（期別）科目","(SELECT
+    kmk.kesn,
+    RTRIM(kmk.kicd) AS kicd,
+    RTRIM(kmk.kcod) AS kcod,
+    kmk.knmx,
+    kmk.katt
+FROM aexp.a_ki AS ki
+JOIN kname AS kmk ON 
+    kmk.kesn = ki.kesn
+WHERE
+    ki.ki in (0, 1, 2, 3)
+) tmp","（期別）科目","1"
+"ki_bumon","（期別）部門","(SELECT 
+    bmn.kesn,
+    RTRIM(bmn.bcod) AS bcod,
+    bmn.bnam
+FROM aexp.a_ki AS ki
+JOIN bname AS bmn ON 
+    bmn.kesn = ki.kesn
+WHERE
+    ki.ki in (0, 1, 2, 3)
+) tmp","（期別）部門","1"
+"ki_syuukei_bumon","（期別）集計部門","(SELECT
+    sbmn.kesn,
+    sbmn.sbcd,
+    sbname.bnam AS sbnam,
+    zbmn.bcod,
+    zbmn.bnam
+FROM aexp.a_ki ki
+JOIN sbtbl AS sbmn ON
+    ki.kesn = sbmn.kesn
+JOIN bname AS sbname ON
+    sbmn.kesn = sbname.kesn AND
+    sbmn.sbcd = sbname.bcod AND
+    sbname.bflg = 1
+JOIN bname AS zbmn ON
+    sbmn.kesn = zbmn.kesn AND
+    sbmn.bcod = zbmn.bcod AND
+    zbmn.bflg = 0
+WHERE
+    ki.ki in (0, 1, 2, 3)
+) tmp","（期別）集計部門","1"
+"ki_kamoku_security","（期別）科目セキュリティ","(SELECT
+    kmk.kesn,
+    kmk.sptn,
+    kmk.szkm
+FROM aexp.a_ki ki
+JOIN sczkm kmk ON
+    kmk.kesn = ki.kesn
+WHERE
+    kmk.skbn = 0 AND
+    ki.ki in (0, 1, 2, 3)
+) tmp","（期別）科目セキュリティ","1"
+"ki_bumon_security","（期別）部門セキュリティ","(SELECT
+    bmn.kesn,
+    bmn.sptn,
+    bmn.szbm
+FROM aexp.a_ki AS ki
+JOIN sczbm AS bmn ON
+    bmn.kesn = ki.kesn
+WHERE
+    bmn.skbn = 0 and
+    ki.ki in (0, 1, 2, 3)
+) tmp","（期別）部門セキュリティ","1"

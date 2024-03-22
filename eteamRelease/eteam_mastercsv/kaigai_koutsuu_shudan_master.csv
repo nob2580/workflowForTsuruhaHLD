@@ -1,0 +1,8 @@
+並び順,交通手段,証憑書類必須フラグ,税区分,枝番コード
+sort_jun,koutsuu_shudan,shouhyou_shorui_hissu_flg,zei_kubun,edaban
+varchar(3),varchar(10),varchar(1),varchar(1),varchar(12)
+1,1,2,,2
+001,電車,0,,
+002,バス,0,,
+003,飛行機,1,,
+004,タクシー,1,,

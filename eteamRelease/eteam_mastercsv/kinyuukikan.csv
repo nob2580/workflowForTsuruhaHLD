@@ -1,0 +1,5 @@
+金融機関コード,金融機関支店コード,金融機関名（半角カナ）,金融機関名,支店名（半角カナ）,支店名
+kinyuukikan_cd,kinyuukikan_shiten_cd,kinyuukikan_name_hankana,kinyuukikan_name_kana,shiten_name_hankana,shiten_name_kana
+varchar(4),varchar(3),varchar(15),varchar(30),varchar(15),varchar(30)
+1,1,2,2,2,2
+0001,001,ｻﾝﾌﾟﾙｷﾞﾝｺﾞｳ,サンプルギンコウ,ｻﾝﾌﾟﾙｼﾃﾝ,サンプルシテン

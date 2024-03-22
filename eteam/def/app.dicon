@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN" "https://www.seasar.org/dtd/components.dtd">
+<components>
+	
+	<!-- インターセプター -->
+	<component name="eteamLogicIntercepter" class="eteam.base.intercepter.EteamLogicIntercepter"/>
+	<component name="eteamBatIntercepter" class="eteam.base.intercepter.EteamBatIntercepter"/>
+
+	<!-- ※※※ DI自動登録の定義とASP自動登録の定義で、addClassPatternの同期をとること。 -->
+	<!-- DI自動登録 -->
+	<component class="org.seasar.framework.container.autoregister.ComponentAutoRegister">
+		<property name="instanceDef">@org.seasar.framework.container.deployer.InstanceDefFactory@PROTOTYPE</property>
+ 		<property name="autoNaming">
+			<component class="org.seasar.framework.container.autoregister.DefaultAutoNaming">
+				<property name="decapitalize">false</property>
+			</component>
+		</property>
+		<initMethod name="addReferenceClass">
+			<arg>@eteam.base.EteamContainer@class</arg>
+		</initMethod>
+		<initMethod name="addClassPattern">
+			<arg>"eteam"</arg>
+			<arg>".*Logic, .*Web, .*Intra, .*Bat, .*Dao, .*Connection"</arg>
+		</initMethod>
+		<initMethod name="registerAll" />
+	</component>
+
+	<!-- ASP自動登録 -->
+	<component class="org.seasar.framework.container.autoregister.AspectAutoRegister">
+		<property name="interceptor">eteamLogicIntercepter</property>
+		<initMethod name="addClassPattern">
+			<arg>"eteam"</arg>
+			<arg>".*Logic, .*Web, .*Intra, .*Bat, .*Dao"</arg>
+		</initMethod>
+	</component>
+	<component class="org.seasar.framework.container.autoregister.AspectAutoRegister">
+		<property name="interceptor">eteamLogicIntercepter</property>
+		<property name="pointcut">"init,beginTransaction,commit,rollback,close,find,findDTO,load,loadDTO,loadFetchResultSet,CloseFetchResultSet,update,setSearchPath,getIntegerArray,getDecimalArray,getArray,getDecimalArray,getDTOFromMap"</property>
+		<initMethod name="addClassPattern">
+			<arg>"eteam"</arg>
+			<arg>".*Connection"</arg>
+		</initMethod>
+	</component>
+	<component class="org.seasar.framework.container.autoregister.AspectAutoRegister">
+		<property name="interceptor">eteamBatIntercepter</property>
+		<property name="pointcut">"mainProc"</property>
+		<initMethod name="addClassPattern">
+			<arg>"eteam"</arg>
+			<arg>".*Bat"</arg>
+		</initMethod>
+	</component>
+</components>

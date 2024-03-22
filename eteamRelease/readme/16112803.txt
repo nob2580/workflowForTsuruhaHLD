@@ -1,0 +1,30 @@
+2016/11/28 03版
+
+
+
+OPEN21 Workflowの修正版モジュールを送付します。
+
+
+
+【アップデート手順】
+以下の手順にて、OPEN21 Workflowサーバーに対してモジュールのアップデートを行ってください。
+
+１．念の為、DBのバックアップを取得してください。
+	・OPEN21 Workflowサーバーで、下記バッチを管理者権限で実行してください。
+	　　C:\eteam\bat\bin\backup.bat
+
+２．一式デプロイ
+	・eteam_16112803.zip\eteam_install\eteam フォルダを、OPEN21WFサーバーのCドライブ直下に上書きコピーしてください。
+
+３．サーバー停止
+	・OPEN21 WFサーバーのC:\eteam\work\stop.bat を管理者で実行してください。
+	
+４．JARファイルの追加
+	※当アップデートでJARファイルが追加になっています。
+	・eteam_16112803.zip\eteam_install\tomcatlib 配下から OPEN21WFサーバーのC:\Program Files\Apache Software Foundation\Tomcat 9.0\lib 配下に以下のファイルをコピーしてください。
+		metadata-extractor-2.9.1.jar
+		xmpcore-5.1.2.jar
+
+５．モジュールアップデート
+	・OPEN21WFサーバーで、下記バッチを管理者権限で実行してください。
+	　　C:\eteam\patch\update.bat

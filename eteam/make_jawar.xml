@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+<project name="make_jawar" default="main">
+
+<!-- ★★★★メイン制御★★★★ -->
+
+	<!-- 制御 -->
+	<target name="main">
+		<antcall target="confirm"/>
+		<antcall target="jar"/>
+		<antcall target="war"/>
+	</target>
+
+
+<!-- ★★★★JAR／WAR共通処理★★★ -->
+
+	<!-- 前提としてEclipseによるクリーンビルドが行われていること -->
+	<target name="confirm">
+		<input message="．┏━┓┏━┓　　${line.separator}　┃　┃┃　┃　　${line.separator}　┃　┃┃　┃　　${line.separator}　┃　┃┃　┃　　${line.separator}　┃　┃┃　┃　　${line.separator}┏┛　┗┛　┗┓　${line.separator}┃　＞ ┳ ＜　┃　${line.separator}┃ ◎┗┻┛◎ ┃　${line.separator}┃┏┓　┏┓　┃　${line.separator}┗┫┣━┫┣━┛　${line.separator}　┗┫❤┗┫　　　${line.separator}　　┣┳┳〇゛　　${line.separator}${line.separator}${line.separator}${line.separator}${line.separator}読み飛ばしたら罰金１００万円${line.separator}${line.separator}${line.separator}${line.separator}☑SVNから最新ソースを取ってますか？${line.separator}☑ローカル編集中ファイルがありませんか？${line.separator}☑ビルドエラーは出ていませんか？${line.separator}☑Eclipseによるクリーンビルドを行いましたか？${line.separator}${line.separator}全部本当にOKなら「はい」を選択してください。" validargs="はい,いいえ" addproperty="answer.result" />
+		<condition property="answer.no">
+			<equals arg1="いいえ" arg2="${answer.result}"/>
+		</condition>
+		<fail if="answer.no">処理を終了します。</fail>
+	</target>
+			
+	<!-- 前処理(共通) -->
+	<target name="common_before">
+		<!-- classesのプロパティやXMLをリリース用に切り替える -->
+		<delete  file="./build/classes/batlog4j.properties.it" />
+		<delete  file="./build/classes/log4j.properties.it" />
+		<delete  file="./build/classes/env.properties.it" />
+		<delete  file="./build/classes/batlog4j.properties.linux" />
+		<delete  file="./build/classes/log4j.properties.linux" />
+		<delete  file="./build/classes/env.properties.linux" />
+
+		<copy    file="./def/batlog4j.properties.it"   tofile="./build/classes/batlog4j.properties"   overwrite="true"/>
+		<copy    file="./def/log4j.properties.it"      tofile="./build/classes/log4j.properties"      overwrite="true"/>
+		<copy    file="./def/env.properties.it"        tofile="./build/classes/env.properties"        overwrite="true"/>
+	</target>
+
+	<!-- 後処理(共通) -->
+	<target name="common_after">
+		<!-- classesのプロパティやXMLを開発用に戻す -->
+		<copy    file="./def/batlog4j.properties"   tofile="./build/classes/batlog4j.properties"   overwrite="true"/>
+		<copy    file="./def/log4j.properties"      tofile="./build/classes/log4j.properties"      overwrite="true"/>
+		<copy    file="./def/env.properties"        tofile="./build/classes/env.properties"        overwrite="true"/>
+	</target>
+
+
+<!-- ★★★★JAR★★★★ -->
+	<target name="jar">
+		<antcall target="jar_before"/>
+		<antcall target="jar_make"/>
+		<antcall target="jar_after"/>
+	</target>
+
+	<!-- 前処理 -->
+	<target name="jar_before">
+		<antcall target="common_before"/>
+		
+		<!-- classesにライセンス定義をコピー。JARにライセンス定義を含める為。 -->
+		<copy todir="./build/classes/WebContent/META-INF">
+			<fileset dir="./WebContent/META-INF"/>
+		</copy>
+	</target>
+
+	<!-- JARを作成 -->
+	<target name="jar_make">
+		<jar destfile="../eteamRelease/eteam_install/eteam/bat/bin/eteam.jar">
+			<fileset dir="./build/classes" includes="**/*.class" excludes="**/*Test.class" />
+			<fileset dir="./build/classes" includes="**/*.properties" />
+			<fileset dir="./build/classes" includes="**/*.xml" />
+			<fileset dir="./build/classes" includes="**/*.dicon" />
+			<fileset dir="./build/classes" includes="**/*.xls" />
+			<fileset dir="./build/classes" includes="**/*.png" />
+			<fileset dir="./build/classes" includes="**/*LICENSE*" />
+			<fileset dir="./build/classes" includes="**/*NOTICE*" />
+			<fileset dir="./build/classes" includes="**/*NOTES*" />
+			<fileset dir="./build/classes" includes="**/readme.txt" />
+		</jar>
+	</target>
+
+	<!-- 後処理 -->
+	<target name="jar_after">
+		<antcall target="common_after"/>
+		
+		<!-- classesからライセンス定義を削除 -->
+		<delete dir="./build/classes/WebContent"/>
+	</target>
+
+
+<!-- ★★★★WAR★★★★ -->
+	<target name="war">
+		<antcall target="war_before"/>
+		<antcall target="war_make"/>
+		<antcall target="war_after"/>
+	</target>
+
+	<!-- 前処理 -->
+	<target name="war_before">
+		<antcall target="common_before"/>
+	</target>
+
+	<!-- WARを作成 -->
+	<target name="war_make">
+		<war destfile="../eteamRelease/eteam_install/eteam/work/files/eteam.war" webxml="WebContent/WEB-INF/web.xml">
+			<fileset dir="./WebContent" includes="**/*"/>
+			<classes dir="./build/classes" includes="**/*" excludes="**/*Test.class"/>
+		</war>
+	</target>
+
+	<!-- 後処理 -->
+	<target name="war_after">
+		<antcall target="common_after"/>
+	</target>
+</project>

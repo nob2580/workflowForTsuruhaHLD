@@ -1,0 +1,8 @@
+幣種コード,適用開始日時,適用レート,適用レート(予備),適用レート(予備),適用レート(予備),初期値使用可否
+heishu_cd,start_date,rate,rate1,rate2,rate3,availability_flg
+varchar(4),date,decimal,decimal,decimal,decimal,smallint
+1,2,,,,,2
+USD,2017/04/01,111.09000,,,,1
+EUR,2017/04/01,124.87000,,,,1
+CNY,2017/04/01,16.13000,,,,1
+KRW,2017/04/01,0.10000,,,,1

@@ -1,0 +1,35 @@
+# route setting
+log4j.rootLogger=INFO, fout, foute
+
+# level setting
+log4j.logger.org.seasar.framework=ERROR
+log4j.logger.org=WARN
+log4j.logger.com=WARN
+log4j.logger.eteam=INFO
+
+# DEVELOPER'S CONSOLE
+log4j.appender.sout=org.apache.log4j.ConsoleAppender
+log4j.appender.sout.Threshold=INFO
+log4j.appender.sout.Target=System.out
+log4j.appender.sout.layout=org.apache.log4j.PatternLayout
+log4j.appender.sout.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss}[%t] %p - %m%n
+
+# FILE
+log4j.appender.fout=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.fout.Threshold=INFO
+log4j.appender.fout.File=c:/eteam/bat/logs/eteam.log
+log4j.appender.fout.DatePattern='.'yyyy-MM-dd
+log4j.appender.fout.Append=true
+log4j.appender.fout.Encoding=UTF-8
+log4j.appender.fout.layout=org.apache.log4j.PatternLayout
+log4j.appender.fout.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss}[%t] %p - %m%n
+
+# FILE(ERROR)
+log4j.appender.foute=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.foute.Threshold=ERROR
+log4j.appender.foute.File=c:/eteam/bat/logs/eteam_error.log
+log4j.appender.foute.DatePattern='.'yyyy-MM-dd
+log4j.appender.foute.Append=true
+log4j.appender.foute.Encoding=UTF-8
+log4j.appender.foute.layout=org.apache.log4j.PatternLayout
+log4j.appender.foute.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss}[%t] %p - %m%n

@@ -1,0 +1,12 @@
+"master_id","master_name","op_master_id","op_master_name","torikomi_kahi_flg"
+"torihikisaki_hojo","éÊà¯êÊï‚èï","(SELECT
+    RTRIM(TMP_A.trcd) AS trcd,
+    TMP_A.dm1,
+    TMP_A.dm2,
+    TMP_A.dm3,
+    TMP_A.stflg
+FROM SS_TORI AS TMP_A
+    INNER JOIN (SELECT TRCD,MIN(HJCD) AS MinHJCD FROM SS_TORI
+                WHERE STFLG <> 1 AND LEN(TRCD) < 13
+                GROUP BY TRCD) AS TMP_B
+    ON TMP_A.TRCD = TMP_B.TRCD AND TMP_A.HJCD = TMP_B.MinHJCD)","éÊà¯êÊï‚èï","1"

@@ -1,0 +1,4 @@
+"master_id","version","delete_flg","file_name","file_size","content_type","binary_data","touroku_user_id","touroku_time","koushin_user_id","koushin_time"
+"kaigai_nittou_nado_master",1,"0","",0,"","","default",1999/01/01 00:00:00,"default",1999/01/01 00:00:00
+"heishu_master",1,"0","",0,"","","default",1999/01/01 00:00:00,"default",1999/01/01 00:00:00
+"rate_master",1,"0","",0,"","","default",1999/01/01 00:00:00,"default",1999/01/01 00:00:00

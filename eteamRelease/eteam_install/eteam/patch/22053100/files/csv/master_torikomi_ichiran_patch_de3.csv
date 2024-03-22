@@ -1,0 +1,2 @@
+"master_id","master_name","op_master_id","op_master_name","torikomi_kahi_flg"
+"project_master","プロジェクトマスター","(SELECT RTRIM(P.PRJECT) AS PRJECT, P.PRJNAMS AS PRJNAMS, P.ENDKU AS ENDKU FROM DBA.PRPNM AS P WHERE P.CHKU = '0')","プロジェクトマスター","1"

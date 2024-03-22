@@ -1,0 +1,4 @@
+"master_id","master_name","op_master_id","op_master_name","torikomi_kahi_flg"
+"bumon_master","負担部門","(SELECT KI.KI AS KI, RTRIM(B.BCOD) AS BCOD, B.BNAM AS BNAM, B.BNLD BNLD, B.BFLG AS BFLG FROM AEXP.A_KI AS KI JOIN DBA.BNAME AS B ON B.KESN = KI.KESN AND B.BFLG = '0') tmp","部門マスター一覧","1"
+"kaisha_info","会社情報","(SELECT FIRST KI.KI AS KI, V.D1FLG AS D1FLG, RTRIM(V.D1NM) AS D1NM, V.D2FLG AS D2FLG, RTRIM(V.D2NM) AS D2NM, V.D3FLG AS D3FLG, RTRIM(V.D3NM) AS D3NM, V.PJFLG AS PJFLG from AEXP.A_KI AS KI JOIN DBA.VOLUM AS V ON V.KESN = KI.KESN ORDER BY KI.KI) tmp","会社情報","1"
+"project_master","プロジェクトマスター","(SELECT P.PRJECT AS PRJECT, P.PRJNAMS AS PRJNAMS FROM DBA.PRPNM AS P WHERE P.CHKU = '0') tmp","プロジェクトマスター","1"

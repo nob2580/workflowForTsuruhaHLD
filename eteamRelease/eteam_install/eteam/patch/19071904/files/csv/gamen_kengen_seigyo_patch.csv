@@ -1,0 +1,4 @@
+"gamen_id","gamen_name","bumon_shozoku_riyoukanou_flg","system_kanri_riyoukanou_flg","workflow_riyoukanou_flg","kaishasettei_riyoukanou_flg","keirishori_riyoukanou_flg","kinou_seigyo_cd"
+"ZaimuKyotenNyuryokuIchiranItem","拠点入力一覧表示項目変更","1","1","1","1","1",""
+"ZaimuKyotenNyuryokuIchiranKensakuItem","拠点入力一覧検索項目変更","1","1","1","1","1",""
+"DenpyouKensakuKoumokuKyoutsuSettei","拠点入力一覧全ユーザー共通検索項目設定","0","1","0","1","0",""
