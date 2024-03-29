@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
-
 import eteam.base.EteamConnection;
 import eteam.base.EteamContainer;
 import eteam.base.GMap;
@@ -30,7 +28,6 @@ import eteam.common.open21.Open21Env;
 import eteam.common.select.BumonUserKanriCategoryLogic;
 import eteam.common.select.KaikeiCategoryLogic;
 import eteam.common.select.MasterKanriCategoryLogic;
-import eteam.database.abstractdao.BumonMasterAbstractDao;
 import eteam.database.abstractdao.KamokuEdabanZandakaAbstractDao;
 import eteam.database.abstractdao.KeijoubiShimebiAbstractDao;
 import eteam.database.abstractdao.NaibuCdSettingAbstractDao;
@@ -502,8 +499,6 @@ public class SeikyuushoBaraiAction extends WorkflowEventControl {
 	KamokuEdabanZandakaAbstractDao edabanZandaka;
 	/** 科目マスターDao */
 	KamokuMasterDao kamokuMasterDao;
-	/** 負担部門マスタDao */
-	BumonMasterAbstractDao bumonMasterDao;
 
 	//＜入力チェック＞
 	/**
@@ -1025,8 +1020,8 @@ public class SeikyuushoBaraiAction extends WorkflowEventControl {
 		boolean sanshou = false;
 
 		// 社員コード取得
-		GMap userInfo = bumonUsrLogic.selectUserInfo(super.getKihyouUserId());
-		String initShainCd = (userInfo == null) ? "" : (String) userInfo.get("shain_no");
+		GMap usrInfo = bumonUsrLogic.selectUserInfo(super.getKihyouUserId());
+		String initShainCd = (usrInfo == null) ? "" : (String) usrInfo.get("shain_no");
 
 		// 新規起票時の表示状態作成
 		if (isEmpty(super.denpyouId) && isEmpty(super.sanshouDenpyouId)) {
@@ -1350,7 +1345,6 @@ public class SeikyuushoBaraiAction extends WorkflowEventControl {
 		this.zeiritsuDao = EteamContainer.getComponent(ShouhizeiritsuDao.class, connection);
 		edabanZandaka =  EteamContainer.getComponent(KamokuEdabanZandakaAbstractDao.class, connection);
 		kamokuMasterDao = EteamContainer.getComponent(KamokuMasterDao.class, connection);
-		bumonMasterDao =  EteamContainer.getComponent(BumonMasterAbstractDao.class, connection);
 	}
 
 	/**
@@ -1750,8 +1744,8 @@ public class SeikyuushoBaraiAction extends WorkflowEventControl {
 		String daihyouBumonCd = super.daihyouFutanBumonCd;
 
 		// 社員コード取得
-		GMap userInfo = bumonUsrLogic.selectUserInfo(super.getKihyouUserId());
-		String shainCd = (userInfo == null) ? "" : (String) userInfo.get("shain_no");
+		GMap usrInfo = bumonUsrLogic.selectUserInfo(super.getKihyouUserId());
+		String shainCd = (String) usrInfo.get("shain_no");
 
 		// 掛けは全明細で統一されている前提なので、1つ目の明細でチェック
 		ShiwakePatternMaster shiwakeP = this.shiwakePatternMasterDao.find(DENPYOU_KBN.SEIKYUUSHO_BARAI,
@@ -2061,13 +2055,7 @@ public class SeikyuushoBaraiAction extends WorkflowEventControl {
 					}
 				}
 				bunriKbn[i] = commonLogic.edabanBunriCheck(kamokuCd[i], kamokuEdabanCd[i], shiwakeP.kariBunriKbn, kazeiKbn[i]);
-				// 負担部門コードが入力されているが、負担部門マスタに値が存在しない場合
-				if (StringUtils.isNotEmpty(futanBumonCd[i]) && bumonMasterDao.find(futanBumonCd[i]) == null) {
-					errorList.add((i+1) +"行目：負担部門コード[" + futanBumonCd[i] + "]は存在しません。");
-					return;
-				}else {
-					kariShiireKbn[i] = shiwakeP.kariShiireKbn == null ? "": commonLogic.bumonShiireCheck(kamokuCd[i], futanBumonCd[i], kazeiKbn[i],shiwakeP.kariShiireKbn, this.getShiireZeiAnbun());
-				}
+				kariShiireKbn[i] = shiwakeP.kariShiireKbn == null ? "": commonLogic.bumonShiireCheck(kamokuCd[i], futanBumonCd[i], kazeiKbn[i],shiwakeP.kariShiireKbn, this.getShiireZeiAnbun());
 			}
 			// 借方 消費税率
 			if (List.of("001", "002", "011", "012", "013", "014").contains(kazeiKbn[i])) {

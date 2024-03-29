@@ -1248,10 +1248,10 @@ public class KaigaiRyohiSeisanAction extends RyohiSeisanCommonAction {
 		super.reloadShiwakePatternKokunai(connection);
 		
 		// 社員コード取得
-		GMap userInfo = bumonUsrLogic.selectUserInfo(userIdRyohi);
-		String shainCd = (userInfo == null) ? "" : (String)userInfo.get("shain_no");
+		GMap usrInfo = bumonUsrLogic.selectUserInfo(userIdRyohi);
+		String shainCd = (usrInfo == null) ? "" : (String)usrInfo.get("shain_no");
 		// 法人カード識別用番号取得
-		String houjinCard = (userInfo == null) ? "" : (String)userInfo.get("houjin_card_shikibetsuyou_num");
+		String houjinCard = (usrInfo == null) ? "" : (String)usrInfo.get("houjin_card_shikibetsuyou_num");
 		//社員財務枝番コード取得
 		String shainShiwakeEdaNo = this.masterLogic.getShainShiwakeEdano(userIdRyohi);
 
@@ -1698,7 +1698,7 @@ public class KaigaiRyohiSeisanAction extends RyohiSeisanCommonAction {
 	 */
 	protected KaigaiRyohiseisan createDto() {
 		KaigaiRyohiseisan kaigaiRyohiseisan = new KaigaiRyohiseisan();
-		GMap userInfo = bumonUsrLogic.selectUserInfo(userIdRyohi);
+		GMap usrInfo = bumonUsrLogic.selectUserInfo(userIdRyohi);
 		
 		kaigaiRyohiseisan.denpyouId = this.denpyouId;
 		kaigaiRyohiseisan.karibaraiDenpyouId = this.karibaraiDenpyouId;
@@ -1707,9 +1707,9 @@ public class KaigaiRyohiSeisanAction extends RyohiSeisanCommonAction {
 		kaigaiRyohiseisan.shucchouChuushiFlg = super.isEmpty(shucchouChuushiFlg) ? "0" : shucchouChuushiFlg;
 		kaigaiRyohiseisan.dairiflg = this.dairiFlg;
 		kaigaiRyohiseisan.userId = this.userIdRyohi;
-		kaigaiRyohiseisan.shainNo = (userInfo == null) ? "" : (String)userInfo.get("shain_no"); // ないはずだが、全てふさぐ
-		kaigaiRyohiseisan.userSei = (userInfo == null) ? "" : (String)userInfo.get("user_sei");
-		kaigaiRyohiseisan.userMei = (userInfo == null) ? "" : (String)userInfo.get("user_mei");
+		kaigaiRyohiseisan.shainNo = (String)usrInfo.get("shain_no");
+		kaigaiRyohiseisan.userSei = (String)usrInfo.get("user_sei");
+		kaigaiRyohiseisan.userMei = (String)usrInfo.get("user_mei");
 		kaigaiRyohiseisan.houmonsaki = this.houmonsaki;
 		kaigaiRyohiseisan.mokuteki = this.mokuteki;
 		kaigaiRyohiseisan.seisankikanFrom = super.toDate(this.seisankikanFrom);

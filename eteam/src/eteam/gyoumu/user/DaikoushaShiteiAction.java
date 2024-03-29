@@ -324,14 +324,14 @@ public class DaikoushaShiteiAction extends EteamAbstractAction {
 			IsKanri = false;
 			hiDaikouUserId = getUser().getTourokuOrKoushinUserId();
 			GMap userInfo = bumonUserLogic.selectUserInfo(hiDaikouUserId);
-			hiDaikouUserName = (userInfo == null) ? "" : userInfo.getString("user_sei") + "　" + userInfo.getString("user_mei");
+			hiDaikouUserName = userInfo.getString("user_sei") + "　" + userInfo.getString("user_mei");
 		}
 		// adminユーザーか会社設定業務ロールの場合
 		if (accessAuthority.equals("SU") || accessAuthority.equals("CO")) {
 			IsKanri = true;
 			if(isNotEmpty(hiDaikouUserId)) {
 				GMap userInfo = bumonUserLogic.selectUserInfo(hiDaikouUserId);
-				hiDaikouUserName = (userInfo == null) ? "" : userInfo.getString("user_sei") + "　" + userInfo.getString("user_mei");
+				hiDaikouUserName = userInfo.getString("user_sei") + "　" + userInfo.getString("user_mei");
 			}
 		}
 	}

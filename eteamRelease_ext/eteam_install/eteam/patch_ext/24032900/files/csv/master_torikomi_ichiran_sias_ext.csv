@@ -1,0 +1,13 @@
+"master_id","master_name","op_master_id","op_master_name","torikomi_kahi_flg"
+"kaitenbi_heitenbi_master","開店日閉店日マスター","(SELECT KESN, RTRIM(BCOD) AS BCOD, STYMD, EDYMD
+FROM ICSP_312C0001.CUS_BNAME_TRH )","開店日閉店日マスター","1"
+"torihikisaki_furikomisaki_ext","振込先銀行Ext","(SELECT
+  RTRIM(trcd) AS trcd,
+  gin_id,
+  meigi,
+  soukin,
+  tesuu
+FROM ss_frigin
+WHERE
+  hjcd = 0
+  AND LEN(trcd) < 13)","振込先銀行Ext","1"

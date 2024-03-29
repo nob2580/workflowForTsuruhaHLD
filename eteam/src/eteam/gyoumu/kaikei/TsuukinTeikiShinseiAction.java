@@ -742,8 +742,8 @@ public class TsuukinTeikiShinseiAction extends EteamEkispertCommon {
 		boolean sanshou = false;
 
 		// 社員コード取得
-		GMap userInfo = bumonUserLc.selectUserInfo(super.getKihyouUserId());
-		String initShainCd = (userInfo == null) ? "" : (String)userInfo.get("shain_no");
+		GMap usrInfo = bumonUserLc.selectUserInfo(super.getKihyouUserId());
+		String initShainCd = (usrInfo == null) ? "" : (String)usrInfo.get("shain_no");
 
 		//新規起票時の表示状態作成
 		if (isEmpty(super.denpyouId) && isEmpty(super.sanshouDenpyouId)) {
@@ -1196,8 +1196,8 @@ public class TsuukinTeikiShinseiAction extends EteamEkispertCommon {
 		ShiwakePatternMaster shiwakeP = this.shiwakePatternMasterDao.find(DENPYOU_KBN.TSUUKIN_TEIKI_SHINSEI, Integer.parseInt(shiwakeEdaNo));
 
 		// 社員コード取得
-		GMap userInfo = bumonUserLc.selectUserInfo(super.getKihyouUserId());
-		String shainCd = (userInfo == null) ? "" : (String)userInfo.get("shain_no");
+		GMap usrInfo = bumonUserLc.selectUserInfo(super.getKihyouUserId());
+		String shainCd = (String)usrInfo.get("shain_no");
 		//社員財務枝番コード取得
 		String shainShiwakeEdaNo = this.masterLogic.getShainShiwakeEdano(super.getKihyouUserId());
 

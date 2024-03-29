@@ -1371,8 +1371,8 @@ public class KeihiTatekaeSeisanAction extends WorkflowEventControl {
 
 
 		// 社員コード取得
-		GMap userInfo = bumonUsrLogic.selectUserInfo(super.getKihyouUserId());
-		String initShainCd = (userInfo == null) ? "" : (String)userInfo.get("shain_no");
+		GMap usrInfo = bumonUsrLogic.selectUserInfo(super.getKihyouUserId());
+		String initShainCd = (usrInfo == null) ? "" : (String)usrInfo.get("shain_no");
 
 		//新規起票時の表示状態作成
 		if (isEmpty(super.denpyouId) && isEmpty(super.sanshouDenpyouId)) {
@@ -2305,8 +2305,8 @@ public class KeihiTatekaeSeisanAction extends WorkflowEventControl {
 
 		// 法人カードの表示可否
 		houjinCardFlag = sysLogic.judgeKinouSeigyoON(EteamNaibuCodeSetting.KINOU_SEIGYO_CD.HOUJIN_CARD);
-		GMap houjinCardUserInfo  = bumonUsrLogic.selectUserInfo(getUser().getSeigyoUserId());
-		if( (houjinCardUserInfo != null && ("1".equals(houjinCardUserInfo.get("houjin_card_riyou_flag"))) || "1".equals(dairiFlg) ) && houjinCardFlag == true ){
+		GMap chkMap  = bumonUsrLogic.selectUserInfo(getUser().getSeigyoUserId());
+		if( ("1".equals(chkMap.get("houjin_card_riyou_flag")) || "1".equals(dairiFlg) ) && houjinCardFlag == true ){
 			houjinCardRirekiEnable = true;
 		}else{
 			houjinCardRirekiEnable = false;
@@ -2316,10 +2316,10 @@ public class KeihiTatekaeSeisanAction extends WorkflowEventControl {
 
 		// 法人カード履歴選択ダイアログ用設定
 		kihyoushaUserId = getKihyouUserId();
-		GMap kihyoushaUserInfo = bumonUsrLogic.selectUserInfo(kihyoushaUserId);
-		if(null != kihyoushaUserInfo){
-			kihyoushaShainNo = (String) kihyoushaUserInfo.get("shain_no");
-			kihyoushaUserName =  (String) kihyoushaUserInfo.get("user_sei") + "　" + (String) kihyoushaUserInfo.get("user_mei");
+		GMap record = bumonUsrLogic.selectUserInfo(kihyoushaUserId);
+		if(null != record){
+			kihyoushaShainNo = (String) record.get("shain_no");
+			kihyoushaUserName =  (String) record.get("user_sei") + "　" + (String) record.get("user_mei");
 		}
 
 		//仮払申請の起案添付済みフラグを設定（新規起票以外）
@@ -2447,10 +2447,10 @@ public class KeihiTatekaeSeisanAction extends WorkflowEventControl {
 			for (int i = 0; i < length; i++) {
 
 				// 使用者の社員コード取得
-				GMap userInfo = bumonUsrLogic.selectUserInfo(userId[i]);
-				String shainCd = (userInfo == null) ? "" : (String)userInfo.get("shain_no");
+				GMap usrInfo = bumonUsrLogic.selectUserInfo(userId[i]);
+				String shainCd = (String)usrInfo.get("shain_no");
 				// 法人カード識別用番号取得
-				String houjinCard = (userInfo == null) ? "" : (String)userInfo.get("houjin_card_shikibetsuyou_num");
+				String houjinCard = (String)usrInfo.get("houjin_card_shikibetsuyou_num");
 
 				//社員財務枝番コード取得
 				//※経費立替精算に限りここで使用者ごとの財務枝番コード取得
@@ -2873,11 +2873,10 @@ public class KeihiTatekaeSeisanAction extends WorkflowEventControl {
 	 */
 	protected KeihiseisanMeisai createMeisaiDto(int i)
 	{
-		GMap userInfo = bumonUsrLogic.selectUserInfo(userId[i]);
-		boolean shouldAddUserInfo = userInfo != null && denpyouKbn.equals(DENPYOU_KBN.KEIHI_TATEKAE_SEISAN);
-		String shainCd = shouldAddUserInfo ? (String)userInfo.get("shain_no") : "";
-		String userSei = shouldAddUserInfo ? (String)userInfo.get("user_sei") : "";
-		String userMei = shouldAddUserInfo ? (String)userInfo.get("user_mei") : "";
+		GMap usrInfo = bumonUsrLogic.selectUserInfo(userId[i]);
+		String shainCd = denpyouKbn.equals(DENPYOU_KBN.KEIHI_TATEKAE_SEISAN) ? (String)usrInfo.get("shain_no") : "";
+		String userSei = denpyouKbn.equals(DENPYOU_KBN.KEIHI_TATEKAE_SEISAN) ? (String)usrInfo.get("user_sei") : "";
+		String userMei = denpyouKbn.equals(DENPYOU_KBN.KEIHI_TATEKAE_SEISAN) ? (String)usrInfo.get("user_mei") : "";
 		KeihiseisanMeisai keihiseisanMeisai = new KeihiseisanMeisai();
 		keihiseisanMeisai.denpyouId = this.denpyouId;
 		keihiseisanMeisai.denpyouEdano = i + 1;

@@ -1,0 +1,84 @@
+﻿@CHARSET "UTF-8";
+
+@page {
+	margin: 10mm 5mm;
+}
+
+/*--------------------
+ * 印刷台紙用の設定
+ * １枚に収まるように
+ *--------------------*/
+
+/* ヘッダー・フッター不要 */
+#header, #footer, #push {
+	display: none;
+}
+
+/* 横幅固定 */
+html, body, #wrap, .container {
+	width: 700px !important;
+}
+
+/* ヘッダー非表示分を詰める */
+#content {
+	padding-top: 0;
+}
+
+/* 余計な余白消す */
+#kaikeiContent section:last-child {
+	margin: 0 !important;
+}
+
+.print-unit {
+	page-break-inside: avoid;
+	padding-top:5px
+}
+
+.form-horizontal .control-label {
+	float: left;
+	width: 120px;
+	padding: 5px 5px 5px 0;
+}
+.form-horizontal .controls {
+	float: right;
+	margin-left: 0;
+	width:570px;
+	text-align: left;
+}
+
+.form-horizontal .controls .input-block-level {
+	width: 560px;
+}
+
+input.autoNumeric, input.autoNumericWithCalcBox, input.autoNumericNoMax, input.autoNumericDecimal, input.autoNumericDecimalThree, input.autoNumericDecimalFive, input.autoNumericDecimalNoPad {
+	width: 120px;
+}
+
+#kaikeiContent input.input-xlarge, #kaikeiContent input.input-xxlarge {
+	width: 320px;
+}
+
+/* テキストエリアを印刷時少し広げる */
+#kaikeiContent textarea {
+	height: 90px;
+}
+
+/*--------------------
+ * 必須の*印、電卓やボタンは印刷しない
+ *--------------------*/
+.non-print {
+	display: none !important;
+	margin: 0 !important;
+}
+
+span.required {
+	display: none;
+}
+
+img[src="../../static/img/calculator.png"] {
+	display: none;
+}
+
+button.btn, input[type=button] {
+	display: none;
+}

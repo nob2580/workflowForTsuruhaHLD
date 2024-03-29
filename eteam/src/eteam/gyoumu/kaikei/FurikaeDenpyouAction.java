@@ -813,8 +813,8 @@ public class FurikaeDenpyouAction extends WorkflowEventControl {
 
 		// 社員コード取得
 		BumonUserKanriCategoryLogic bumonUsrLogic = EteamContainer.getComponent(BumonUserKanriCategoryLogic.class, connection);
-		GMap userInfo = bumonUsrLogic.selectUserInfo(super.getKihyouUserId());
-		String initShainCd = (userInfo == null) ? "" : (String)userInfo.get("shain_no");
+		GMap usrInfo = bumonUsrLogic.selectUserInfo(super.getKihyouUserId());
+		String initShainCd = (usrInfo == null) ? "" : (String)usrInfo.get("shain_no");
 
 		//新規起票時の表示状態作成
 		if (isEmpty(super.denpyouId) && isEmpty(super.sanshouDenpyouId)) {

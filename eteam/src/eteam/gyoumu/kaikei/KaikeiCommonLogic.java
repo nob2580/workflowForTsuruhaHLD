@@ -317,8 +317,8 @@ public class KaikeiCommonLogic extends EteamAbstractLogic {
 			userIdTmp = kihyouUser.get("user_id").toString();
 		}
 
-		GMap userInfo = bumonUserLg.selectUserInfo(userIdTmp);
-		String shainNo = (userInfo == null) ? "" : (String)userInfo.get("shain_no");
+		GMap user = bumonUserLg.selectUserInfo(userIdTmp);
+		String shainNo = (String)user.get("shain_no");
 		GMap shain = masterLg.findShain(shainNo);
 		if (null == shain) {
 			throw new RuntimeException("社員マスターなし");
@@ -2514,8 +2514,8 @@ public class KaikeiCommonLogic extends EteamAbstractLogic {
 	 * @return 役職コード
 	 */
 	public String getYakushokuCd(String userId){
-		GMap userInfo = bumonUserLg.selectUserInfo(userId);
-		String shainNo = (null == userInfo) ? "" : (String)userInfo.get("shain_no");
+		GMap user = bumonUserLg.selectUserInfo(userId);
+		String shainNo = (null == user)? "" :(String)user.get("shain_no");
 		GMap shain = masterLg.findShain(shainNo);
 		return (null != shain)? (String)shain.get("yakushoku_cd") : "";
 	}

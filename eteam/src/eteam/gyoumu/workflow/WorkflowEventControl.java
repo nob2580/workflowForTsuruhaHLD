@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -250,6 +249,8 @@ public class WorkflowEventControl extends EteamAbstractAction {
 	String[] tenpuFileName;
 	/** 添付ファイル拡張子 */
 	String[] tenpuFileExtension;
+	/** 添付ファイル拡張子（URL用） */
+	String[] tenpuFileURLExtension;
 	/** 伝票区分・承認者・会社設定を考慮してプレビュー対象伝票であるか */
 	boolean isPreviewTargetDenpyou = false;
 	
@@ -533,10 +534,6 @@ public class WorkflowEventControl extends EteamAbstractAction {
 	protected String loginGyoumuRoleId;
 	/** ユーザーフル名 */
 	protected String loginUserFullName;
-	/** scheme(location.protocol相当) */
-	protected String scheme;
-	/** location.host相当 */
-	protected String host;
 
 //＜部品＞
 	/** コネクション */
@@ -610,7 +607,6 @@ public class WorkflowEventControl extends EteamAbstractAction {
 		}
 		/*202207 #116213　添付ファイルの文字数チェック（仮）
 		 * 文字コードに関してはms932でOK　WFもSIASもいっしょ　*/
-		var prohibitedExtensionsList = List.of("bat", "exe", ""); // 将来追加されてもいいように変数化
 		if(uploadFile != null) {
 			int i = 0;
 			//ファイル名（拡張子無し）が160未満or以内
@@ -620,10 +616,6 @@ public class WorkflowEventControl extends EteamAbstractAction {
 					if(160 < fileNameBase.getBytes("MS932").length) {
 						errorList.add("[" + uploadFileFileName[i] + "]ファイル名が長すぎます。");
 					}
-					String extension = EteamIO.getExtension(uploadFileFileName[i]).toLowerCase();
-					if (prohibitedExtensionsList.contains(extension)){
-						errorList.add("[" + uploadFileFileName[i] + "]ワークフローでは認められないファイルです。");
-					}
 				}
 			}catch (UnsupportedEncodingException e1) {
 				// TODO 自動生成された catch ブロック
@@ -632,8 +624,8 @@ public class WorkflowEventControl extends EteamAbstractAction {
 		}
 			
 
-		//e文書使用フラグが有効になっている場合e文書明細をチェック
-		if("1".equals(ebunshoShiyouFlg)){
+			//e文書使用フラグが有効になっている場合e文書明細をチェック
+			if("1".equals(ebunshoShiyouFlg)){
 			
 			//添付済みファイル部
 			int i = 0;
@@ -648,19 +640,12 @@ public class WorkflowEventControl extends EteamAbstractAction {
 					{
 						continue;
 					}
-					// fakePathはいらないので除去した名称を取得
-					String fileNm = this.tenpuzumi_filename[k].replace("C:\\fakepath\\", "");
-					
-					var isTsFuyo = "1".equals(tenpuzumi_tsfuyoFlg[k]);
-					var isDenshiTorihiki = "1".equals(tenpuzumi_denshitorihikiFlg[k]);
-					if(isTsFuyo && !isDenshiTorihiki) {
-						errorList.add("[" + tenpuzumi_ebunsho_no[k].replace("C:\\fakepath\\", "") + "]タイムスタンプ付与をONにする場合は電子取引もONにしてください。");
-					}
+					String fileNm = this.tenpuzumi_filename[k];
 					//電子取引オンの場合、拡張子PDFであるか確認
-					if(isDenshiTorihiki) {
-						String extension = EteamIO.getExtension(fileNm).toLowerCase();
-						if (isTsFuyo && !(EbunshoLogic.EXTENSION_PDF.equalsIgnoreCase(extension))) {
-							errorList.add("[" + fileNm + "]電子取引としてタイムスタンプ付与出来るのはPDF形式のファイルだけです。");
+					if("1".equals(tenpuzumi_denshitorihikiFlg[k])) {
+						String extension = EteamIO.getExtension(fileNm);
+						if (!(EbunshoLogic.EXTENSION_PDF.equalsIgnoreCase(extension))) {
+							errorList.add("[" + fileNm + "]電子取引として登録出来るのはPDF形式のファイルだけです。");
 						}
 					//添付ファイルの拡張子がPDF変換対象、またはPDFか確認
 					}else if (! eLogic.isEbunshoOrgFile(fileNm)) {
@@ -668,6 +653,12 @@ public class WorkflowEventControl extends EteamAbstractAction {
 								+ "e文書用添付ファイルには拡張子"
 								+ EbunshoLogic.EXTENSIONS_EBUNSHO_STR
 								+ "のファイルを添付してください。");
+					}
+					
+					if("1".equals(tenpuzumi_tsfuyoFlg[k])) {
+						if(!("1".equals(tenpuzumi_denshitorihikiFlg[k]))) {
+							errorList.add("[" + tenpuzumi_ebunsho_no[k] + "]タイムスタンプ付与をONにする場合は電子取引もONにしてください。");
+						}
 					}
 				}
 			}
@@ -679,9 +670,14 @@ public class WorkflowEventControl extends EteamAbstractAction {
 				}
 				//20220531 添付済みリンクファイルがe文書に変換されることを踏まえ、formatがおかしかったらいけないので
 				for(int a = 0; a < tenpuzumi_edano.length; a++) {
+// String kakuchoushi = EteamIO.getExtension(tenpuzumi_filename[a]);
+					/*if(!"pdf".equals(kakuchoushi) && !"bmp".equals(kakuchoushi) && !"jpeg".equals(kakuchoushi) && !"jpg".equals(kakuchoushi)) {
+						notEcnt++;
+					}*/
 					//e文書対象かチェック
 					if(tenpuzumi_ebunshoflg[a] == null || "0".equals(tenpuzumi_ebunshoflg[a])) {
 						cnt++;
+// if(!"pdf".equals(kakuchoushi) && !"bmp".equals(kakuchoushi) && !"jpeg".equals(kakuchoushi) && !"jpg".equals(kakuchoushi)) {
 						if(!eLogic.isEbunshoOrgFile(tenpuzumi_filename[a])) {
 							notEcnt++;
 						}else {
@@ -692,6 +688,7 @@ public class WorkflowEventControl extends EteamAbstractAction {
 					int lmt = Integer.parseInt(tenpuzumi_ebunshodata_count[a]);
 					for( int b = lastIndexOfMeisai ; b < lastIndexOfMeisai + lmt ; b++ ) {
 						int ip = b - lastIndexOfMeisai + cnt + 1 - notEcnt;
+						//int ip = i + 1;
 						checkDomain (tenpuzumi_ebunsho_shubetsu[b], getEbunshoShubetsuDomain(), "e文書明細"+ ip +"行目:種別", false);
 						checkDate(tenpuzumi_ebunsho_nengappi[b], "e文書明細"+ ip +"行目:年月日", false);
 						if (denpyouKbn.equals("A013")) {
@@ -721,6 +718,7 @@ public class WorkflowEventControl extends EteamAbstractAction {
 					}
 					fileNm = new File(fileNm).getName();
 
+					//int ip = i + j + 1;
 					int ip = i + j + 1 - notEcnt;
 					checkDomain (ebunsho_shubetsu[j], getEbunshoShubetsuDomain(), "e文書明細"+ ip +"行目:種別", false);
 					checkDate(ebunsho_nengappi[j], "e文書明細"+ ip +"行目:年月日", false);
@@ -754,20 +752,18 @@ public class WorkflowEventControl extends EteamAbstractAction {
 						eLogic = EteamContainer.getComponent(EbunshoLogic.class);
 					}
 
-					// この先fakepathとかはいらない
-					fileNm = fileNm.replace("C:\\fakepath\\", "");
-					var isTsFuyo = "1".equals(tsfuyoFlg[k]);
-					var isDenshiTorihiki ="1".equals(denshitorihikiFlg[k]);
 					//タイムスタンプ付与フラグオンの場合、電子取引もオンであるか確認
-					if(isTsFuyo && !isDenshiTorihiki) {
-						errorList.add("[" + fileNm + "]タイムスタンプ付与をONにする場合は電子取引もONにしてください。");
+					if("1".equals(tsfuyoFlg[k])) {
+						if(!("1".equals(denshitorihikiFlg[k]))) {
+							errorList.add("[" + fileNm + "]タイムスタンプ付与をONにする場合は電子取引もONにしてください。");
+						}
 					}
 
 					//電子取引オンの場合、拡張子PDFであるか確認
-					if(isDenshiTorihiki) {
-						String extension = EteamIO.getExtension(fileNm).toLowerCase();
-						if (isTsFuyo && !(EbunshoLogic.EXTENSION_PDF.equalsIgnoreCase(extension))) {
-							errorList.add("[" + fileNm + "]電子取引としてタイムスタンプ付与出来るのはPDF形式のファイルだけです。");
+					if("1".equals(denshitorihikiFlg[k])) {
+						String extension = EteamIO.getExtension(fileNm);
+						if (!(EbunshoLogic.EXTENSION_PDF.equalsIgnoreCase(extension))) {
+							errorList.add("[" + fileNm + "]電子取引として登録出来るのはPDF形式のファイルだけです。");
 						}
 					//添付ファイルの拡張子がPDF変換対象、またはPDFか確認
 					}else if (! eLogic.isEbunshoOrgFile(fileNm)) {
@@ -777,6 +773,7 @@ public class WorkflowEventControl extends EteamAbstractAction {
 								+ "のファイルを添付してください。");
 					}
 				}
+
 			}
 		}
 	}
@@ -1881,21 +1878,13 @@ public class WorkflowEventControl extends EteamAbstractAction {
 			accessCheck(Event.INIT);
 
 			// 添付ファイルデータ取得(ファイル名はe文書番号設定)
-			var ebunsho = this.ebunshoFileDao.load(this.denpyouId).stream().filter(item -> item.ebunshoNo.equals(downloadEbunshoNo)).findFirst().orElse(null);
-			if(ebunsho == null) {
-				throw new EteamDataNotFoundException();
-			}
-			var extension = "pdf";
-			contentType = ContentType.PDF;
-			// 拡張子対応
-			if(!ebunsho.denshitorihikiFlg.equals(ebunsho.tsfuyoFlg)) {
-				var tenpuFile = this.tenpuFileDao.find(this.denpyouId, ebunsho.edano);
-				extension = FilenameUtils.getExtension(tenpuFile.fileName);
-				contentType = tenpuFile.contentType;
-			}
-			fileName = downloadEbunshoNo + "." + extension;
-			byte[] fileData = ebunsho.binaryData;
+			GMap map = workflowLogic.findTenpuEbunshoFile(downloadEbunshoNo);
+			if (null == map) throw new EteamDataNotFoundException();
+			fileName    = downloadEbunshoNo + ".pdf";
+			byte[] fileData = (byte[]) map.get("binary_data");
 
+			// コンテンツタイプの設定(PDF固定)
+			contentType = ContentType.PDF;
 			int browserCode = EteamCommon.getBrowserCode(ServletActionContext.getRequest());
 			contentDisposition = EteamCommon.contentDisposition(browserCode, true, fileName);
 
@@ -3082,7 +3071,6 @@ public class WorkflowEventControl extends EteamAbstractAction {
 						GMap tempFileEbunshoMap = new GMap();
 						tempFileEbunshoMap.put("edano", tenpuzumi_edano[i]);
 						tempFileEbunshoMap.put("file_name", tenpuzumi_filename[i]);
-						tempFileEbunshoMap.put("extension", FilenameUtils.getExtension(tenpuzumi_filename[i]));
 						tempFileEbunshoMap.put("ebunsho_no", tenpuzumi_ebunsho_no[i]);
 						tempFileEbunshoMap.put("denshitorihiki_flg", tenpuzumi_denshitorihikiFlg[i]);
 						tempFileEbunshoMap.put("tsfuyo_flg", tenpuzumi_tsfuyoFlg[i]);
@@ -3109,7 +3097,7 @@ public class WorkflowEventControl extends EteamAbstractAction {
 					//該当伝票のe文書情報をDBから取得
 					tempFileEbunshoList = workflowLogic.selectTenpufileListWithEbunshoNo(denpyouId);
 					for(GMap tempFileEbunshoMap : tempFileEbunshoList) {
-						tempFileEbunshoMap.put("extension", FilenameUtils.getExtension(tempFileEbunshoMap.get("file_name")));
+
 						//e文書情報があれば取得して格納
 						if( (tempFileEbunshoMap.get("ebunsho_no")) != null){
 							String ebunshoNo = (String) tempFileEbunshoMap.get("ebunsho_no");
@@ -3326,7 +3314,42 @@ public class WorkflowEventControl extends EteamAbstractAction {
 				}
 				Ebunsho e = filenameEbunshoMap.get(tmpfileNm);
 				if (e.now) {
-					isErrorAdded = this.processEbunshoItemCommon(isErrorAdded, e, i, this.tenpuzumi_denshitorihikiFlg[i], this.tenpuzumi_tsfuyoFlg[i], true, originalErrorListCount);
+					String ebunshoNo = e.getEbunshoNo();
+					Integer edano = e.getEdano();
+
+					//添付ファイルをPDFに変換(元からPDFの場合はファイル名のみ変更)
+					byte[] pdf = myLogic.createPdfData(denpyouId, edano);
+
+					//電子取引・TS付与チェックボックスがそれぞれ両方オフか両方オンの時には
+					//PDFにタイムスタンプ付与、成功時は登録日時指定
+					if(tenpuzumi_denshitorihikiFlg[i] != null && tenpuzumi_denshitorihikiFlg[i].equals(tenpuzumi_tsfuyoFlg[i])){
+						
+						// 電子取引OFFの時のみ解像度チェックする
+						if(tenpuzumi_denshitorihikiFlg[i].equals("0"))
+						{
+							this.checkEbunshoImages(pdf, i);
+						}
+	
+						if(!isErrorAdded && this.errorList.size() > originalErrorListCount)
+						{
+							isErrorAdded = true;
+							continue;
+						}
+	
+						if(!isErrorAdded)
+						{
+// Ver22.09.30.00 e文書同時実行対応（3次版）*-							
+// StampedPdf stamped = eLogic.addTimeStamp(pdf);
+							StampedPdf stamped = eLogic.addTimeStamp(pdf, denpyouId, edano);
+// -*							
+							
+							ebunshoFileDao.insertEbunshoFile(denpyouId, edano, ebunshoNo, stamped.getPdf(), tenpuzumi_denshitorihikiFlg[i], tenpuzumi_tsfuyoFlg[i], loginUserId, stamped.getTimeStamp());
+						}
+					//電子取引オン・TS付与オフの場合は
+					//PDFをそのまま登録、日付は処理実行時点日付をダミーで登録
+					}else{
+						ebunshoFileDao.insertEbunshoFile(denpyouId, edano, ebunshoNo, pdf, tenpuzumi_denshitorihikiFlg[i], tenpuzumi_tsfuyoFlg[i], loginUserId, new java.util.Date(System.currentTimeMillis()));
+					}
 				}
 			}
 		}
@@ -3349,65 +3372,48 @@ public class WorkflowEventControl extends EteamAbstractAction {
 			//e文書新規採番した添付ファイルに対して、タイムスタンプを付けてe文書ファイルレコードに入れる
 			Ebunsho e = filenameEbunshoMap.get(fileNm);
 			if (e.now) {
-				isErrorAdded = this.processEbunshoItemCommon(isErrorAdded, e, i, this.denshitorihikiFlg[i], this.tsfuyoFlg[i], false, originalErrorListCount);
+				String ebunshoNo = e.getEbunshoNo();
+				Integer edano = e.getEdano();
+
+				//添付ファイルをPDFに変換(元からPDFの場合はファイル名のみ変更)
+				byte[] pdf = myLogic.createPdfData(denpyouId, edano);
+
+				//電子取引・TS付与チェックボックスがそれぞれ両方オフか両方オンの時には
+				//PDFにタイムスタンプ付与、成功時は登録日時指定
+				if(denshitorihikiFlg[i] != null && denshitorihikiFlg[i].equals(tsfuyoFlg[i])){
+					
+					// 電子取引OFFの時のみ解像度チェックする
+					if(denshitorihikiFlg[i].equals("0"))
+					{
+						this.checkEbunshoImages(pdf, i + (this.tenpuzumi_ebunshoflg == null ? 0 : this.tenpuzumi_ebunshoflg.length));
+					}
+
+					if(!isErrorAdded && this.errorList.size() > originalErrorListCount)
+					{
+						isErrorAdded = true;
+						continue;
+					}
+
+					if(!isErrorAdded)
+					{
+// Ver22.09.30.00 e文書同時実行対応（3次版）*-							
+// StampedPdf stamped = eLogic.addTimeStamp(pdf);
+						StampedPdf stamped = eLogic.addTimeStamp(pdf, denpyouId, edano);
+//-*
+						
+						ebunshoFileDao.insertEbunshoFile(denpyouId, edano, ebunshoNo, stamped.getPdf(), denshitorihikiFlg[i], tsfuyoFlg[i], loginUserId, stamped.getTimeStamp());
+					}
+				//電子取引オン・TS付与オフの場合は
+				//PDFをそのまま登録、日付は処理実行時点日付をダミーで登録
+				}else{
+					ebunshoFileDao.insertEbunshoFile(denpyouId, edano, ebunshoNo, pdf, denshitorihikiFlg[i], tsfuyoFlg[i], loginUserId, new java.util.Date(System.currentTimeMillis()));
+				}
 			}
 		}
 
 		return isErrorAdded ? "error" : "success";
 	}
 
-	/**
-	 * E文書ファイルが存在する場合の処理の共通部
-	 * @param isErrorAdded エラーが新たに追加されたか
-	 * @param ebunsho e文書
-	 * @param index index
-	 * @param denshitorihikiFlgItem 電子取引フラグの該当アイテム
-	 * @param tsfuyoFlgItem TS付与フラグの該当アイテム
-	 * @param isTenpuzumi 添付済みであるか？
-	 * @param originalErrorListCount 元のエラーリストのカウント
-	 * @return isErrorAdded
-	 */
-	protected boolean processEbunshoItemCommon(boolean isErrorAdded, Ebunsho ebunsho, int index, String denshitorihikiFlgItem, String tsfuyoFlgItem, boolean isTenpuzumi, int originalErrorListCount) {
-		String ebunshoNo = ebunsho.getEbunshoNo();
-		Integer edano = ebunsho.getEdano();
-
-		//添付ファイルをPDFに変換(元からPDFの場合はファイル名のみ変更)
-		// 拡張子規制撤廃に伴い、TS付与しない電子取引はそのままのbinaryDataを入れる
-		var shouldInsertAsIs = denshitorihikiFlgItem != null && !denshitorihikiFlgItem.equals(tsfuyoFlgItem);
-		byte[] pdf = shouldInsertAsIs
-				? this.tenpuFileDao.find(denpyouId, edano).binaryData
-				: myLogic.createPdfData(denpyouId, edano);
-
-		//電子取引・TS付与チェックボックスがそれぞれ両方オフか両方オンの時には
-		//PDFにタイムスタンプ付与、成功時は登録日時指定
-		if(denshitorihikiFlgItem != null && denshitorihikiFlgItem.equals(tsfuyoFlgItem)){
-			
-			// 電子取引OFFの時のみ解像度チェックする
-			if(denshitorihikiFlgItem.equals("0"))
-			{
-				this.checkEbunshoImages(pdf, index + ((isTenpuzumi || this.tenpuzumi_ebunshoflg == null) ? 0 : this.tenpuzumi_ebunshoflg.length));
-			}
-
-			if(!isErrorAdded && this.errorList.size() > originalErrorListCount)
-			{
-				return true;
-			}
-
-			if(!isErrorAdded)
-			{
-				StampedPdf stamped = eLogic.addTimeStamp(pdf, denpyouId, edano);
-				
-				ebunshoFileDao.insertEbunshoFile(denpyouId, edano, ebunshoNo, stamped.getPdf(), denshitorihikiFlgItem, tsfuyoFlgItem, loginUserId, stamped.getTimeStamp());
-			}
-		//電子取引オン・TS付与オフの場合は
-		//PDFをそのまま登録、日付は処理実行時点日付をダミーで登録
-		}else{
-			ebunshoFileDao.insertEbunshoFile(denpyouId, edano, ebunshoNo, pdf, denshitorihikiFlgItem, tsfuyoFlgItem, loginUserId, new java.util.Date(System.currentTimeMillis()));
-		}
-		
-		return isErrorAdded;
-	}
-	
 	/**
 	 * @param pdf pdfバイト配列
 	 * @param i インデックス

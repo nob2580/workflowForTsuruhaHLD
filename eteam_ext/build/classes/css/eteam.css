@@ -1,0 +1,490 @@
+﻿@CHARSET "UTF-8";
+
+/*--------------------
+ * 全体構成
+ * フッターはSticky footer styles
+ *--------------------*/
+
+/* The html and body elements cannot have any padding or margin. */
+html,
+body {
+	height: 100%;
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	/* Negative indent footer by it's height */
+	margin: 0 auto -60px;
+}
+
+/* Set the fixed height of the footer here */
+#push,
+#footer {
+	height: 60px;
+	text-align: center;
+}
+
+/* Lastly, apply responsive CSS fixes as necessary */
+@media (max-width: 767px) {
+	#footer {
+		margin-left: -20px;
+		margin-right: -20px;
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+}
+
+/* sticky footer */
+#wrap > #content {
+	padding-top: 40px;
+}
+
+@media (min-width:980px) and (max-width:1200px){
+	#wrap > #content {
+		padding-top: 80px;
+}
+
+}
+.container .credit {
+	margin: 20px 0;
+}
+
+
+/*--------------------
+ * 入出力
+ *--------------------*/
+
+/* デフォルトの入出力で間あけすぎていたので狭める。 */
+.form-horizontal .control-group {
+	margin-bottom:1px;
+}
+
+/* ラベル */
+th, label.label, label.control-label {
+	padding: 5px;
+	font-size: 14px;
+	font-weight: bold;
+	background-color: #E0FFB0;
+	color: #000;
+}
+
+/* サブラベル */
+label.label-sub {
+	display: inline;
+	margin-left: 5px;
+	font-size: 14px;
+}
+
+/* 出力テキスト(ラベルとサイズ合わせ） */
+.output {
+	padding-top: 6px;
+	font-size: 14px;
+}
+
+/* ラベルのポインタ外す */
+label {
+	cursor: auto;
+}
+
+/* 入力部品との高さ合わせ */
+.non-input {
+	padding-top: 5px;
+}
+
+/* disabledでも色を変えない */
+input:disabled, input:readonly, select:disabled, textarea:disabled, textarea:readonly {
+	color: #000000;
+}
+
+/*--------------------
+ * テーブル
+ *--------------------*/
+
+/* 縮小表示対策、スマホ対策 */
+@media only screen and (max-width: 767px) {
+	/* Force table to not be like tables anymore */
+	.no-more-tables table, 
+	.no-more-tables thead, 
+	.no-more-tables tbody, 
+	.no-more-tables tfoot, 
+	.no-more-tables th, 
+	.no-more-tables td, 
+	.no-more-tables tr { 
+		display: block; 
+	}
+
+	/* Hide table headers (but not display: none;, for accessibility) */
+	.no-more-tables thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+
+	.no-more-tables tr { border: 1px solid #ccc; }
+
+	.no-more-tables td { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding-left: 50%; 
+		white-space: normal;
+		text-align:left;
+		word-wrap: break-word;
+	}
+
+	.no-more-tables td:before { 
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+		text-align:left;
+		font-weight: bold;
+	}
+
+	/* Label the data */
+	.no-more-tables td:before {
+		content: attr(data-title);
+	}
+	
+	.no-more-tables td input,
+	.no-more-tables td textarea,
+	.no-more-tables td select  { 
+		width: 85%; 
+	}
+}
+
+/* 罫線 */
+.table-bordered th, .table-bordered td {
+	border-left:1px solid #dddddd;
+	border-top:1px solid #dddddd;
+}
+
+/* 一覧以外では罫線は白く背景と同化 */
+.table-bordered-white {
+	border-color: #ffffff;
+}
+
+/* 罫線なしの場合(使用しない想定) */
+.table-bordered-white th, .table-bordered-white td {
+	border-left:3px solid #ffffff;
+	border-top:3px solid #ffffff;
+}
+
+/* 自動改行の禁止 */
+td, th{
+	/*white-space: nowrap;*/
+}
+
+
+/*--------------------
+ * タイトル
+ *--------------------*/
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  /*line-height: 20px;*/
+  color: inherit;
+  text-rendering: optimizelegibility;
+}
+
+h1 {
+	font-size: 24px;
+	line-height: 24px;
+	padding: 5px;
+	background-color: #eeeeee;
+
+	position:relative;
+	padding:5px 20px;
+	background:#fff;
+	text-shadow:
+		1px 1px 0 #fff,
+		2px 2px 0 #999;
+	border-top:#333 solid 3px;
+	border-bottom:#333 solid 3px;
+    background-image: -webkit-gradient(linear, left top, right bottom,
+			from(			rgba(255, 255, 255, 0.0)), 
+			color-stop(0.4, rgba(255, 255, 255, 0.0)), 
+			color-stop(0.4, rgba(0, 0, 0, 0.1)), 
+			color-stop(0.6, rgba(0, 0, 0, 0.1)), 
+			color-stop(0.6, rgba(255, 255, 255, 0.0)),
+			to(				rgba(255, 255, 255, 0.0))
+			);
+	background-image: -webkit-linear-gradient(top -45deg,
+			transparent 40%,
+            rgba(0, 0, 0, 0.1) 40%,
+            rgba(0, 0, 0, 0.1) 60%,
+            transparent 60%
+			);
+	background-image: -moz-linear-gradient(top -45deg,
+			transparent 40%,
+            rgba(0, 0, 0, 0.1) 40%,
+            rgba(0, 0, 0, 0.1) 60%,
+            transparent 60%
+			);
+	background-image: -o-linear-gradient(top -45deg,
+			transparent 40%,
+            rgba(0, 0, 0, 0.1) 40%,
+            rgba(0, 0, 0, 0.1) 60%,
+            transparent 60%
+			);
+	background-image: linear-gradient(to bottom -45deg,
+			transparent 40%,
+            rgba(0, 0, 0, 0.1) 40%,
+            rgba(0, 0, 0, 0.1) 60%,
+            transparent 60%
+			);
+	background-size:4px 4px;
+}
+
+h2 {
+  font-size: 20px;
+  line-height: 20px;
+  padding-left: 10px; /* 左の余白 */
+  border-width: 0px 0px 2px 15px; /* 枠の幅 */
+  border-style: solid; /* 枠の種類 */
+  border-color: #999999; /* 枠の色 */
+  margin-top: 10px;
+}
+
+h3 {
+  font-size: 16px;
+  line-height: 16px;
+}
+
+h4, h5, h6 {
+	font-size: 14px;
+	line-height: 14px;
+}
+
+/*--------------------
+ * 他一般タグの統一
+ *--------------------*/
+
+/* 意味的なまとまりなので多少空ける */
+section{
+	margin: 8px 0;
+}
+
+/* プルダウンがデフォルトで大きすぎるので */
+select {
+	padding: 1px;
+}
+
+/* 最低限1pxはあけないといろいろくっつく */
+div.alert {
+	margin-top: 3px;
+	color: #ff0000;
+	font-weight: bold;
+}
+
+div.blank {
+	margin-top: 3px;
+}
+div.blank-large {
+	margin-top: 30px;
+}
+
+/* 子画面のリンクの表示がおかしくなるので上書き */
+a, a.link {
+	color: #0088cc;
+	cursor: pointer;
+}
+a:hover, a.link:hover {
+	text-decoration: underline;;
+}
+
+/* 金額 */
+.autoNumeric, .autoNumericWithCalcBox, .autoNumericNoMax, .autoNumericDecimal, .autoNumericDecimalThree, .autoNumericDecimalFive, input.autoNumericDecimalNoPad {
+	text-align: right;
+}
+.text-l {
+	text-align: left;
+}
+.text-c {
+	text-align: center;
+}
+.text-r {
+	text-align: right;
+}
+
+/*--------------------
+ * 選択状態の表現
+ *--------------------*/
+
+.choice-none {
+	background-color: white;
+}
+
+.choice-current {
+	background-color: yellow;
+}
+
+/*--------------------
+ * 他一般タグの統一
+ *--------------------*/
+
+/* 必須項目 */
+span.required {
+	color: red;
+}
+
+/* 強調 */
+.highlight {
+	color: red;
+	font-weight: bold;
+}
+
+/* 説明 */
+.description {
+	color: green;;
+}
+
+/** マスタ管理用 */
+.trupdate {
+	background-color : pink;
+}
+.tradd {
+	background-color : lightskyblue;
+}
+.trdelete {
+	background-color : darkgray;
+}
+
+/*--------------------
+ * サイズ調整
+ *--------------------*/
+.comment-view {
+	width:400px;
+}
+
+/*--------------------
+ * 期間が未来の場合の背景色の定義
+ *--------------------*/
+.wait-period-bgcolor {
+	background-color:#ffffc0;
+}
+
+/*--------------------
+ * 無効の場合の背景色の定義
+ *--------------------*/
+.disabled-bgcolor {
+	background-color:#d3d3d3;
+}
+
+/*--------------------
+ * 有効期間内の場合の背景色の定義
+ *--------------------*/
+.expiration-date-bgcolor {
+}
+
+/*--------------------
+ * 印刷時のみ表示
+ *--------------------*/
+ @media screen {
+ 	.print_only {display: none;}
+}
+
+/*--------------------
+ * textareaの高さ指定
+ *--------------------*/
+ textarea {
+ 	height: 60px;
+ }
+.textarea-medium {
+	height: 120px;
+}
+.textarea-height {
+	height: 200px;
+}
+.textarea-great {
+	height: 400px;
+}
+
+/*--------------------
+ * img(narrow)のwidth、height
+ *--------------------*/
+.img_crystal_clear_narrow {
+	width: 40px;
+	height: 40px;
+}
+
+/*----------------------------------------
+ * datepicker表示定義
+ *----------------------------------------*/
+
+/* 日曜日 */
+.date_sun a{
+	color: #ff0000 !important;
+}
+/* 土曜日 */
+.date_sat a{
+	color: #0000ff !important;
+}
+/* 祝日 */
+.date_shk a{
+	color: #ff0000 !important;
+}
+
+/*----------------------------------------
+ * IE対策(INPUTの×ボタンを非表示にする)
+ *----------------------------------------*/
+::-ms-clear{
+    display: none;
+}
+
+/*----------------------------------------
+ * スマホ対策
+ *----------------------------------------*/
+/* 横768以上*/
+@media screen and (min-width: 768px) {
+	.phone_only {display: none;}
+}
+/* 横767以下*/
+@media screen and (max-width: 767px) {
+	label.label, label.control-label {
+		margin: 5px 0 1px 0;
+	}
+	tr.pc_only, input.pc_only, select.pc_only, textarea.pc_only, button.pc_only, .pc_only {
+		display: none; /* 一部項目を非表示に */
+	}
+	/* bootstrap定義のキャンセル-全ラベル１行並び */
+	label.label, .form-horizontal label.control-label, label.label-sub {
+		display: block;
+		float: none;
+		width: 100%;
+		text-align: left;
+	}
+	.form-horizontal .controls {
+		margin-left: 0;
+	}
+	/** 科目等の名称も小さめ */
+	.input-xlarge {
+		width: 200px;
+	}
+	.input-xxlarge {
+		width: 200px;
+	}
+	/** 選択クリアボタン等もより小さめ */
+	.btn-small {
+		padding:2px 1px;
+		font-size:10.5px;
+	}
+}
+/* 横480以下 */
+@media screen and (max-width: 480px) {
+	.form-horizontal .control-label {
+		padding-top: 5px; /* bootstrap定義のキャンセル */
+	}
+}

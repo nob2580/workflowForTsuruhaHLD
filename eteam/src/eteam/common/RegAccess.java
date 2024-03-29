@@ -162,21 +162,6 @@ public class RegAccess {
 			"HKEY_LOCAL_MACHINE\\SOFTWARE\\PostgreSQL\\Installations\\postgresql-x64-11",
 			"Base Directory"
 		};
-		// 2024/01/18 Postgre15対応
-		/**
-		 * ワークフロー側PostgreSQLの利用ポート
-		 */
-		public static final String[] WF_PORT15 ={
-			"HKEY_LOCAL_MACHINE\\SOFTWARE\\PostgreSQL\\Services\\postgresql-x64-15",
-			"Port"
-		};
-		/**
-		 * ワークフロー側PostgreSQLのベースディレクトリ
-		 */
-		public static final String[] WF_BASEDIR15 ={
-			"HKEY_LOCAL_MACHINE\\SOFTWARE\\PostgreSQL\\Installations\\postgresql-x64-15",
-			"Base Directory"
-		};
 	}
 
 	/**

@@ -691,8 +691,8 @@ public class ShikyuukingakuIchiranAction extends EteamAbstractAction {
 			IsKanri = false;
 			kensakuKihyouShozokuUserId = getUser().getSeigyoUserId();
 			GMap userInfo = bumonUserLogic.selectUserInfo(kensakuKihyouShozokuUserId);
-			kihyouShainNo = (userInfo == null) ? "" : (String)userInfo.get("shain_no");
-			kihyouUserName = (userInfo == null) ? "" : userInfo.getString("user_sei") + "　" + userInfo.getString("user_mei");
+			kihyouShainNo = (String)userInfo.get("shain_no");
+			kihyouUserName = userInfo.getString("user_sei") + "　" + userInfo.getString("user_mei");
 		}
 		// adminユーザーか経理権限ロールの場合
 		if (accessAuthority.equals("SU") || accessAuthority.equals("KR")) {

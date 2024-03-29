@@ -99,7 +99,7 @@ public class ShiwakePatternMasterZaimuKyotenDao extends ShiwakePatternMasterZaim
 						+  "ON (a.denpyou_kbn, a.zaimu_kyoten_nyuryoku_pattern_no, a.shiwake_edano) = (e.denpyou_kbn, e.zaimu_kyoten_nyuryoku_pattern_no, e.shiwake_edano) "
 						+  "INNER JOIN zaimu_kyoten_nyuryoku_ichiran f "
 						+  "ON f.denpyou_kbn = a.denpyou_kbn AND f.zaimu_kyoten_nyuryoku_pattern_no = a.zaimu_kyoten_nyuryoku_pattern_no "
-						+  "WHERE  a.denpyou_kbn = ? AND a.delete_flg = '0' ";
+						+  "WHERE  a.denpyou_kbn = ? AND a.delete_flg = '0'";
 		
 		StringBuffer sb = new StringBuffer();
 		sb.append("ORDER BY (CASE WHEN current_date > a.yuukou_kigen_to THEN 1 ELSE 0 END), ");
@@ -180,7 +180,7 @@ public class ShiwakePatternMasterZaimuKyotenDao extends ShiwakePatternMasterZaim
 						+  "ON d.kamoku_gaibu_cd = a.kashi_kamoku_cd "
 						+  "LEFT OUTER JOIN (SELECT denpyou_kbn, zaimu_kyoten_nyuryoku_pattern_no, shiwake_edano, CASE kari_kamoku_cd WHEN ''THEN kashi_kamoku_cd ELSE kari_kamoku_cd END as aite_kamoku_cd FROM shiwake_pattern_master_zaimu_kyoten) e "
 						+  "ON (a.denpyou_kbn, a.zaimu_kyoten_nyuryoku_pattern_no, a.shiwake_edano) = (e.denpyou_kbn, e.zaimu_kyoten_nyuryoku_pattern_no, e.shiwake_edano) "
-						+  "WHERE  a.denpyou_kbn = ? AND a.zaimu_kyoten_nyuryoku_pattern_no = ? AND a.delete_flg = '0' ";
+						+  "WHERE  a.denpyou_kbn = ? AND a.zaimu_kyoten_nyuryoku_pattern_no = ? AND a.delete_flg = '0'";
 
 		if (isYuukouOnly.equals("1"))
 		{

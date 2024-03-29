@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <package name="eteam_ext" namespace="/appl" extends="struts-default,eteam">
+
+		<!--
+		********************
+		拡張 アクション定義
+		********************
+		-->
+		<!-- 支払依頼申請 -->
+		<action name="shiharai_irai" class="eteam.gyoumu.kaikei.ShiharaiIraiExtAction" method="init">
+			<result name="success">/jsp_ext/eteam/gyoumu/workflow/DenpyouCommon.jsp</result>
+			<result name="error">/jsp_ext/eteam/gyoumu/workflow/DenpyouCommon.jsp</result>
+            <interceptor-ref name="eteamAfterLoginGetIntercepter"/>
+		</action>
+		<!-- 支払依頼申請－登録 -->
+		<action name="shiharai_irai_touroku" class="eteam.gyoumu.kaikei.ShiharaiIraiExtAction" method="touroku">
+			<result name="success" type="redirect">../../${schemaName}/appl/shiharai_irai?denpyouKbn=${denpyouKbn}&amp;denpyouId=${denpyouId}</result>
+			<result name="error">/jsp_ext/eteam/gyoumu/workflow/DenpyouCommon.jsp</result>
+			<interceptor-ref name="eteamAfterLoginPostIntercepter"/>
+		</action>
+		<!-- 支払依頼申請－更新 -->
+		<action name="shiharai_irai_koushin" class="eteam.gyoumu.kaikei.ShiharaiIraiExtAction" method="koushin">
+			<result name="success" type="redirect">../../${schemaName}/appl/shiharai_irai?denpyouKbn=${denpyouKbn}&amp;denpyouId=${denpyouId}</result>
+			<result name="error">/jsp_ext/eteam/gyoumu/workflow/DenpyouCommon.jsp</result>
+			<interceptor-ref name="eteamAfterLoginPostIntercepter"/>
+		</action>
+		<!-- 支払依頼申請－申請 -->
+		<action name="shiharai_irai_shinsei" class="eteam.gyoumu.kaikei.ShiharaiIraiExtAction" method="shinsei">
+			<result name="success" type="redirect">../../${schemaName}/appl/${urlPath}?denpyouKbn=${denpyouKbn}&amp;denpyouId=${denpyouId}&amp;printFlg=${printFlg}</result>
+			<result name="error">/jsp_ext/eteam/gyoumu/workflow/DenpyouCommon.jsp</result>
+			<interceptor-ref name="eteamAfterLoginPostIntercepter"/>
+		</action>		
+		<!-- 支払依頼申請－承認 -->
+		<action name="shiharai_irai_shounin" class="eteam.gyoumu.kaikei.ShiharaiIraiExtAction" method="shounin">
+            <result name="success" type="redirect">../../${schemaName}/appl/${urlPath}?denpyouKbn=${denpyouKbn}&amp;denpyouId=${denpyouId}</result>
+            <result name="error">/jsp_ext/eteam/gyoumu/workflow/DenpyouCommon.jsp</result>
+            <interceptor-ref name="eteamAfterLoginPostIntercepter"/>
+		</action>
+		<!-- 支払依頼申請－承認解除 -->
+		<action name="shiharai_irai_shouninkaijo" class="eteam.gyoumu.kaikei.ShiharaiIraiExtAction" method="shouninKaijo">
+            <result name="success" type="redirect">../../${schemaName}/appl/${urlPath}?denpyouKbn=${denpyouKbn}&amp;denpyouId=${denpyouId}</result>
+            <result name="error">/jsp_ext/eteam/gyoumu/workflow/DenpyouCommon.jsp</result>
+            <interceptor-ref name="eteamAfterLoginPostIntercepter"/>
+		</action>
+		<!-- 支払依頼申請－逆仕訳 -->
+		<action name="gyaku_shiwake" class="eteam.gyoumu.kaikei.ShiharaiIraiExtAction" method="gyakuShiwake">
+            <result name="success" type="redirect">../../${schemaName}/appl/${urlPath}?denpyouKbn=${denpyouKbn}&amp;denpyouId=${denpyouId}</result>
+            <result name="error">/jsp_ext/eteam/gyoumu/workflow/DenpyouCommon.jsp</result>
+            <interceptor-ref name="eteamAfterLoginPostIntercepter"/>
+		</action>
+		<!-- 支払依頼申請－取引先マスターリロード -->
+		<action name="shiharai_irai_torihikisaki_master_reload" class="eteam.gyoumu.kaikei.ShiharaiIraiExtAction" method="torihikisakiMasterReload">
+            <result name="success">/jsp_ext/eteam/gyoumu/workflow/DenpyouCommon.jsp</result>
+            <result name="error">/jsp_ext/eteam/gyoumu/workflow/DenpyouCommon.jsp</result>
+            <interceptor-ref name="eteamAfterLoginPostIntercepter"/>
+		</action>
+		<!-- ■■■支払依頼（CSVアップロード）■■■ -->
+		<!-- 支払依頼（CSVアップロード確認）-->
+		<action name="shiharaiirai_csv_upload_kakunin" class="eteam.gyoumu.kaikei.ShiharaiIraiCSVUploadKakuninExtAction" method="init">
+            <result name="success">/jsp/eteam/gyoumu/kaikei/ShiharaiIraiCSVUploadKakunin.jsp</result>
+            <result name="error">/jsp/eteam/gyoumu/kaikei/ShiharaiIraiCSVUploadKakunin.jsp</result>
+            <interceptor-ref name="eteamAfterLoginGetIntercepter"/>
+		</action>
+		<!-- 支払依頼（CSVアップロード確認）（登録）-->
+		<action name="shiharaiirai_csv_upload_kakunin_touroku" class="eteam.gyoumu.kaikei.ShiharaiIraiCSVUploadKakuninExtAction" method="touroku">
+            <result name="success">/jsp/eteam/gyoumu/kaikei/ShiharaiIraiCSVUploadKakunin.jsp</result>
+            <result name="error">/jsp/eteam/gyoumu/kaikei/ShiharaiIraiCSVUploadKakunin.jsp</result>
+            <interceptor-ref name="eteamAfterLoginPostIntercepter"/>
+		</action>
+		<!-- 振込先選択 -->
+			<action name="furikomisaki_sentaku" class="eteam.gyoumu.kaikei.kogamen.FurikomisakiSentakuAction" method="init">
+            <result name="success">/jsp_ext/eteam/gyoumu/kaikei/kogamen/FurikomisakiSentaku.jsp</result>
+            <result name="error">/jsp_ext/eteam/gyoumu/kaikei/kogamen/FurikomisakiSentaku.jsp</result>
+            <interceptor-ref name="eteamAfterLoginGetIntercepter"/>
+		</action>
+    </package>
+</struts>

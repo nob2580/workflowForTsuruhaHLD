@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+	<!-- 開発モードOFF -->
+    <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+    <constant name="struts.devMode" value="false" />
+
+	<!-- ファイルアップロードの一時領域 -->
+    <constant name="struts.multipart.saveDir" value="c:\eteam\tmp" />
+	<!-- ファイルアップロードの最大ファイルサイズ -->
+    <constant name="struts.multipart.maxSize" value="20971520"/>
+
+	<!-- アプリのパス -->
+    <package name="eteam" namespace="/appl" extends="struts-default">
+
+		<!-- インターセプター -->
+		<!-- 各イベントについて以下の順でインターセプト -->
+		<!-- ・EteamActionIntercepter						：ログ出力 -->
+		<!-- ・EteamLoginIntercepter（ログイン前画面除く）	：ログインしているかチェック→未ログインなら要求アクション呼ばずログイン画面へ -->
+		<!-- ・EteamGetIntercepter/EteamPostIntercepter		：GET/POSTのメソッドチェック→規定メソッド以外はエラー -->
+		<interceptors>
+			<interceptor name="eteamIntercepter" class="eteam.base.intercepter.EteamActionIntercepter" />
+			<interceptor name="eteamLoginIntercepter" class="eteam.base.intercepter.EteamLoginIntercepter" />
+			<interceptor name="eteamPasswordCheckIntercepter" class="eteam.base.intercepter.EteamPasswordCheckIntercepter" />
+			<interceptor name="eteamGetIntercepter" class="eteam.base.intercepter.EteamGetIntercepter" />
+			<interceptor name="eteamPostIntercepter" class="eteam.base.intercepter.EteamPostIntercepter" />
+			<!-- ログイン前画面、GETメソッド -->
+			<interceptor-stack name="eteamBeforeLoginGetIntercepter">
+				<interceptor-ref name="eteamIntercepter"/>
+				<interceptor-ref name="defaultStack"/>
+				<interceptor-ref name="eteamGetIntercepter"/>
+			</interceptor-stack>
+			<!-- ログイン前画面、POSTメソッド -->
+			<interceptor-stack name="eteamBeforeLoginPostIntercepter">
+				<interceptor-ref name="eteamIntercepter"/>
+				<interceptor-ref name="defaultStack"/>
+				<interceptor-ref name="eteamPostIntercepter"/>
+			</interceptor-stack>
+			<!-- ログイン後画面、GETメソッド -->
+			<interceptor-stack name="eteamAfterLoginGetIntercepter">
+				<interceptor-ref name="eteamIntercepter"/>
+				<interceptor-ref name="defaultStack"/>
+				<interceptor-ref name="eteamLoginIntercepter"/>
+				<interceptor-ref name="eteamPasswordCheckIntercepter">
+					<param name="excludeMethods">initForcePassword,updateForcePassword</param>
+				</interceptor-ref>
+				<interceptor-ref name="eteamGetIntercepter"/>
+			</interceptor-stack>
+			<!-- ログイン後画面、POSTメソッド -->
+			<interceptor-stack name="eteamAfterLoginPostIntercepter">
+				<interceptor-ref name="eteamIntercepter"/>
+				<interceptor-ref name="defaultStack"/>
+				<interceptor-ref name="eteamLoginIntercepter"/>
+				<interceptor-ref name="eteamPasswordCheckIntercepter">
+					<param name="excludeMethods">initForcePassword,updateForcePassword</param>
+				</interceptor-ref>
+				<interceptor-ref name="eteamPostIntercepter"/>
+			</interceptor-stack>
+			 <!-- ログイン後画面、GET OR POSTメソッド -->
+            <interceptor-stack name="eteamAfterLoginGetPostIntercepter">
+                <interceptor-ref name="eteamIntercepter"/>
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="eteamLoginIntercepter"/>
+                <interceptor-ref name="eteamPasswordCheckIntercepter">
+                    <param name="excludeMethods">initForcePassword,updateForcePassword</param>
+                </interceptor-ref>
+            </interceptor-stack>
+		</interceptors>
+
+		<!-- 強制ログイン・エラーハンドリング -->
+        <global-results>
+        	<!-- 強制ログイン -->
+            <result name="forceLogin" type="chain">
+            	<param name="actionName">forceLoginDummy</param>
+            </result>
+        	<!-- 強制パスワード変更 -->
+            <result name="forcePasswordChange" type="chain">
+            	<param name="actionName">forcepass</param>
+            </result>
+            <!-- 諸々エラーハンドリング -->
+            <result name="illegalRequestError" type="chain">
+		        <param name="actionName">illegalRequestError</param>
+            </result>
+            <result name="accessDeniedError" type="chain">
+		        <param name="actionName">accessDeniedError</param>
+            </result>
+            <result name="dataNotFoundError" type="chain">
+		        <param name="actionName">dataNotFoundError</param>
+            </result>
+            <result name="uploadFileSizeOverError" type="chain">
+		        <param name="actionName">uploadFileSizeOverError</param>
+            </result>
+            <result name="dbConnectError" type="chain">
+		        <param name="actionName">dbConnectError</param>
+            </result>
+            <result name="systemError" type="chain">
+		        <param name="actionName">systemError</param>
+            </result>
+        </global-results>
+        <global-exception-mappings>
+            <!-- 諸々エラーハンドリング -->
+            <exception-mapping exception="eteam.base.exception.EteamIllegalRequestException" result="illegalRequestError" />
+            <exception-mapping exception="eteam.base.exception.EteamAccessDeniedException" result="accessDeniedError" />
+            <exception-mapping exception="eteam.base.exception.EteamDataNotFoundException" result="dataNotFoundError" />
+            <exception-mapping exception="eteam.base.exception.EteamUploadFileSizeOverException" result="uploadFileSizeOverError" />
+            <exception-mapping exception="eteam.base.exception.EteamDBConnectException" result="dbConnectError" />
+            <exception-mapping exception="Throwable" result="systemError" />
+        </global-exception-mappings>
+		<action name="illegalRequestError" class="eteam.base.EteamActionExceptionHandler">
+            <result>/jsp/eteam/base/error/IllegalRequestError.jsp</result>
+		</action>
+		<action name="accessDeniedError" class="eteam.base.EteamActionExceptionHandler">
+            <result>/jsp/eteam/base/error/AccessDeniedError.jsp</result>
+		</action>
+		<action name="dataNotFoundError" class="eteam.base.EteamActionExceptionHandler">
+			<result>/jsp/eteam/base/error/DataNotFoundError.jsp</result>
+		</action>
+		<action name="uploadFileSizeOverError" class="eteam.base.EteamActionExceptionHandler">
+			<result>/jsp/eteam/base/error/UploadFileSizeOverError.jsp</result>
+		</action>
+		<action name="dbConnectError" class="eteam.base.EteamActionExceptionHandler">
+			<result>/jsp/eteam/base/error/DBConnectError.jsp</result>
+		</action>
+		<action name="systemError" class="eteam.base.EteamActionExceptionHandler">
+			<result name="outOfMemoryError">/jsp/eteam/base/error/OutOfMemoryError.jsp</result>
+			<result>/jsp/eteam/base/error/SystemError.jsp</result>
+		</action>
+    </package>
+</struts>

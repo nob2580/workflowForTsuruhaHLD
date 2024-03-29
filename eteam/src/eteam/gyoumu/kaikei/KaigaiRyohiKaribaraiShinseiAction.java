@@ -2029,11 +2029,10 @@ public class KaigaiRyohiKaribaraiShinseiAction extends EteamEkispertCommon {
 	@Override
 	protected void tourokuKobetsuDenpyou(EteamConnection connection) {
 
-		GMap userInfo = bumonUsrLogic.selectUserInfo(userIdRyohi);
-		// ないはずだが、全てふさいでおく
-		String shainCd = (userInfo == null) ? "" : (String)userInfo.get("shain_no");
-		String userSei = (userInfo == null) ? "" : (String)userInfo.get("user_sei");
-		String userMei = (userInfo == null) ? "" : (String)userInfo.get("user_mei");
+		GMap usrInfo = bumonUsrLogic.selectUserInfo(userIdRyohi);
+		String shainCd = (String)usrInfo.get("shain_no");
+		String userSei = (String)usrInfo.get("user_sei");
+		String userMei = (String)usrInfo.get("user_mei");
 
 		//申請内容登録
 		kaigaiRyohiKaribaraiShinseiLogic.insertShinsei(
@@ -2293,11 +2292,10 @@ public class KaigaiRyohiKaribaraiShinseiAction extends EteamEkispertCommon {
 			return;
 		}
 
-		GMap userInfo = bumonUsrLogic.selectUserInfo(userIdRyohi);
-		// ここはないはずだけど、全てふさいでおく
-		String shainCd = (userInfo == null) ? "" : (String)userInfo.get("shain_no");
-		String userSei = (userInfo == null) ? "" : (String)userInfo.get("user_sei");
-		String userMei = (userInfo == null) ? "" : (String)userInfo.get("user_mei");
+		GMap usrInfo = bumonUsrLogic.selectUserInfo(userIdRyohi);
+		String shainCd = (String)usrInfo.get("shain_no");
+		String userSei = (String)usrInfo.get("user_sei");
+		String userMei = (String)usrInfo.get("user_mei");
 
 		//申請内容更新
 		kaigaiRyohiKaribaraiShinseiLogic.updateShinsei(
@@ -3128,8 +3126,8 @@ public class KaigaiRyohiKaribaraiShinseiAction extends EteamEkispertCommon {
 				super.ekispertInit(connection, SEARCH_MODE_UNCHIN);
 			}
 			// 社員コード連携オンの場合ヘッダーフィールドに社員コードを設定
-			GMap userInfo = bumonUsrLogic.selectUserInfo(userIdRyohi);
-			String initShainCd = (userInfo == null) ? "" : (String)userInfo.get("shain_no");
+			GMap usrInfo = bumonUsrLogic.selectUserInfo(userIdRyohi);
+			String initShainCd = (usrInfo == null) ? "" : (String)usrInfo.get("shain_no");
 			if("HF1".equals(shainCdRenkeiArea)){ hf1Cd = initShainCd; }
 			if("HF2".equals(shainCdRenkeiArea)){ hf2Cd = initShainCd; }
 			if("HF3".equals(shainCdRenkeiArea)){ hf3Cd = initShainCd; }
@@ -3277,8 +3275,8 @@ public class KaigaiRyohiKaribaraiShinseiAction extends EteamEkispertCommon {
 	protected void reloadShiwakePattern(EteamConnection connection) {
 
 		// 社員コード取得
-		GMap userInfo = bumonUsrLogic.selectUserInfo(userIdRyohi);
-		String shainCd = (userInfo == null) ? "" : (String)userInfo.get("shain_no");
+		GMap usrInfo = bumonUsrLogic.selectUserInfo(userIdRyohi);
+		String shainCd = (usrInfo == null) ? "" : (String)usrInfo.get("shain_no");
 
 		//社員財務枝番コード取得
 		String shainShiwakeEdaNo = this.masterLogic.getShainShiwakeEdano(userIdRyohi);

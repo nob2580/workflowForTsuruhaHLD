@@ -59,7 +59,7 @@ public class TorihikiSentakuAction extends EteamAbstractAction {
 	/** 取引リスト */
 	List<GMap> list;
 	/** ユーザー情報 */
-	GMap userInfo;
+	GMap usrInfo;
 	/** 社員コード */
 	String shainCd;
 
@@ -279,8 +279,8 @@ public class TorihikiSentakuAction extends EteamAbstractAction {
 			String daihyouFutanBumonShiireKbn = bumonMasterDto == null ||  bumonMasterDto.shiireKbn == null ? "" : bumonMasterDto.shiireKbn.toString();
 			
 			// 社員コード
-			userInfo = bumonUsrLg.selectUserInfo(userId);
-			shainCd = (userInfo == null) ? "" : (String)userInfo.get("shain_no");
+			usrInfo = bumonUsrLg.selectUserInfo(userId);
+			shainCd = (String)usrInfo.get("shain_no");
 
 			// -----------------------------------
 			//取引単位に変数変換等

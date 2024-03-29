@@ -71,8 +71,8 @@ public class GougiBushoTsuikaLogic extends EteamAbstractLogic {
 	public GMap loadShouninShoriKengen(int shorikengenNo) {
 		final String sql = "SELECT * "
 							+ "FROM shounin_shori_kengen "
-							+ "WHERE (hanrei_hyouji_cd = '" + EteamNaibuCodeSetting.HANREI_HYOUJI_CD.GOUGI + "' OR hanrei_hyouji_cd = '" + EteamNaibuCodeSetting.HANREI_HYOUJI_CD.KYOUTSUU + "' ) "
-							+ "AND shounin_shori_kengen_no = ? "
+							+ "WHERE (hanrei_hyouji_cd = '" + EteamNaibuCodeSetting.HANREI_HYOUJI_CD.GOUGI + "' OR hanrei_hyouji_cd = '" + EteamNaibuCodeSetting.HANREI_HYOUJI_CD.KYOUTSUU + "' )"
+							+ "AND shounin_shori_kengen_no = ?"
 							+ "ORDER BY hyouji_jun";
 		
 		return connection.find(sql, shorikengenNo);

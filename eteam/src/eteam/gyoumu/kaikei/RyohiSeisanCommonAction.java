@@ -2287,30 +2287,23 @@ public class RyohiSeisanCommonAction extends RyohiKoutsuuhiSeisanCommonAction {
 				// 負担部門が存在する場合、部門仕入を確認
 				String shiireKbnKeihi = commonLogic.bumonShiireCheck(shiwakeP.kariKamokuCd, meisai.get("kari_futan_bumon_cd"), kazeiKbnKeihi, shiwakeP.kariShiireKbn, this.getShiireZeiAnbun());
 				meisai.put("kari_shiire_kbn", shiireKbnKeihi);
-				// 課税区分・処理グループの組み合わせにより、事業者区分が変更可能ならtrue
-				boolean jigyoushaKbnChange = (List.of("001", "002", "011", "013").contains(kazeiKbnKeihi) && List.of("2","5","6","7","8","10").contains(shoriGroup.toString())) || shoriGroup.toString().equals("21");
-				// 伺いの場合（事業者区分 = 空の場合）、国内明細で課税区分、処理グループの組み合わせにより事業者区分が変更可能な場合、取引先マスタを参照して事業者区分をセット
-				// 伺い、または通常起票の場合で事業者区分の変更が不可の場合、0(通常課税)としてセット
-				String jigyoushaKbnSet  = meisai.get("jigyousha_kbn");
-				if(isEmpty(meisai.get("jigyousha_kbn")) && !("1".equals(meisai.get("kaigai_flg"))) && jigyoushaKbnChange && !isEmpty(meisai.get("torihikisaki_cd"))) {
-					GMap master = masterLogic.findTorihikisakiJouhou(meisai.get("torihikisaki_cd"), false);
-					jigyoushaKbnSet = master == null ? "0" : (String)master.get("menzei_jigyousha_flg");
-				}else if(isEmpty(meisai.get("jigyousha_kbn")) || !jigyoushaKbnChange) {
-					jigyoushaKbnSet = "0";
+				//取得し直した課税区分、処理グループの組み合わせが事業者区分変更不可の場合、0(通常課税)としてセット
+				// 伺いの場合（=空の場合）も同様に初期値をセット
+				if(isEmpty(meisai.get("jigyousha_kbn"))
+					|| !((List.of("001", "002", "011", "013").contains(kazeiKbnKeihi) && List.of("2","5","6","7","8","10").contains(shoriGroup.toString())) || shoriGroup.toString().equals("21"))) {
+					meisai.put("jigyousha_kbn", "0");
 				}
-				meisai.put("jigyousha_kbn", jigyoushaKbnSet);
 				meisai.put("kari_kamoku_cd", shiwakeP.kariKamokuCd);
 				if(isKazei) {
 					var zeikomiKingaku = (BigDecimal)meisai.get("shiharai_kingaku");
 					var zeiritsuDecimal = (BigDecimal)meisai.get("zeiritsu");
-					var jigyoushaKbnDecimal = jigyoushaKbnSet.equals("0") ?  BigDecimal.valueOf(1) :  BigDecimal.valueOf(0.8);
 					//税率が0の場合、リストの一番最初の税率で上書き
 					if(zeiritsu != null && meisai.get("zeiritsu").toString().equals("0")) {
 						zeiritsuRyohiList = this.zeiritsuDao.loadNormalZeiritsu();
 						zeiritsuDecimal = zeiritsuRyohiList.get(0).zeiritsu;
 					}
 					// 税額再計算 ※仮払いでの再計算ソース部分を一旦そのままコピペ
-					var shouhizeigakuDecimal = zeikomiKingaku.multiply(zeiritsuDecimal).divide(new BigDecimal("100").add(zeiritsuDecimal), 3, RoundingMode.HALF_UP).multiply(jigyoushaKbnDecimal);
+					var shouhizeigakuDecimal = zeikomiKingaku.multiply(zeiritsuDecimal).divide(new BigDecimal("100").add(zeiritsuDecimal), 3, RoundingMode.HALF_UP);
 					var hasuuShoriFlg = this.getHasuuShoriFlg();
 					shouhizeigakuDecimal = this.commonLogic.processShouhizeiFraction(hasuuShoriFlg, shouhizeigakuDecimal, true);
 					var zeinukiKingaku = zeikomiKingaku.subtract(shouhizeigakuDecimal);
@@ -2583,8 +2576,8 @@ public class RyohiSeisanCommonAction extends RyohiKoutsuuhiSeisanCommonAction {
 				super.ekispertInit(connection, SEARCH_MODE_UNCHIN);
 			}
 			// 社員コード連携オンの場合ヘッダーフィールドに社員コードを設定
-			GMap userInfo = bumonUsrLogic.selectUserInfo(userIdRyohi);
-			String initShainCd = (userInfo == null) ? "" : (String)userInfo.get("shain_no");
+			GMap usrInfo = bumonUsrLogic.selectUserInfo(userIdRyohi);
+			String initShainCd = (usrInfo == null) ? "" : (String)usrInfo.get("shain_no");
 			if("HF1".equals(shainCdRenkeiArea)){ hf1Cd = initShainCd; }
 			if("HF2".equals(shainCdRenkeiArea)){ hf2Cd = initShainCd; }
 			if("HF3".equals(shainCdRenkeiArea)){ hf3Cd = initShainCd; }
@@ -2699,8 +2692,8 @@ public class RyohiSeisanCommonAction extends RyohiKoutsuuhiSeisanCommonAction {
 
 		// 法人カードの表示可否
 		houjinCardFlag = sysLogic.judgeKinouSeigyoON(EteamNaibuCodeSetting.KINOU_SEIGYO_CD.HOUJIN_CARD);
-		GMap houjinCardUserInfo = bumonUsrLogic.selectUserInfo(getUser().getSeigyoUserId());
-		if( ((houjinCardUserInfo != null && "1".equals(houjinCardUserInfo.get("houjin_card_riyou_flag"))) || "1".equals(dairiFlg) ) && houjinCardFlag == true ){
+		GMap chkMap = bumonUsrLogic.selectUserInfo(getUser().getSeigyoUserId());
+		if( ("1".equals(chkMap.get("houjin_card_riyou_flag")) || "1".equals(dairiFlg) ) && houjinCardFlag == true ){
 			houjinCardRirekiEnable = true;
 		}else{
 			houjinCardRirekiEnable = false;
@@ -2948,10 +2941,10 @@ public class RyohiSeisanCommonAction extends RyohiKoutsuuhiSeisanCommonAction {
 	{
 
 		// 社員コード取得
-		GMap userInfo = bumonUsrLogic.selectUserInfo(userIdRyohi);
-		String shainCd = (userInfo == null) ? "" : (String)userInfo.get("shain_no");
+		GMap usrInfo = bumonUsrLogic.selectUserInfo(userIdRyohi);
+		String shainCd = (usrInfo == null) ? "" : (String)usrInfo.get("shain_no");
 		// 法人カード識別用番号取得
-		String houjinCard = (userInfo == null) ? "" : (String)userInfo.get("houjin_card_shikibetsuyou_num");
+		String houjinCard = (usrInfo == null) ? "" : (String)usrInfo.get("houjin_card_shikibetsuyou_num");
 		//社員財務枝番コード取得
 		String shainShiwakeEdaNo = this.masterLogic.getShainShiwakeEdano(userIdRyohi);
 		
@@ -3253,10 +3246,10 @@ public class RyohiSeisanCommonAction extends RyohiKoutsuuhiSeisanCommonAction {
 	protected void reloadShiwakePatternKeihi()
 	{
 		// 社員コード取得
-		GMap userInfo = bumonUsrLogic.selectUserInfo(userIdRyohi);
-		String shainCd = (userInfo == null) ? "" : (String)userInfo.get("shain_no");
+		GMap usrInfo = bumonUsrLogic.selectUserInfo(userIdRyohi);
+		String shainCd = (usrInfo == null) ? "" : (String)usrInfo.get("shain_no");
 		// 法人カード識別用番号取得
-		String houjinCard = (userInfo == null) ? "" : (String)userInfo.get("houjin_card_shikibetsuyou_num");
+		String houjinCard = (usrInfo == null) ? "" : (String)usrInfo.get("houjin_card_shikibetsuyou_num");
 		//社員財務枝番コード取得
 		String shainShiwakeEdaNo = this.masterLogic.getShainShiwakeEdano(userIdRyohi);
 		
@@ -3354,7 +3347,7 @@ public class RyohiSeisanCommonAction extends RyohiKoutsuuhiSeisanCommonAction {
 				for (int i = 0; i < length; i++) {
 
 					// 使用者の法人カード識別用番号取得
-					String houjinCardKeiri = (String)userInfo.get("houjin_card_shikibetsuyou_num");
+					String houjinCardKeiri = (String)usrInfo.get("houjin_card_shikibetsuyou_num");
 
 					// 使用者の代表負担部門コード
 					String daihyouBumonCd = super.daihyouFutanBumonCd;

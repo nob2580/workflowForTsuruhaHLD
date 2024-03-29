@@ -153,12 +153,6 @@
             <result name="error">/jsp/eteam/gyoumu/help/GazouUpload.jsp</result>
             <interceptor-ref name="eteamAfterLoginPostIntercepter"/>
 		</action>
-		        <!-- マニュアル選択画面 -->
-		<action name="manual_sentaku" class="eteam.gyoumu.user.ManualSentakuAction" method="init">
-            <result name="success">/jsp/eteam/gyoumu/user/ManualSentaku.jsp</result>
-            <result name="error">/jsp/eteam/gyoumu/user/ManualSentaku.jsp</result>
-            <interceptor-ref name="eteamAfterLoginGetIntercepter"/>
-		</action>
 		
 		<!-- ■■■共通画面■■■ -->
 		<!-- 部門検索ダイアログ -->

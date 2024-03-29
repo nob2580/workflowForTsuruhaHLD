@@ -786,8 +786,8 @@ public class KaribaraiShinseiAction extends WorkflowEventControl {
 		boolean sanshou = false;
 
 		// 社員コード取得
-		GMap userInfo = bumonUsrLogic.selectUserInfo(super.getKihyouUserId());
-		String initShainCd = (userInfo == null) ? "" : (String)userInfo.get("shain_no");
+		GMap usrInfo = bumonUsrLogic.selectUserInfo(super.getKihyouUserId());
+		String initShainCd = (usrInfo == null) ? "" : (String)usrInfo.get("shain_no");
 
 		//新規起票時の表示状態作成
 		if (isEmpty(super.denpyouId) && isEmpty(super.sanshouDenpyouId)) {
@@ -1341,8 +1341,8 @@ public class KaribaraiShinseiAction extends WorkflowEventControl {
 			}
 
 			// 社員コード連携オンの場合ヘッダーフィールドに社員コードを設定
-			GMap userInfo = bumonUsrLogic.selectUserInfo(super.getKihyouUserId());
-			String initShainCd = (userInfo == null) ? "" : (String)userInfo.get("shain_no");
+			GMap usrInfo = bumonUsrLogic.selectUserInfo(super.getKihyouUserId());
+			String initShainCd = (usrInfo == null) ? "" : (String)usrInfo.get("shain_no");
 			if("HF1".equals(shainCdRenkeiArea)){ hf1Cd = initShainCd; }
 			if("HF2".equals(shainCdRenkeiArea)){ hf2Cd = initShainCd; }
 			if("HF3".equals(shainCdRenkeiArea)){ hf3Cd = initShainCd; }
@@ -1402,8 +1402,8 @@ public class KaribaraiShinseiAction extends WorkflowEventControl {
 	 */
 	protected void reloadShiwakePattern(EteamConnection connection) {
 		// 社員コード取得
-		GMap userInfo = bumonUsrLogic.selectUserInfo(super.getKihyouUserId());
-		String shainCd = (userInfo == null) ? "" : (String)userInfo.get("shain_no");
+		GMap usrInfo = bumonUsrLogic.selectUserInfo(super.getKihyouUserId());
+		String shainCd = (String)usrInfo.get("shain_no");
 		//社員財務枝番コード取得
 		String shainShiwakeEdaNo = this.masterLogic.getShainShiwakeEdano(super.getKihyouUserId());
 
