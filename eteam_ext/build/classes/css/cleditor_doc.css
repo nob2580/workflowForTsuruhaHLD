@@ -1,0 +1,313 @@
+﻿@CHARSET "UTF-8";
+
+/*--------------------
+ * 全体構成
+ * フッターはSticky footer styles
+ *--------------------*/
+
+/* The html and body elements cannot have any padding or margin. */
+html,
+body {
+	height: 100%;
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	/* Negative indent footer by it's height */
+	margin: 0 auto -60px;
+}
+
+/* Set the fixed height of the footer here */
+#push,
+#footer {
+	height: 60px;
+	text-align: center;
+}
+
+/* Lastly, apply responsive CSS fixes as necessary */
+@media (max-width: 767px) {
+	#footer {
+		margin-left: -20px;
+		margin-right: -20px;
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+}
+
+/* sticky footer */
+#wrap > #content {
+	padding-top: 40px;
+}
+.container .credit {
+	margin: 20px 0;
+}
+
+
+/*--------------------
+ * 入出力
+ *--------------------*/
+
+/* デフォルトの入出力で間あけすぎていたので狭める。 */
+.form-horizontal .control-group {
+	margin-bottom:1px;
+}
+
+/* ラベル */
+th, label.label, label.control-label {
+	padding: 5px;
+	font-size: 14px;
+	font-weight: bold;
+	background-color: #E0FFB0;
+	color: #000;
+}
+
+/* サブラベル */
+label.label-sub {
+	display: inline;
+	margin-left: 5px;
+	font-size: 14px;
+}
+
+/* 出力テキスト(ラベルとサイズ合わせ） */
+.output {
+	padding-top: 6px;
+	font-size: 14px;
+}
+
+/*--------------------
+ * テーブル
+ *--------------------*/
+
+/* 縮小表示対策、スマホ対策 */
+@media only screen and (max-width: 767px) {
+	/* Force table to not be like tables anymore */
+	.no-more-tables table, 
+	.no-more-tables thead, 
+	.no-more-tables tbody, 
+	.no-more-tables tfoot, 
+	.no-more-tables th, 
+	.no-more-tables td, 
+	.no-more-tables tr { 
+		display: block; 
+	}
+
+	/* Hide table headers (but not display: none;, for accessibility) */
+	.no-more-tables thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+
+	.no-more-tables tr { border: 1px solid #ccc; }
+
+	.no-more-tables td { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding-left: 50%; 
+		white-space: normal;
+		text-align:left;
+	}
+
+	.no-more-tables td:before { 
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+		text-align:left;
+		font-weight: bold;
+	}
+
+	/* Label the data */
+	.no-more-tables td:before {
+		content: attr(data-title);
+	}
+}
+
+/* 罫線 */
+.table-bordered th, .table-bordered td {
+	border-left:1px solid #dddddd;
+	border-top:1px solid #dddddd;
+}
+
+/* 一覧以外では罫線は白く背景と同化 */
+.table-bordered-white {
+	border-color: #ffffff;
+}
+
+/* 罫線なしの場合(使用しない想定) */
+.table-bordered-white th, .table-bordered-white td {
+	border-left:3px solid #ffffff;
+	border-top:3px solid #ffffff;
+}
+
+/* 自動改行の禁止 */
+td, th{
+	/*white-space: nowrap;*/
+}
+
+
+/*--------------------
+ * タイトル
+ *--------------------*/
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  /*line-height: 20px;*/
+  color: inherit;
+  text-rendering: optimizelegibility;
+}
+
+h1 {
+	font-size: 24px;
+	line-height: 24px;
+	padding: 5px;
+	background-color: #eeeeee;
+
+	position:relative;
+	padding:5px 20px;
+	background:#fff;
+	text-shadow:
+		1px 1px 0 #fff,
+		2px 2px 0 #999;
+	border-top:#333 solid 3px;
+	border-bottom:#333 solid 3px;
+    background-image: -webkit-gradient(linear, left top, right bottom,
+			from(			rgba(255, 255, 255, 0.0)), 
+			color-stop(0.4, rgba(255, 255, 255, 0.0)), 
+			color-stop(0.4, rgba(0, 0, 0, 0.1)), 
+			color-stop(0.6, rgba(0, 0, 0, 0.1)), 
+			color-stop(0.6, rgba(255, 255, 255, 0.0)),
+			to(				rgba(255, 255, 255, 0.0))
+			);
+	background-image: -webkit-linear-gradient(top -45deg,
+			transparent 40%,
+            rgba(0, 0, 0, 0.1) 40%,
+            rgba(0, 0, 0, 0.1) 60%,
+            transparent 60%
+			);
+	background-image: -moz-linear-gradient(top -45deg,
+			transparent 40%,
+            rgba(0, 0, 0, 0.1) 40%,
+            rgba(0, 0, 0, 0.1) 60%,
+            transparent 60%
+			);
+	background-image: -o-linear-gradient(top -45deg,
+			transparent 40%,
+            rgba(0, 0, 0, 0.1) 40%,
+            rgba(0, 0, 0, 0.1) 60%,
+            transparent 60%
+			);
+	background-image: linear-gradient(to bottom -45deg,
+			transparent 40%,
+            rgba(0, 0, 0, 0.1) 40%,
+            rgba(0, 0, 0, 0.1) 60%,
+            transparent 60%
+			);
+	background-size:4px 4px;
+}
+
+h2 {
+  font-size: 20px;
+  line-height: 20px;
+  padding-left: 10px; /* 左の余白 */
+  border-width: 0px 0px 2px 15px; /* 枠の幅 */
+  border-style: solid; /* 枠の種類 */
+  border-color: #999999; /* 枠の色 */
+}
+
+h3 {
+  font-size: 16px;
+  line-height: 16px;
+}
+
+h4, h5, h6 {
+	font-size: 14px;
+	line-height: 14px;
+}
+
+/*--------------------
+ * 他一般タグの統一
+ *--------------------*/
+
+/* 意味的なまとまりなので多少空ける */
+section{
+	margin: 8px 0;
+}
+
+/* プルダウンがデフォルトで大きすぎるので */
+select {
+	padding: 1px;
+}
+
+/* 最低限1pxはあけないといろいろくっつく */
+div.alert {
+	margin-top: 3px;
+}
+
+div.blank {
+	margin-top: 3px;
+}
+div.blank-large {
+	margin-top: 30px;
+}
+
+a.link {
+	color: #0088cc;
+}
+
+/* 右寄せ */
+.autoNumeric {
+	text-align: right;
+}
+.autoNumericWithCalcBox {
+	text-align: right;
+}
+.text-r {
+	text-align: right;
+}
+
+/*--------------------
+ * 選択状態の表現
+ *--------------------*/
+
+.choice-none {
+	background-color: white;
+}
+
+.choice-current {
+	background-color: yellow;
+}
+
+/*--------------------
+ * 他一般タグの統一
+ *--------------------*/
+
+/* 必須項目 */
+span.required {
+	color: red;
+}
+
+/*--------------------
+ * サイズ調整
+ *--------------------*/
+.comment-view {
+	width:400px;
+}
+
+/*--------------------
+ * 行間
+ *--------------------*/
+p { margin:0; }

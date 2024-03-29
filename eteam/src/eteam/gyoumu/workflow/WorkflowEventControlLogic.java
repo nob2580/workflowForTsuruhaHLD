@@ -17,11 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.StopWatch;
-import org.apache.struts2.ServletActionContext;
 
 import eteam.base.EteamContainer;
 import eteam.base.GMap;
@@ -2153,14 +2149,10 @@ public class WorkflowEventControlLogic extends WorkflowEventControlLogicBase {
 			if (!isEmpty(kianDenpyouId[0])){
 				for(int i = 0;i < kianDenpyouId.length;i++) {
 					if(!kianDenpyouId[i].equals("")) {
-						GMap forDenpyouJoutai = wfLogic.selectDenpyou(kianDenpyouId[i]);
-						if(forDenpyouJoutai == null) {
-							errorList.add("起案伝票ID[" + kianDenpyouId[i]+"]は存在しません。"); 
-						}else {
-							String joutai = forDenpyouJoutai.get("denpyou_joutai").toString(); 
-							if(!joutai.equals(DENPYOU_JYOUTAI.SYOUNIN_ZUMI)) { 
-								errorList.add(kianDenpyouId[i]+"は承認解除されているため、起案伝票として選択できません。"); 
-							}
+						GMap forDenpyouJoutai = wfLogic.selectDenpyou(kianDenpyouId[i]); 
+						String joutai = forDenpyouJoutai.get("denpyou_joutai").toString(); 
+						if(!joutai.equals(DENPYOU_JYOUTAI.SYOUNIN_ZUMI)) { 
+							errorList.add(kianDenpyouId[i]+"は承認解除されているため、起案伝票として選択できません。"); 
 						}
 					}
 				}
@@ -2549,38 +2541,38 @@ public class WorkflowEventControlLogic extends WorkflowEventControlLogicBase {
 		// ファイルの読み込みと一時保存先への保存
 		var tenpuFileList = workflowEventControl.tenpuFileDao.load(workflowEventControl.denpyouId);
 		var ebunshoList = workflowEventControl.ebunshoFileDao.load(workflowEventControl.denpyouId);
-
+		
 		var fileNameList = new ArrayList<String>();
 		var fileExtensionList = new ArrayList<String>();
-
+		
 		for(TenpuFile tenpuFile : tenpuFileList)
 		{
-			var tenpuFileNameForPreview = tenpuFile.fileName.replace(" ","_").replace("+","_").replace("&", "and").replace("=", "eq"); // 半角スペースを含むファイルについて、リンクに直すとNBSPに勝手に置き換わってしまうのでスペース自体を回避 半角プラスについても追加
+			var tenpuFileNameForPreview = tenpuFile.fileName.replace(" ","_").replace("+","_").replace("&", "and").replace("=", "eq"); // 半角スペースを含むファイルについて、リンクに直すとNBSPに勝手に置き換わってしまうのでスペース自体を回避 半角プラスなどのクエリ文字についても追加
 			var splitFileName = tenpuFileNameForPreview.split("\\.");
 			var extension = splitFileName[splitFileName.length - 1];
-
-			tenpuFileNameForPreview = tenpuFileNameForPreview.substring(0, tenpuFileNameForPreview.length() - extension.length() - (splitFileName.length > 1 ? 1 : 0)) + "_" + extension + fileNameSuffix;
-			fileNameList.add(tenpuFileNameForPreview);
-
-			Optional<EbunshoFile> ebunsho = ebunshoList.stream().filter(item -> item.edano == tenpuFile.edano).findFirst();
-
-			var binaryData = ebunsho.isEmpty() ? tenpuFile.binaryData : ebunsho.get().binaryData;
-
-			extension = (ebunsho.isEmpty() || !ebunsho.get().denshitorihikiFlg.equals(ebunsho.get().tsfuyoFlg)) ? extension : "pdf";
-			fileExtensionList.add(extension);
-
-			var fullFilePath = tmpFolder.getAbsolutePath() + "\\" + tenpuFileNameForPreview + "." + extension;
 			
-			try(OutputStream outputStream = new FileOutputStream(new File(fullFilePath)))
+			tenpuFileNameForPreview = tenpuFileNameForPreview.substring(0, tenpuFileNameForPreview.length() - extension.length() - (splitFileName.length > 1 ? 1 : 0)) + fileNameSuffix;
+			fileNameList.add(tenpuFileNameForPreview);
+			
+			Optional<EbunshoFile> ebunsho = ebunshoList.stream().filter(item -> item.edano == tenpuFile.edano).findFirst();
+			
+			var binaryData = ebunsho.isEmpty() ? tenpuFile.binaryData : ebunsho.get().binaryData;
+			
+			extension = ebunsho.isEmpty() ? extension : "pdf";
+			fileExtensionList.add(extension);
+			
+			try(OutputStream outputStream
+					= new FileOutputStream(new File(tmpFolder.getAbsolutePath() + "\\" + tenpuFileNameForPreview + "." + extension)))
 			{
-				StopWatch stopWatch = new StopWatch();
-				stopWatch.start();
 				workflowEventControl.inputStream = new ByteArrayInputStream(binaryData);
-				byte[] buffer = workflowEventControl.inputStream.readAllBytes(); // バッファとして使用するバイト配列を定義
-				outputStream.write(buffer); // 読み込んだバイト数だけをoutputStreamに書き出す
+				int byteRead = -1;
+
+				while ((byteRead = workflowEventControl.inputStream.read()) != -1) {
+					outputStream.write(byteRead);
+				}
+				
 				workflowEventControl.inputStream.close();
-				log.info("ファイル処理（共通高速化）： " + (stopWatch.getTime()/1000f) + " 秒。");
-				stopWatch.stop();
+
 			} catch (IOException ex) {
 				ex.printStackTrace();
 			}
@@ -2589,14 +2581,5 @@ public class WorkflowEventControlLogic extends WorkflowEventControlLogicBase {
 		// 確定したリストの格納
 		workflowEventControl.tenpuFileName = fileNameList.toArray(new String[fileNameList.size()]);
 		workflowEventControl.tenpuFileExtension = fileExtensionList.toArray(new String[fileExtensionList.size()]);
-
-		// 絶対パス用に必要なプロパティのセット
-		HttpServletRequest request = ServletActionContext.getRequest();
-		workflowEventControl.scheme = request.getScheme(); // "http" または "https"
-		var serverName = request.getServerName(); // ホスト名
-		var serverPort = request.getServerPort(); // ポート番号
-
-		workflowEventControl.host = serverName + ":" + serverPort; // "location.host"に相当
-
 	}
 }

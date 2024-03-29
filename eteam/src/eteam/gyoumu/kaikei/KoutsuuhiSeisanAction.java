@@ -480,8 +480,8 @@ public class KoutsuuhiSeisanAction extends RyohiKoutsuuhiSeisanCommonAction {
 		boolean sanshou = false;
 
 		// 社員コード取得
-		GMap userInfo = bumonUsrLogic.selectUserInfo(super.getKihyouUserId());
-		String initShainCd = (userInfo == null) ? "" : (String) userInfo.get("shain_no");
+		GMap usrInfo = bumonUsrLogic.selectUserInfo(super.getKihyouUserId());
+		String initShainCd = (usrInfo == null) ? "" : (String) usrInfo.get("shain_no");
 
 		// 新規起票時の表示状態作成
 		if (isEmpty(super.denpyouId) && isEmpty(super.sanshouDenpyouId)) {
@@ -1115,8 +1115,8 @@ public class KoutsuuhiSeisanAction extends RyohiKoutsuuhiSeisanCommonAction {
 
 		// 法人カードの表示可否
 		houjinCardFlag = sysLogic.judgeKinouSeigyoON(EteamNaibuCodeSetting.KINOU_SEIGYO_CD.HOUJIN_CARD);
-		GMap houjinCardUserInfo = bumonUsrLogic.selectUserInfo(getUser().getSeigyoUserId());
-		if(houjinCardUserInfo != null && "1".equals(houjinCardUserInfo.get("houjin_card_riyou_flag")) && houjinCardFlag == true ){
+		GMap chkMap = bumonUsrLogic.selectUserInfo(getUser().getSeigyoUserId());
+		if("1".equals(chkMap.get("houjin_card_riyou_flag")) && houjinCardFlag == true ){
 			houjinCardRirekiEnable = true;
 		}else{
 			houjinCardRirekiEnable = false;
@@ -1133,10 +1133,10 @@ public class KoutsuuhiSeisanAction extends RyohiKoutsuuhiSeisanCommonAction {
 	protected void reloadShiwakePattern(EteamConnection connection) {
 
 		// 社員コード取得
-		GMap userInfo = bumonUsrLogic.selectUserInfo(super.getKihyouUserId());
-		String shainCd = (userInfo == null) ? "" : (String) userInfo.get("shain_no");
+		GMap usrInfo = bumonUsrLogic.selectUserInfo(super.getKihyouUserId());
+		String shainCd = (String) usrInfo.get("shain_no");
 		// 法人カード識別用番号取得
-		String houjinCard = (userInfo == null) ? "" : (String) userInfo.get("houjin_card_shikibetsuyou_num");
+		String houjinCard = (String) usrInfo.get("houjin_card_shikibetsuyou_num");
 		//社員財務枝番コード取得
 		String shainShiwakeEdaNo = this.masterLogic.getShainShiwakeEdano(super.getKihyouUserId());
 

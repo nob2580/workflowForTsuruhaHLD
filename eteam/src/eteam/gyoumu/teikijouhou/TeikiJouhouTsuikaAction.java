@@ -132,8 +132,8 @@ public class TeikiJouhouTsuikaAction extends EteamEkispertCommon {
 			}
 			
 			//2.データ存在チェック
-			GMap userInfo = bumonUserLogic.selectUserInfo(userId);
-			if(userInfo == null){
+			GMap userJouhouMap = bumonUserLogic.selectUserInfo(userId);
+			if(userJouhouMap == null){
 				throw new EteamDataNotFoundException();
 			}
 			

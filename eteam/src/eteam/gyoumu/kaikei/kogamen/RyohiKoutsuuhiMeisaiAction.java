@@ -402,12 +402,12 @@ public class RyohiKoutsuuhiMeisaiAction extends EteamEkispertCommon {
 		}
 		
 		// 法人カードの表示可否
-		GMap userInfo = bumonUsrLogic.selectUserInfo(userId);
-		if (userInfo == null) {
+		GMap usrInfo = bumonUsrLogic.selectUserInfo(userId);
+		if (usrInfo == null) {
 			enableHoujinCard = false;
 		} else {
 			enableHoujinCard = sysLogic.judgeKinouSeigyoON(EteamNaibuCodeSetting.KINOU_SEIGYO_CD.HOUJIN_CARD) && 
-								userInfo.get("houjin_card_riyou_flag").equals("1") &&
+								usrInfo.get("houjin_card_riyou_flag").equals("1") &&
 								(denpyouKbn.equals(DENPYOU_KBN.RYOHI_SEISAN) || denpyouKbn.equals(DENPYOU_KBN.KAIGAI_RYOHI_SEISAN) || denpyouKbn.equals(DENPYOU_KBN.KOUTSUUHI_SEISAN));
 		}
 		

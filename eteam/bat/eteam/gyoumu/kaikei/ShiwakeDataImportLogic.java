@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.aspose.cells.SaveFormat;
@@ -738,7 +737,6 @@ public class ShiwakeDataImportLogic extends EteamAbstractLogic  {
 			}
 			
 			//該当伝票帳票をリンク情報に出力するか判定
-			// hoge.pdf決め打ちなので、実質常時true
 			if (isEnableAppendFile("hoge.pdf")) {
 				setChouhyou(true);
 				setLinkName(EteamCommon.byteCut((String)wf.selectDenpyouShubetu(denpyouId.substring(7, 11)).get("denpyou_shubetsu"), LINKNAME_MAXBYTE));
@@ -752,13 +750,8 @@ public class ShiwakeDataImportLogic extends EteamAbstractLogic  {
 			//e文書以外でリンク出力可能なら素ファイルとしてリンク情報に渡す
 			List<GMap> appendList = wf.selectTenpuFileForImport(denpyouId);
 			for( GMap append : appendList ) {
-				String orgFileName = append.get("file_name").toString();
-				// 対象外拡張子系はリストに入れない
-				if(List.of("", "bat", "exe").contains(FilenameUtils.getExtension(orgFileName).toLowerCase())) {
-					continue;
-				}
-				
 				Integer edano = (Integer)append.get("edano");
+				String orgFileName = append.get("file_name").toString();
 				String ebunshoNo = (String)append.get("ebunsho_no");
 				if (ebunshoNo != null) {
 					String denshitorihikiFlg = (String)append.get("denshitorihiki_flg");
@@ -997,8 +990,6 @@ public class ShiwakeDataImportLogic extends EteamAbstractLogic  {
 		String linkName;
 		/** ファイル名 */
 		String fileName;
-		/** 拡張子 */
-		String extension;
 		
 		/**
 		 * new
@@ -1036,9 +1027,7 @@ public class ShiwakeDataImportLogic extends EteamAbstractLogic  {
 			}
 
 			setLinkName(EteamCommon.byteCut((String)wf.selectDenpyouShubetu(denpyouId.substring(7, 11)).get("denpyou_shubetsu") + "-" + EteamIO.getBase(orgFileName), LINKNAME_MAXBYTE));
-			
-			setExtension(denshitorihikiFlg.equals(tsfuyoFlg) ? ".pdf" : ("." + FilenameUtils.getExtension(orgFileName)));
-			setFileName(ebunshoNo + getExtension());
+			setFileName(ebunshoNo + ".pdf");
 		}
 
 		/**
@@ -1048,7 +1037,7 @@ public class ShiwakeDataImportLogic extends EteamAbstractLogic  {
 		 */
 		public void outFile(String folder) {
 			byte[] fileData = (byte[])wf.findTenpuEbunshoFile(ebunshoNo).get("binary_data");
-			EteamIO.writeFile(fileData, folder + "/" + ebunshoNo + getExtension());
+			EteamIO.writeFile(fileData, folder + "/" + ebunshoNo + ".pdf");
 		}
 		
 		/**

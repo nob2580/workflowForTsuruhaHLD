@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="https://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+
+	<description>JSTL 1.1 functions library</description>
+	<display-name>JSTL functions</display-name>
+	<tlib-version>1.1</tlib-version>
+	<short-name>su</short-name>
+	<uri>http://java.sun.com/jsp/jstl/su</uri>
+
+	<function>
+		<name>htmlEscape</name>
+	 	<function-class>eteam.base.EteamFormatter</function-class>
+	 	<function-signature>java.lang.String htmlEscape(java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>htmlEscapeBr</name>
+	 	<function-class>eteam.base.EteamFormatter</function-class>
+	 	<function-signature>java.lang.String htmlEscapeBr(java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>htmlEscapeBrLink</name>
+	 	<function-class>eteam.base.EteamFormatter</function-class>
+	 	<function-signature>java.lang.String htmlEscapeBrLink(java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>urlEncode</name>
+	 	<function-class>eteam.base.EteamFormatter</function-class>
+	 	<function-signature>java.lang.String urlEncode(java.lang.String)</function-signature>
+	</function>
+</taglib>

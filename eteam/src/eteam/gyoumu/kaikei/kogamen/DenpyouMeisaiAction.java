@@ -796,8 +796,8 @@ public class DenpyouMeisaiAction extends EteamAbstractAction {
 				if(kihyouUser != null && kihyouUser.get("user_id") != null){
 					userId = kihyouUser.get("user_id").toString();
 					GMap kihyouUserInfo = bumonUsrLogic.selectUserInfo(userId);
-					userName = kihyouUserInfo == null ? "" : kihyouUserInfo.get("user_sei") + "　" + kihyouUserInfo.get("user_mei");
-					shainNo = (kihyouUserInfo == null) ? "" : (String)kihyouUserInfo.get("shain_no");
+					userName = kihyouUserInfo.get("user_sei") + "　" + kihyouUserInfo.get("user_mei");
+					shainNo = (String)kihyouUserInfo.get("shain_no");
 				}
 			}
 		}
@@ -805,12 +805,12 @@ public class DenpyouMeisaiAction extends EteamAbstractAction {
 		// 法人カードの表示可否
 		// 経費立替精算：代理起票のときは画面側で新規追加時は非表示にする
 		// 旅費精算系　：代理起票のときは申請画面のユーザーにより新規追加時は表示制御
-		GMap userInfo = bumonUsrLogic.selectUserInfo(userId);
-		if (userInfo == null) {
+		GMap usrInfo = bumonUsrLogic.selectUserInfo(userId);
+		if (usrInfo == null) {
 			enableHoujinCard = false;
 		} else {
 			enableHoujinCard = sysLogic.judgeKinouSeigyoON(EteamNaibuCodeSetting.KINOU_SEIGYO_CD.HOUJIN_CARD) &&
-							   userInfo.get("houjin_card_riyou_flag").equals("1") &&
+							   usrInfo.get("houjin_card_riyou_flag").equals("1") &&
 							   (denpyouKbn.equals(DENPYOU_KBN.RYOHI_SEISAN) || denpyouKbn.equals(DENPYOU_KBN.KAIGAI_RYOHI_SEISAN) || denpyouKbn.equals(DENPYOU_KBN.KEIHI_TATEKAE_SEISAN));
 		}
 		// 会社手配の表示可否

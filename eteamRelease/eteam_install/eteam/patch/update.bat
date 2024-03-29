@@ -5,7 +5,6 @@ rem ワークフロー使用PostgreSQLのポート・binパス取得
 call C:\eteam\work\set_pgport.bat
 cd "%~dp0"
 
-
 rem WEB停止 
 call ..\work\stop.bat
 cd "%~dp0"
@@ -91,8 +90,6 @@ DEL /F "C:\eteam\bat\lib\freemarker-2.3.30.jar" > NUL 2>&1
 DEL /F "C:\eteam\bat\lib\struts2-convention-plugin-2.5.29.jar" > NUL 2>&1
 DEL /F "C:\eteam\bat\lib\struts2-core-2.5.29.jar" > NUL 2>&1
 DEL /F "C:\eteam\bat\lib\postgresql-9.3-1101.jdbc4.jar" > NUL 2>&1
-DEL /F "C:\eteam\bat\lib\struts2-convention-plugin-2.5.30.jar" > NUL 2>&1
-DEL /F "C:\eteam\bat\lib\struts2-core-2.5.30.jar" > NUL 2>&1
 DEL /F "C:\Program Files\Apache Software Foundation\Tomcat 9.0\lib\commons-dbutils-1.5.jar" > NUL 2>&1
 DEL /F "C:\Program Files\Apache Software Foundation\Tomcat 9.0\lib\commons-fileupload-1.3.1.jar" > NUL 2>&1
 DEL /F "C:\Program Files\Apache Software Foundation\Tomcat 9.0\lib\commons-io-2.2.jar" > NUL 2>&1
@@ -156,8 +153,6 @@ DEL /F "C:\Program Files\Apache Software Foundation\Tomcat 9.0\lib\freemarker-2.
 DEL /F "C:\Program Files\Apache Software Foundation\Tomcat 9.0\lib\struts2-convention-plugin-2.5.29.jar" > NUL 2>&1
 DEL /F "C:\Program Files\Apache Software Foundation\Tomcat 9.0\lib\struts2-core-2.5.29.jar" > NUL 2>&1
 DEL /F "C:\Program Files\Apache Software Foundation\Tomcat 9.0\lib\postgresql-9.3-1101.jdbc4.jar" > NUL 2>&1
-DEL /F "C:\Program Files\Apache Software Foundation\Tomcat 9.0\lib\struts2-convention-plugin-2.5.30.jar" > NUL 2>&1
-DEL /F "C:\Program Files\Apache Software Foundation\Tomcat 9.0\lib\struts2-core-2.5.30.jar" > NUL 2>&1
 
 rem ②SQL Anywhere モジュールコピー
 copy /Y "C:\Program Files\ICSP\OPENde3\Sybase\SQL Anywhere 12\Java\jodbc.jar" "C:\eteam\bat\lib\jodbc.jar"

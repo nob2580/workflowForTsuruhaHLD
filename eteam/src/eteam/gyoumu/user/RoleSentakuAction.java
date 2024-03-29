@@ -1,14 +1,9 @@
 package eteam.gyoumu.user;
 
-import java.util.List;
-
-import org.apache.struts2.ServletActionContext;
-
 import eteam.base.EteamAbstractAction;
 import eteam.base.EteamConnection;
 import eteam.base.EteamContainer;
 import eteam.base.exception.EteamAccessDeniedException;
-import eteam.common.EteamCommon;
 import eteam.common.EteamConst;
 import eteam.common.EteamConst.Sessionkey;
 import eteam.common.SecurityLogLogic;
@@ -37,18 +32,6 @@ public class RoleSentakuAction extends EteamAbstractAction {
 	String[] gyoumuRoleId;
 	/** 業務ロール名 */
 	String[] gyoumuRoleName;
-	/** 業務ロール 機能制御コード */
-	String gyoumuRoleKinouSeigyoCd;
-	/** 業務ロール 機能制御区分 */
-	String gyoumuRoleKinouSeigyoKbn;
-	/**	経理処理の業務ロールを持つかどうか */
-	boolean keiriShoriRole;
-	/**	管理者の業務ロールを持つかどうか */
-	boolean kanriRole;
-	/**	WFの業務ロールを持つかどうか */
-	boolean wfRole;
-	/**	有効な機能制御の数 */
-	String kinouCount;
 
 //＜入力チェック＞
 	@Override
@@ -113,7 +96,7 @@ public class RoleSentakuAction extends EteamAbstractAction {
 			//部門所属ユーザーとして」リンククリック → 業務ロール選択解除
 			if (isEmpty(selectedGyoumuRoleId)) {
 				lc.changeGyoumuRole(user, null);
-				kinouCount = "0";
+				
 			//業務ロールリンククリック → 業務ロールを設定（そもそも選べないのならエラー）
 			} else {
 				int gyoumuRoleIndex = -1;
@@ -126,24 +109,7 @@ public class RoleSentakuAction extends EteamAbstractAction {
 					throw new EteamAccessDeniedException();
 				}
 				lc.changeGyoumuRole(user, selectedGyoumuRoleId);
-				
-				// 業務ロール機能制御から機能制御区分を取得
-				keiriShoriRole =  EteamCommon.getAccessAuthorityLevel(connection, selectedGyoumuRoleId, "KR").equals("KR");
-				kanriRole = List.of("CO","SU").contains(EteamCommon.getAccessAuthorityLevel(connection, selectedGyoumuRoleId, "CO"));
-				wfRole =  EteamCommon.getAccessAuthorityLevel(connection, selectedGyoumuRoleId, "WF").equals("WF");
-				boolean kinouList[] = {keiriShoriRole, kanriRole, wfRole};
-				int kinouCnt = 0;
-				for(boolean kinou: kinouList) {
-					if(kinou) {
-						kinouCnt += 1;
-					}
-				}
-				kinouCount = String.valueOf(kinouCnt);
-				session.put("keiriShoriRole", keiriShoriRole);
-				session.put("kanriRole", kanriRole);
-				session.put("wfRole", wfRole);
 			}
-			session.put("kinouCount", kinouCount);
 
 			//代行解除　本人所属に戻す
 			lc.changeHiDaikouUserInfo(user, null);
@@ -170,6 +136,5 @@ public class RoleSentakuAction extends EteamAbstractAction {
 		User user = getUser();
 		gyoumuRoleId = user.gyoumuRoleIdKouho;
 		gyoumuRoleName = user.gyoumuRoleNameKouho;
-		ServletActionContext.getRequest().setAttribute("gyoumuRoleSentaku", true);
 	}
 }

@@ -445,9 +445,9 @@ public class HoujinCardRiyouMeisaiAction extends EteamAbstractAction {
 			IsKanri = false;
 			kensakuKihyouShozokuUserId = getUser().getTourokuOrKoushinUserId();
 			GMap userInfo = bumonUserLogic.selectUserInfo(kensakuKihyouShozokuUserId);
-			kihyouShainNo = (userInfo == null) ? "" : (String)userInfo.get("shain_no");
-			kihyouCardNum = (userInfo == null) ? "" : (String)userInfo.get("houjin_card_shikibetsuyou_num");
-			kihyouUserName = (userInfo == null) ? "" : userInfo.getString("user_sei") + "　" + userInfo.getString("user_mei");
+			kihyouShainNo = (String)userInfo.get("shain_no");
+			kihyouCardNum = (String)userInfo.get("houjin_card_shikibetsuyou_num");
+			kihyouUserName = userInfo.getString("user_sei") + "　" + userInfo.getString("user_mei");
 		}
 		// adminユーザーか経理権限ロールの場合
 		if (accessAuthority.equals("SU") || accessAuthority.equals("KR")) {

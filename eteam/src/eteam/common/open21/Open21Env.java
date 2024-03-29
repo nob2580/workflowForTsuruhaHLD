@@ -176,16 +176,8 @@ public class Open21Env {
 	 * @return 接続先ポート番号のString
 	 */
 	public static String getPortWF(){
-		// 2024/01/18 Postgre15対応
-		String port16 = "";
-		if (RegAccess.existsRegistory(REG_KEY_NAME.WF_PORT15[0], REG_KEY_NAME.WF_PORT15[1])) {
-			port16 = RegAccess.readRegistoryWithDefaultStr(REG_KEY_NAME.WF_PORT15[0], REG_KEY_NAME.WF_PORT15[1],"5432");
-		} else if (RegAccess.existsRegistory(REG_KEY_NAME.WF_PORT[0], REG_KEY_NAME.WF_PORT[1])) {
-			port16 = RegAccess.readRegistoryWithDefaultStr(REG_KEY_NAME.WF_PORT[0], REG_KEY_NAME.WF_PORT[1],"5432");
-		}
-		
 		//16進数で格納されているため10進数に変換
-		//String port16 = RegAccess.readRegistoryWithDefaultStr(REG_KEY_NAME.WF_PORT[0], REG_KEY_NAME.WF_PORT[1],"5432");
+		String port16 = RegAccess.readRegistoryWithDefaultStr(REG_KEY_NAME.WF_PORT[0], REG_KEY_NAME.WF_PORT[1],"5432");
 		int port = Integer.decode(port16);
 		return String.valueOf(port);
 	}
@@ -195,15 +187,7 @@ public class Open21Env {
 	 * @return ベースディレクトリString
 	 */
 	public static String getBaseDirWF(){
-		// 2024/01/18 Postgre15対応
-		String baseDir = "";
-		if (RegAccess.existsRegistory(REG_KEY_NAME.WF_PORT15[0], REG_KEY_NAME.WF_PORT15[1])) {
-			baseDir = RegAccess.readRegistoryWithDefaultStr(REG_KEY_NAME.WF_BASEDIR15[0], REG_KEY_NAME.WF_BASEDIR15[1],"");
-		} else if (RegAccess.existsRegistory(REG_KEY_NAME.WF_PORT[0], REG_KEY_NAME.WF_PORT[1])) {
-			baseDir = RegAccess.readRegistoryWithDefaultStr(REG_KEY_NAME.WF_BASEDIR[0], REG_KEY_NAME.WF_BASEDIR[1],"");
-		}
-		// return RegAccess.readRegistoryWithDefaultStr(REG_KEY_NAME.WF_BASEDIR[0], REG_KEY_NAME.WF_BASEDIR[1],"");
-		return baseDir;
+		return RegAccess.readRegistoryWithDefaultStr(REG_KEY_NAME.WF_BASEDIR[0], REG_KEY_NAME.WF_BASEDIR[1],"");
 	}
 
 	/**

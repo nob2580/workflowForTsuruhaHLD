@@ -131,10 +131,10 @@ public class TeikiJouhouHenkouAction extends EteamEkispertCommon {
 			}
 			
 			//ユーザーIDから社員番号・氏名取得
-			GMap userInfo = bumonUserLogic.selectUserInfo(userId);
-			if(userInfo != null){
-				shainNo  = (String)userInfo.get("shain_no");
-				userName = (String)userInfo.get("user_sei") + "　" + (String)userInfo.get("user_mei");
+			GMap userJouhouMap = bumonUserLogic.selectUserInfo(userId);
+			if(userJouhouMap != null){
+				shainNo  = (String)userJouhouMap.get("shain_no");
+				userName = (String)userJouhouMap.get("user_sei") + "　" + (String)userJouhouMap.get("user_mei");
 			}else{
 				shainNo  = "";
 				userName = "※該当ユーザーは削除されています";
@@ -170,8 +170,8 @@ public class TeikiJouhouHenkouAction extends EteamEkispertCommon {
 			//4.処理
 			
 			//指定ユーザーが存在するかチェック
-			GMap userInfo = bumonUserLogic.selectUserInfo(userId);
-			if(userInfo == null){
+			GMap userJouhouMap = bumonUserLogic.selectUserInfo(userId);
+			if(userJouhouMap == null){
 				errorList.add("指定されたユーザーは存在しません。");
 			}
 			

@@ -959,7 +959,7 @@ public class KaikeiCategoryLogic extends EteamAbstractLogic {
 		+ "    (sp.default_hyouji_flg = '1') "
 		+ "    OR (exists (SELECT * FROM shozoku_bumon_shiwake_pattern_master tmp WHERE (tmp.denpyou_kbn, tmp.shiwake_edano, tmp.bumon_cd)=(sp.denpyou_kbn, sp.shiwake_edano, ?)))) "
 		+ "ORDER BY "
-		+ "  sp.hyouji_jun, sp.shiwake_edano ";
+		+ "  sp.hyouji_jun ";
 		return connection.load(sql, denpyouKbn, bumonCd);
 	}
 	/**
@@ -991,7 +991,7 @@ public class KaikeiCategoryLogic extends EteamAbstractLogic {
 						+  "ON f.kamoku_gaibu_cd = a.kashi_kamoku_cd4 "
 						+  "LEFT OUTER JOIN kamoku_master g "
 						+  "ON g.kamoku_gaibu_cd = a.kashi_kamoku_cd5 "
-						+  "WHERE  a.denpyou_kbn = ? AND a.delete_flg = '0' ";
+						+  "WHERE  a.denpyou_kbn = ? AND a.delete_flg = '0'";
 
 		sql = sql + "ORDER BY (CASE WHEN current_date > a.yuukou_kigen_to THEN 1 ELSE 0 END), " + "a." + sortItem + " " + sortOrder + ", a.shiwake_edano ";
 		return connection.load(sql, denpyouKbn);

@@ -381,10 +381,10 @@ public class RyohiSeisanAction extends RyohiSeisanCommonAction {
 	 */
 	protected Ryohiseisan createDto()
 	{
-		GMap userInfo = bumonUsrLogic.selectUserInfo(userIdRyohi);
-		String shainCd = (userInfo == null) ? "" : (String)userInfo.get("shain_no");
-		String userSei = (userInfo == null) ? "" : (String)userInfo.get("user_sei");
-		String userMei = (userInfo == null) ? "" : (String)userInfo.get("user_mei");
+		GMap usrInfo = bumonUsrLogic.selectUserInfo(userIdRyohi);
+		String shainCd = (String)usrInfo.get("shain_no");
+		String userSei = (String)usrInfo.get("user_sei");
+		String userMei = (String)usrInfo.get("user_mei");
 		
 		Ryohiseisan ryohiseisan = new Ryohiseisan();
 		ryohiseisan.denpyouId = this.denpyouId;

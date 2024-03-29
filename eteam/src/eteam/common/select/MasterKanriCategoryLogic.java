@@ -104,7 +104,7 @@ public class MasterKanriCategoryLogic extends EteamAbstractLogic {
 				+ "  koushin_time "
 				+ "FROM master_kanri_hansuu "
 				+ "WHERE "
-				+ "  master_id = ? "
+				+ "  master_id = ?"
 				+ "ORDER BY version ";
 		return connection.load(sql, masterId);
 	}
@@ -1032,7 +1032,7 @@ public class MasterKanriCategoryLogic extends EteamAbstractLogic {
 		}
 		if(shiiresakiFlg) {
 			if(ichigensakiFlg) {
-				sql.append(" AND (t.torihikisaki_cd IS NOT NULL OR tm.torihikisaki_cd = ? ) ");
+				sql.append(" AND (t.torihikisaki_cd IS NOT NULL OR tm.torihikisaki_cd = ? )");
 				params.add(setting.ichigenCd());
 			}else {
 				sql.append(" AND t.torihikisaki_cd IS NOT NULL ");
@@ -1402,7 +1402,7 @@ public class MasterKanriCategoryLogic extends EteamAbstractLogic {
 
 		// null以外は指定した軽減税率区分で絞り込む
 		if(null != keigenZeiritsuKbn) {
-			sql.append("  AND keigen_zeiritsu_kbn = ? ");
+			sql.append("  AND keigen_zeiritsu_kbn = ?");
 			params.add(keigenZeiritsuKbn);
 		}
 
@@ -1738,7 +1738,7 @@ public class MasterKanriCategoryLogic extends EteamAbstractLogic {
 
 		final String sql = "SELECT project_cd, project_name "
 				 + "FROM project_master "
-				 + "WHERE shuuryou_kbn = 0 "
+				 + "WHERE shuuryou_kbn = 0"
 				 + "ORDER BY project_cd ASC";
 		return connection.load(sql);
 	}

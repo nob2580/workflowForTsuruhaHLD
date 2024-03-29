@@ -259,10 +259,10 @@ public class TeikiJouhouIchiranAction extends EteamAbstractAction {
 		BumonUserKanriCategoryLogic bumonUserLogic = EteamContainer.getComponent(BumonUserKanriCategoryLogic.class, connection);
 		
 		//ユーザーIDから社員番号・氏名取得
-		GMap userInfo = bumonUserLogic.selectUserInfo(userId);
-		if(userInfo != null){
-			shainNo  = (String)userInfo.get("shain_no");
-			userName = (String)userInfo.get("user_sei") + "　" + (String)userInfo.get("user_mei");
+		GMap userJouhouMap = bumonUserLogic.selectUserInfo(userId);
+		if(userJouhouMap != null){
+			shainNo  = (String)userJouhouMap.get("shain_no");
+			userName = (String)userJouhouMap.get("user_sei") + "　" + (String)userJouhouMap.get("user_mei");
 		}else{
 			shainNo  = "";
 			userName = "";

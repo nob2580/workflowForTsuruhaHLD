@@ -390,8 +390,8 @@ public class MenuAction extends EteamAbstractAction {
 			boolean keiriFlg = false;
 			String keiriChkStr = EteamCommon.getAccessAuthorityLevel(connection, getUser().getGyoumuRoleId(), "KR");
 			if (keiriChkStr.equals("SU") || keiriChkStr.equals("KR")) { keiriFlg = true; };
-			GMap houjinCardUserInfo  = bumonUserLogic.selectUserInfo(getUser().getSeigyoUserId());
-			if (houjinCardUserInfo == null || (!("1".equals(houjinCardUserInfo.get("houjin_card_riyou_flag"))) && !keiriFlg) )
+			GMap chkMap  = bumonUserLogic.selectUserInfo(getUser().getSeigyoUserId());
+			if ( !("1".equals(chkMap.get("houjin_card_riyou_flag"))) && !keiriFlg )
 			{
 				HoujinCardSeisanHimodukeHyoujiFlg = false;
 			}

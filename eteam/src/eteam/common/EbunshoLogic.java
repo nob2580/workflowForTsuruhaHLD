@@ -22,9 +22,6 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
-import org.apache.commons.imaging.ImageReadException;
-import org.apache.commons.imaging.ImageWriteException;
-import org.apache.commons.imaging.Imaging;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -170,15 +167,16 @@ public class EbunshoLogic extends EteamAbstractLogic{
 			BufferedImage awtImage = ImageIO.read(new ByteArrayInputStream(imageData));
 			float orgWidth = awtImage.getWidth();
 			float orgHeight = awtImage.getHeight();
-			float[] originalSize = {orgWidth, orgHeight};
-			float[] drawingSize = resizeImage(orgWidth, orgHeight);
+			float[] size = resizeImage(orgWidth, orgHeight);
 			
+			// 画像回転用行列クラスを生成(ORIENTATIONが5～8の場合は用紙も回転)
 			int[] rotate = {0};
-			imageData = this.readImageGetaff(imageData, originalSize, rotate);
+			AffineTransform af = readImageGetaff(imageData, size, rotate);
+			Matrix mtr = new Matrix(af);
 			
 			// PDF作成用オブジェクト生成
 			PDDocument document = new PDDocument();
-			PDPage page = new PDPage(new PDRectangle(drawingSize[0], drawingSize[1]));
+			PDPage page = new PDPage(new PDRectangle(size[0], size[1]));
 			page.setRotation(rotate[0]);
 			document.addPage(page);
 			
@@ -186,7 +184,7 @@ public class EbunshoLogic extends EteamAbstractLogic{
 			InputStream imgStream = new ByteArrayInputStream(imageData);
 			PDImageXObject ximage = JPEGFactory.createFromStream(document, imgStream);
 			PDPageContentStream contentStream = new PDPageContentStream(document, page);
-			contentStream.drawImage(ximage, new Matrix(new AffineTransform(drawingSize[0], 0.0, 0.0, drawingSize[1], 0.0, 0.0)));
+			contentStream.drawImage(ximage,mtr);
 			contentStream.close();
 
 			// バイト列として出力
@@ -230,11 +228,11 @@ public class EbunshoLogic extends EteamAbstractLogic{
 			BufferedImage awtImage = ImageIO.read(new ByteArrayInputStream(imageData));
 			float orgWidth = awtImage.getWidth();
 			float orgHeight = awtImage.getHeight();
-			float[] originalSize = {orgWidth, orgHeight};
-			float[] drawingSize = resizeImage(orgWidth, orgHeight);
+			float[] size = resizeImage(orgWidth, orgHeight);
 			
 			int[] rotate = {0};
-			imageData = this.readImageGetaff(imageData, originalSize, rotate);
+			AffineTransform af = readImageGetaff(imageData, size, rotate);
+			Matrix mtr = new Matrix(af);
 			
 			//作成するファイルのサイズを調べながら1mb切るまでループ
 			//但し画質0.1以下になったら終了
@@ -242,14 +240,14 @@ public class EbunshoLogic extends EteamAbstractLogic{
 				// 画像オブジェクトからPDFへ変換(画像はJPEG化)
 				// PDF作成用オブジェクト生成
 				PDDocument document = new PDDocument();
-				PDPage page = new PDPage(new PDRectangle(drawingSize[0], drawingSize[1]));
+				PDPage page = new PDPage(new PDRectangle(size[0], size[1]));
 				page.setRotation(rotate[0]);
 				document.addPage(page);
 				
 				// 取得した画像データを指定画質でJPEG変換し、さらにPDFに変換(必要なら回転)
 				PDImageXObject ximage = JPEGFactory.createFromImage(document, awtImage, quality);
 				PDPageContentStream contentStream = new PDPageContentStream(document, page);
-				contentStream.drawImage(ximage, new Matrix(new AffineTransform(drawingSize[0], 0.0, 0.0, drawingSize[1], 0.0, 0.0)));
+				contentStream.drawImage(ximage,mtr);
 				contentStream.close();
 
 				ByteArrayOutputStream pdfOut = new ByteArrayOutputStream();
@@ -374,81 +372,70 @@ public class EbunshoLogic extends EteamAbstractLogic{
 		}
 	}
 	
+	
+	
+	
 	/**
 	 * 渡されたJPEGのEXIF情報から回転方向情報を取得し、
 	 * 画像の向きを補正するための行列情報を作成する。
 	 * @param imageData 画像データ
 	 * @param size 元画像の縦横サイズ
 	 * @param rotate 用紙の回転方向(参照渡し)
-	 * @return 更新されたImageData配列
+	 * @return 画像サイズ・方向調整用のAffineTransform
 	 */
-	public byte[] readImageGetaff(byte[] imageData, float[] size, int[] rotate) {
+	public AffineTransform readImageGetaff(byte[] imageData, float[] size, int[] rotate) {
+		
+		//デフォルト用の値設定
+		AffineTransform affineTransform = new AffineTransform();
+		double width = size[0];
+		double height = size[1];
+		affineTransform.setTransform(width, 0.0, 0.0, height, 0.0, 0.0);
+		
 		//EXIF(ORIENTATION)を参照、見つからなければ回転なしとする
 		int orientation = 1;
 		try {
 			Metadata metadata = ImageMetadataReader.readMetadata(new ByteArrayInputStream(imageData));
 			Directory directory = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
 			orientation = directory.getInt(ExifIFD0Directory.TAG_ORIENTATION);
-			imageData = this.flipImageAndUpdateExif(imageData, size, orientation);
 		} catch (Exception ex) {
-			return imageData;
+			return affineTransform;
 		}
 		
-		//EXIF(ORIENTATION)があって、1以外なら回転して返す。ただし反転系は上記で処理済みなので注意。
+		//EXIF(ORIENTATION)があって、1以外なら回転して返す
 		switch (orientation) {
+		case 2: // Flip X
+			affineTransform.setTransform(-width, 0.0, 0.0, height, width, 0.0);
+			break;
 		case 3: // PI rotation
-			rotate[0] = 180;
-			return imageData;
-		case 6:
-		case 7: // -PI/2 and -width
+			affineTransform.setTransform(-width, 0.0, 0.0, -height, width, height);
+			break;
+		case 4: // Flip Y
+			affineTransform.setTransform(width, 0.0, 0.0, -height, 0.0, height);
+			break;
+		case 5: // - PI/2 and Flip X
+			//affineTransform.setTransform(0.0, -width, -height, 0.0, height, width);
+			affineTransform.setTransform(width, 0.0, 0.0, -height, 0.0, height);
 			rotate[0] = 90;
-			return imageData;
-		case 5:
-		case 8: // PI / 2
+			break;
+		case 6: // -PI/2 and -width
+			//affineTransform.setTransform(0.0, -width, height, 0.0, 0.0, width);
+			rotate[0] = 90;
+			break;
+		case 7: // PI/2 and Flip
+			//affineTransform.setTransform(0.0, width, height, 0.0, 0.0, 0.0);
+			affineTransform.setTransform(width, 0.0, 0.0, -height, 0.0, height);
 			rotate[0] = 270;
-			return imageData;
-		default: //1, 2, 4を想定しているが、万が一1～8以外でもそのままかえす。
-			return imageData;
-		}
+			break;
+		case 8: // PI / 2
+			//affineTransform.setTransform(0.0, width, -height, 0.0, height, 0.0);
+			rotate[0] = 270;
+			break;
+		default: //1だけを想定しているが、万が一1～8以外でもそのままかえす。
+			return affineTransform;
+		}    
+		return affineTransform;
 	}
 	
-    /**
-     * jpgを対象に、Exifで管理している反転画像の反転処理と、Exifタグの更新を実行。解像度がマイナスになるアフィン変換は廃止する。
-     * @param imageData 画像データバイナリ配列
-     * @param size サイズ配列（width, height）
-     * @param orientation 方向のExifデータ
-     * @return 反転処理&orientation更新済みの画像
-     * @throws ImageReadException ImageReadException
-     * @throws ImageWriteException ImageWriteException
-     * @throws IOException IOException
-     */
-    protected byte[] flipImageAndUpdateExif(byte[] imageData, float[] size, int orientation) throws ImageReadException, ImageWriteException, IOException {
-    	// 反転不要な種別ならおしまい
-    	if(List.of(1, 3, 6, 8).contains(orientation)) {
-    		return imageData;
-    	}
-        // 画像データをバイト配列からバッファーイメージに変換
-        BufferedImage image = Imaging.getBufferedImage(imageData);
-
-        // 画像を反転させる処理
-        // 4以外なら左右反転
-        var width = (int)size[0];
-        var height = (int)size[1];
-        BufferedImage flippedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-            	boolean isYFlip = orientation == 4;
-                flippedImage.setRGB(isYFlip ? x : (width - 1 - x), isYFlip ? (height - 1 - y) : y, image.getRGB(x, y));
-            }
-        }
-
-        // 新しい画像データとして書き出し
-        ByteArrayOutputStream flippedByteArrayOutputStream = new ByteArrayOutputStream();
-        // 反転画像の書き込み
-        ImageIO.write(flippedImage, "jpg", flippedByteArrayOutputStream);
-
-        return flippedByteArrayOutputStream.toByteArray();
-    }
 	
 	/**
 	 * 画像サイズをA4に調整
