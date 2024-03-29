@@ -13,106 +13,18 @@
 	<classpathentry kind="src" path="WebContent/static"/>
 	<classpathentry kind="src" path="WebContent/META-INF"/>
 	<classpathentry kind="src" path="WebContent/WEB-INF"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11">
 		<attributes>
 			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v7.0">
-		<attributes>
-			<attribute name="owner.project.facets" value="jst.web"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/annotations-api.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/ant-1.9.4.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/aopalliance-1.0.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/apl3161.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/asm-7.3.1.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/asm-commons-7.3.1.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/asm-tree-7.3.1.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/asn1rt.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/aspose-cells-8.5.2.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/astdts_asn1.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/astdts_crypto.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/astdts_httpclient.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/astdts_imprt.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/astdts_protocol.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/atss3161.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/bcprov-jdk13-127.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/catalina.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/catalina-ant.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/catalina-ha.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/catalina-ssi.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/catalina-storeconfig.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/catalina-tribes.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/commons-dbutils-1.7.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/commons-fileupload-1.4.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/commons-imaging-1.0-alpha2.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/commons-imaging-1.0-alpha2-javadoc.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/commons-imaging-1.0-alpha2-sources.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/commons-io-2.6.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/commons-lang3-3.8.1.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/commons-logging-1.2.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/commons-validator-1.6.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/ecj-4.20.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/el-api.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/freemarker-2.3.31.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/gson-2.8.1.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/jasper.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/jasper-el.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/jaspic-api.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/javassist-3.21.0.GA.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/javax.activation-1.2.0.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/javax.mail-1.5.2.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/jaxb-api.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/jaxb-core.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/jaxb-impl.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/jconn4.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/jodbc.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/jsp-api.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/jxl.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/log4j-1.2.17.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/log4j-api-2.17.1.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/lombok.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/metadata-extractor-2.9.1.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/mssql-jdbc-7.0.0.jre10.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/ognl-3.1.29.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/pdfbox-2.0.11.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/postgresql-42.6.0.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/qrgen-1.3.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/s2-extension-2.4.48.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/s2-framework-2.4.48.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/s2-tiger-2.4.48.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/servlet-api.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/struts2-convention-plugin-2.5.30.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/struts2-core-2.5.30.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/taglibs-standard-impl-1.2.5.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/taglibs-standard-jstlel-1.2.5.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/taglibs-standard-spec-1.2.5.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/tomcat-api.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/tomcat-coyote.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/tomcat-dbcp.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/tomcat-i18n-cs.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/tomcat-i18n-de.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/tomcat-i18n-es.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/tomcat-i18n-fr.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/tomcat-i18n-ja.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/tomcat-i18n-ko.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/tomcat-i18n-pt-BR.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/tomcat-i18n-ru.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/tomcat-i18n-zh-CN.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/tomcat-jdbc.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/tomcat-jni.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/tomcat-util.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/tomcat-util-scan.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/tomcat-websocket.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/tti.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/websocket-api.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/xmpcore-5.1.2.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/zxing-core-2.0.jar"/>
-	<classpathentry kind="lib" path="C:/eteam/tomcat/icsp/apache-tomcat-9.0.73/lib/zxing-javase-2.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v9.0">
+		<attributes>
+			<attribute name="owner.project.facets" value="#system#;jst.web"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
