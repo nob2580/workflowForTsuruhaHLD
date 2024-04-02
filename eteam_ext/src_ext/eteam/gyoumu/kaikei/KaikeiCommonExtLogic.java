@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import eteam.base.GMap;
+import eteam.common.Env;
 import eteam.common.EteamNaibuCodeSetting.DENPYOU_KBN;
 import eteam.common.EteamNaibuCodeSetting.SHIYOU_FLG;
 import eteam.common.KaishaInfo;
@@ -12,6 +14,99 @@ import eteam.common.KaishaInfo.ColumnName;
 
 public class KaikeiCommonExtLogic extends KaikeiCommonLogic {
 	
+	/**
+	 * 仕訳チェック
+	 * エラーがあれば、エラーリストにメッセージを詰める。
+	 * 画面上存在する項目のみ渡すこと。
+	 * @param denpyouKbn 伝票区分
+	 * @param shiwakePatternSettingKbn 仕訳パターン設定区分
+	 * @param shiwakeCheckData 仕訳チェックデータ
+	 * @param daihyouBumonCd 代表負担部門コード
+	 * @param errorList エラーリスト
+	 */
+	@Override
+	public void checkShiwake(
+			String denpyouKbn,
+			String shiwakePatternSettingKbn,
+			ShiwakeCheckData shiwakeCheckData,
+			String daihyouBumonCd,
+			List<String> errorList) {
+		if(Env.checkShiwakeIsDummy())return;
+
+		//拡張 前処理
+		String kamokuCd = shiwakeCheckData.getKamokuCd();
+		beforeCheckShiwakeExt(shiwakeCheckData);
+
+		//科目枝番連携フラグの再設定(各種申請画面から呼び出された時向け)
+		if( shiwakeCheckData.zaimuEdabanRenkei == null && !isEmpty(denpyouKbn) && shiwakeCheckData.shiwakeEdaNo != null ) {
+			String shiwakeEdanoCd = shiwakeCheckData.shiwakeEdaNo;
+			GMap shiwakePattern = kaikeiLg.findShiwakePattern(denpyouKbn, Integer.parseInt(shiwakeEdanoCd));
+			if(shiwakePattern != null && "1".equals(shiwakePattern.get("edaban_renkei_flg"))) {
+				shiwakeCheckData.zaimuEdabanRenkei = "1";
+			}
+		}
+
+		//勘定科目入力チェック
+		//▼カスタマイズ
+		this.checkKanjouKamoku(shiwakeCheckData, errorList, denpyouKbn);
+
+		//負担部門入力チェック
+		this.checkFutanBumon(shiwakeCheckData, errorList);
+
+		//取引先入力チェック
+		this.checkTorihikisaki(shiwakeCheckData, errorList);
+
+		//プロジェクトチェック
+		this.checkPJ(shiwakeCheckData, errorList);
+
+		//セグメントチェック
+		this.checkSegment(shiwakeCheckData, errorList);
+
+		//課税区分入力チェック
+		this.checkKazeiKbn(shiwakeCheckData, denpyouKbn, errorList);
+
+		//HF1-10入力チェック
+		this.checkHF("1", shiwakeCheckData.hf1Cd, shiwakeCheckData.hf1Nm, ColumnName.HF1_NAME, ColumnName.HF1_HISSU_FLG, ColumnName.HF1_SHIYOU_FLG, errorList);
+		this.checkHF("2", shiwakeCheckData.hf2Cd, shiwakeCheckData.hf2Nm, ColumnName.HF2_NAME, ColumnName.HF2_HISSU_FLG, ColumnName.HF2_SHIYOU_FLG, errorList);
+		this.checkHF("3", shiwakeCheckData.hf3Cd, shiwakeCheckData.hf3Nm, ColumnName.HF3_NAME, ColumnName.HF3_HISSU_FLG, ColumnName.HF3_SHIYOU_FLG, errorList);
+		this.checkHF("4", shiwakeCheckData.hf4Cd, shiwakeCheckData.hf4Nm, ColumnName.HF4_NAME, ColumnName.HF4_HISSU_FLG, ColumnName.HF4_SHIYOU_FLG, errorList);
+		this.checkHF("5", shiwakeCheckData.hf5Cd, shiwakeCheckData.hf5Nm, ColumnName.HF5_NAME, ColumnName.HF5_HISSU_FLG, ColumnName.HF5_SHIYOU_FLG, errorList);
+		this.checkHF("6", shiwakeCheckData.hf6Cd, shiwakeCheckData.hf6Nm, ColumnName.HF6_NAME, ColumnName.HF6_HISSU_FLG, ColumnName.HF6_SHIYOU_FLG, errorList);
+		this.checkHF("7", shiwakeCheckData.hf7Cd, shiwakeCheckData.hf7Nm, ColumnName.HF7_NAME, ColumnName.HF7_HISSU_FLG, ColumnName.HF7_SHIYOU_FLG, errorList);
+		this.checkHF("8", shiwakeCheckData.hf8Cd, shiwakeCheckData.hf8Nm, ColumnName.HF8_NAME, ColumnName.HF8_HISSU_FLG, ColumnName.HF8_SHIYOU_FLG, errorList);
+		this.checkHF("9", shiwakeCheckData.hf9Cd, shiwakeCheckData.hf9Nm, ColumnName.HF9_NAME, ColumnName.HF9_HISSU_FLG, ColumnName.HF9_SHIYOU_FLG, errorList);
+		this.checkHF("10", shiwakeCheckData.hf10Cd, shiwakeCheckData.hf10Nm, ColumnName.HF10_NAME, ColumnName.HF10_HISSU_FLG, ColumnName.HF10_SHIYOU_FLG, errorList);
+
+		//UF1-10入力チェック
+		this.checkUF("1", shiwakeCheckData.uf1Cd, shiwakeCheckData.uf1Nm, ColumnName.UF1_SHIYOU_FLG, errorList);
+		this.checkUF("2", shiwakeCheckData.uf2Cd, shiwakeCheckData.uf2Nm, ColumnName.UF2_SHIYOU_FLG, errorList);
+		this.checkUF("3", shiwakeCheckData.uf3Cd, shiwakeCheckData.uf3Nm, ColumnName.UF3_SHIYOU_FLG, errorList);
+		this.checkUF("4", shiwakeCheckData.uf4Cd, shiwakeCheckData.uf4Nm, ColumnName.UF4_SHIYOU_FLG, errorList);
+		this.checkUF("5", shiwakeCheckData.uf5Cd, shiwakeCheckData.uf5Nm, ColumnName.UF5_SHIYOU_FLG, errorList);
+		this.checkUF("6", shiwakeCheckData.uf6Cd, shiwakeCheckData.uf6Nm, ColumnName.UF6_SHIYOU_FLG, errorList);
+		this.checkUF("7", shiwakeCheckData.uf7Cd, shiwakeCheckData.uf7Nm, ColumnName.UF7_SHIYOU_FLG, errorList);
+		this.checkUF("8", shiwakeCheckData.uf8Cd, shiwakeCheckData.uf8Nm, ColumnName.UF8_SHIYOU_FLG, errorList);
+		this.checkUF("9", shiwakeCheckData.uf9Cd, shiwakeCheckData.uf9Nm, ColumnName.UF9_SHIYOU_FLG, errorList);
+		this.checkUF("10", shiwakeCheckData.uf10Cd, shiwakeCheckData.uf10Nm, ColumnName.UF10_SHIYOU_FLG, errorList);
+
+		//UF固定1-10入力チェック
+		this.checkUFKotei("1", shiwakeCheckData.ufKotei1Cd, shiwakeCheckData.ufKotei1Nm, ColumnName.UF_KOTEI1_SHIYOU_FLG, errorList);
+		this.checkUFKotei("2", shiwakeCheckData.ufKotei2Cd, shiwakeCheckData.ufKotei2Nm, ColumnName.UF_KOTEI2_SHIYOU_FLG, errorList);
+		this.checkUFKotei("3", shiwakeCheckData.ufKotei3Cd, shiwakeCheckData.ufKotei3Nm, ColumnName.UF_KOTEI3_SHIYOU_FLG, errorList);
+		this.checkUFKotei("4", shiwakeCheckData.ufKotei4Cd, shiwakeCheckData.ufKotei4Nm, ColumnName.UF_KOTEI4_SHIYOU_FLG, errorList);
+		this.checkUFKotei("5", shiwakeCheckData.ufKotei5Cd, shiwakeCheckData.ufKotei5Nm, ColumnName.UF_KOTEI5_SHIYOU_FLG, errorList);
+		this.checkUFKotei("6", shiwakeCheckData.ufKotei6Cd, shiwakeCheckData.ufKotei6Nm, ColumnName.UF_KOTEI6_SHIYOU_FLG, errorList);
+		this.checkUFKotei("7", shiwakeCheckData.ufKotei7Cd, shiwakeCheckData.ufKotei7Nm, ColumnName.UF_KOTEI7_SHIYOU_FLG, errorList);
+		this.checkUFKotei("8", shiwakeCheckData.ufKotei8Cd, shiwakeCheckData.ufKotei8Nm, ColumnName.UF_KOTEI8_SHIYOU_FLG, errorList);
+		this.checkUFKotei("9", shiwakeCheckData.ufKotei9Cd, shiwakeCheckData.ufKotei9Nm, ColumnName.UF_KOTEI9_SHIYOU_FLG, errorList);
+		this.checkUFKotei("10", shiwakeCheckData.ufKotei10Cd, shiwakeCheckData.ufKotei10Nm, ColumnName.UF_KOTEI10_SHIYOU_FLG, errorList);
+
+		//拡張 前処理の戻し
+		shiwakeCheckData.kamokuCd = kamokuCd;
+
+		//仕訳パターン入力チェック
+		this.checkShiwakePattern(denpyouKbn, shiwakePatternSettingKbn, daihyouBumonCd, shiwakeCheckData, errorList);
+	}
 	
 	/**
 	 * 勘定科目入力チェック

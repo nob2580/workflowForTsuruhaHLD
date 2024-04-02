@@ -1083,7 +1083,9 @@ public class KaikeiCommonLogic extends EteamAbstractLogic {
 		}
 
 		//勘定科目入力チェック
-		this.checkKanjouKamoku(shiwakeCheckData, errorList);
+		//▼カスタマイズ 引数に伝票区分追加
+		this.checkKanjouKamoku(shiwakeCheckData, errorList, denpyouKbn);
+		//▲カスタマイズ
 
 		//負担部門入力チェック
 		this.checkFutanBumon(shiwakeCheckData, errorList);
@@ -1379,8 +1381,10 @@ public class KaikeiCommonLogic extends EteamAbstractLogic {
 	 * エラーがあれば、エラーリストにメッセージを詰める。
 	 * @param shiwakeCheckData 仕訳チェックデータ
 	 * @param errorList エラーリスト
+	 * @param denpyouKbn 伝票区分
 	 */
-	protected void checkKanjouKamoku(ShiwakeCheckData shiwakeCheckData, List<String> errorList) {
+	protected void checkKanjouKamoku(ShiwakeCheckData shiwakeCheckData, List<String> errorList, String denpyouKbn) {
+		//▲カスタマイズ 引数に伝票区分追加
 
 		if(null == shiwakeCheckData.kamokuCd)
 		{
@@ -1426,11 +1430,17 @@ public class KaikeiCommonLogic extends EteamAbstractLogic {
 				// 勘定科目紐付チェック
 				String formatMsg = kamokuNm + "[" + kamokuCd + "]と%s[%s]が紐づきません。";
 
+				//▼カスタマイズ 部門科目・科目取引先の紐付チェックを行わない伝票区分
+				String[] DENPYOU_KBN_HIMODUKI_NO_CHECK = {DENPYOU_KBN.KEIHI_TATEKAE_SEISAN, DENPYOU_KBN.RYOHI_SEISAN, DENPYOU_KBN.SIHARAIIRAI};
+				//▲カスタマイズ
 				// 勘定科目-取引先の紐付チェック
 				if (null != shiwakeCheckData.torihikisakiCd) {
 					String checkNm = shiwakeCheckData.torihikisakiNm;
 					String checkCd = shiwakeCheckData.torihikisakiCd;
-					if(StringUtils.isNotEmpty(checkCd)) {
+					//▼カスタマイズ A001・A004・A013では科目取引先紐付チェック不要
+					if(StringUtils.isNotEmpty(checkCd) 
+					&& (StringUtils.isNotEmpty(denpyouKbn) && !ArrayUtils.contains(DENPYOU_KBN_HIMODUKI_NO_CHECK, denpyouKbn))) {
+					//▲カスタマイズ
 						if (!masterLg.existsTorihikisakiKamokuZandaka(checkCd, kamokuCd)) {
 							errorList.add(String.format(formatMsg,checkNm,checkCd));
 						}
@@ -1452,7 +1462,10 @@ public class KaikeiCommonLogic extends EteamAbstractLogic {
 				if (null != shiwakeCheckData.futanBumonCd) {
 					String checkNm = shiwakeCheckData.futanBumonNm;
 					String checkCd = shiwakeCheckData.futanBumonCd;
-					if(StringUtils.isNotEmpty(checkCd)) {
+					//▼カスタマイズ A001・A004・A013では部門科目紐付チェック不要
+					if(StringUtils.isNotEmpty(checkCd) 
+					&& (StringUtils.isNotEmpty(denpyouKbn) && !ArrayUtils.contains(DENPYOU_KBN_HIMODUKI_NO_CHECK, denpyouKbn))) {
+					//▲カスタマイズ
 						if (!masterLg.existsFutanBumonKamokuZandaka(checkCd, kamokuCd)) {
 							errorList.add(String.format(formatMsg,checkNm,checkCd));
 						}

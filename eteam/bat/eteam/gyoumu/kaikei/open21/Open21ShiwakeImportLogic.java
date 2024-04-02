@@ -208,6 +208,9 @@ public class Open21ShiwakeImportLogic {
 			command.append(Kanzan).append(" ");    // Kanzan   邦貨換算フラグ  
 			command.append(Kakutei).append(" ");   // Kakutei  入力確定日      
 			command.append(Keigen).append(" ");    // Keigen   税率の扱い
+			//▼カスタマイズ
+			command.append(EteamSettingInfo.getSettingInfo("jidou_bunri_bumon_cd")).append(" ");    // 部門コード
+			//▲カスタマイズ
 			log.debug("★★★実行コマンド" + command.toString());
 
 			// コマンドを実行しインポートEXEを起動します。

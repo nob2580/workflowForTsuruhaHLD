@@ -33,7 +33,7 @@ public class Open21ShiwakeImportExtLogic extends Open21ShiwakeImportLogic {
 	 * @param linkList  リンク情報リスト
 	 * @return 処理結果 
 	 */
-	protected static int importerCall(int mode, String CCOD, int PrcFlg, int DFUK, int LogFlg, List<Open21CSetData> Siwake, 
+	public static int importerCall(int mode, String CCOD, int PrcFlg, int DFUK, int LogFlg, List<Open21CSetData> Siwake, 
 			String LogPath, String LogFname, int RNo, int RUCOD, int SKUBUN, int IJPT, int Kanzan, String Kakutei, int Keigen, List<Open21LinkData> linkList) {
 		
 		String Path  = EteamSettingInfo.getSettingInfo("op21mparam_csv_path") + "\\" + EteamCommon.getContextSchemaName();

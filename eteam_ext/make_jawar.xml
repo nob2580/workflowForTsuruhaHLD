@@ -63,7 +63,7 @@
 
 	<!-- JARを作成 -->
 	<target name="jar_make">
-		<jar destfile="../oemRelease_ext/eteam_install/eteam/bat/bin/eteam.jar">
+		<jar destfile="../eteamRelease_ext/eteam_install/eteam/bat/bin/eteam.jar">
 			<fileset dir="./build/classes" includes="**/*.class" excludes="**/*Test.class" />
 			<fileset dir="./build/classes" includes="**/*.properties" />
 			<fileset dir="./build/classes" includes="**/*.xml" />
@@ -100,7 +100,7 @@
 
 	<!-- WARを作成 -->
 	<target name="war_make">
-		<war destfile="../oemRelease_ext/eteam_install/eteam/work/files/eteam.war" webxml="../eteam/WebContent/WEB-INF/web.xml">
+		<war destfile="../eteamRelease_ext/eteam_install/eteam/work/files/eteam.war" webxml="../eteam/WebContent/WEB-INF/web.xml">
 			<fileset dir="./WebContent" includes="**/*"/>
 			<fileset dir="../eteam/WebContent" includes="**/*"/>
 			<classes dir="./build/classes" includes="**/*" excludes="**/*Test.class"/>
