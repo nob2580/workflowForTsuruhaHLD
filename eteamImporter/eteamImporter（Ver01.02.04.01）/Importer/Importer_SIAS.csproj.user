@@ -9,6 +9,6 @@
     </StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartArguments>1 0050 0 2 11 C:\eteam\tmp\kikaku  kikaku_ShiwakeDataTemp.csv C:\eteam\bat\logs ShiwakeDataImport_20231115200000.log 2 1 41 0 0 0 0 00002021</StartArguments>
+    <StartArguments>1 0001 0 2 11 C:\eteam\tmp\kikaku  kikaku_ShiwakeDataTemp.csv C:\eteam\bat\logs ShiwakeDataImport_2024040120000000.log 2 1 41 0 0 0 0 00002402</StartArguments>
   </PropertyGroup>
 </Project>
