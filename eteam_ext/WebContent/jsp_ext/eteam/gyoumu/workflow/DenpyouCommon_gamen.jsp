@@ -12,3 +12,4 @@
 <c:if test="${denpyouKbn == 'A011'}"><%@ include file="/jsp/eteam/gyoumu/kaikei/KaigaiRyohiSeisan.jsp" %></c:if>
 <c:if test="${denpyouKbn == 'A012'}"><%@ include file="/jsp/eteam/gyoumu/kaikei/KaigaiRyohiKaribaraiShinsei.jsp" %></c:if>
 <c:if test="${denpyouKbn == 'A013'}"><%@ include file="/jsp_ext/eteam/gyoumu/kaikei/ShiharaiIrai.jsp" %></c:if>
+<c:if test="${denpyouKbn >= 'B001' and denpyouKbn <= 'B999'}"><%@ include file="/jsp/eteam/gyoumu/kanitodoke/KaniTodoke.jsp" %></c:if>
