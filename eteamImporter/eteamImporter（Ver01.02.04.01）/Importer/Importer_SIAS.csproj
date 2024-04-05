@@ -75,7 +75,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\IMPORTERSUB%28V02280101%29_20240318ツルハカスタマイズ対応\IMPORTERSUB.csproj">
+    <ProjectReference Include="..\..\IMPORTERSUB%28V02280102%29_20240401ツルハカスタマイズ対応\IMPORTERSUB.csproj">
       <Project>{6921b2c4-29dd-4c2d-ae74-2682225c8cba}</Project>
       <Name>IMPORTERSUB</Name>
     </ProjectReference>

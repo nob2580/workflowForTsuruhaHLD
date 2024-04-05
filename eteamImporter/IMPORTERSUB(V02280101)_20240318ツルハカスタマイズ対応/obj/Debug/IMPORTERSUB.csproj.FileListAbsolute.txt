@@ -72,3 +72,10 @@ C:\SOURCE\workflowForTsuruhaHLD\eteamImporter\IMPORTERSUB(V02280101)_20240318ツ
 C:\SOURCE\workflowForTsuruhaHLD\eteamImporter\IMPORTERSUB(V02280101)_20240318ツルハカスタマイズ対応\obj\Debug\IMPORTERSUB.csproj.CopyComplete
 C:\SOURCE\workflowForTsuruhaHLD\eteamImporter\IMPORTERSUB(V02280101)_20240318ツルハカスタマイズ対応\obj\Debug\IMPORTERSUB.dll
 C:\SOURCE\workflowForTsuruhaHLD\eteamImporter\IMPORTERSUB(V02280101)_20240318ツルハカスタマイズ対応\obj\Debug\IMPORTERSUB.pdb
+C:\SOURCE\IMPORTERSUB(V02280102)_20240401ツルハカスタマイズ対応\bin\Debug\IMPORTERSUB.dll
+C:\SOURCE\IMPORTERSUB(V02280102)_20240401ツルハカスタマイズ対応\bin\Debug\IMPORTERSUB.pdb
+C:\SOURCE\IMPORTERSUB(V02280102)_20240401ツルハカスタマイズ対応\obj\Debug\IMPORTERSUB.csprojAssemblyReference.cache
+C:\SOURCE\IMPORTERSUB(V02280102)_20240401ツルハカスタマイズ対応\obj\Debug\IMPORTERSUB.csproj.CoreCompileInputs.cache
+C:\SOURCE\IMPORTERSUB(V02280102)_20240401ツルハカスタマイズ対応\obj\Debug\IMPORTERSUB.csproj.CopyComplete
+C:\SOURCE\IMPORTERSUB(V02280102)_20240401ツルハカスタマイズ対応\obj\Debug\IMPORTERSUB.dll
+C:\SOURCE\IMPORTERSUB(V02280102)_20240401ツルハカスタマイズ対応\obj\Debug\IMPORTERSUB.pdb
