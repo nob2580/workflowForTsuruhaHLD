@@ -4,7 +4,7 @@ SET search_path TO :SCHEMA_NAME;
 start transaction;
 
 --開店日閉店日マスターテーブル作成
-create table kaitenbi_heitenbi_master (
+create table if not exists kaitenbi_heitenbi_master (
   kesn smallint not null
   , futan_bumon_cd varchar(8) not null
   , stymd date 
@@ -13,7 +13,7 @@ create table kaitenbi_heitenbi_master (
 );
 
 --振込先銀行Extテーブル作成
-create table torihikisaki_furikomisaki_ext(
+create table if not exists torihikisaki_furikomisaki_ext(
   torihikisaki_cd varchar(12) not null
   , ginkou_id smallint not null
   , kouza_meiginin_seishiki varchar(44) not null
@@ -23,7 +23,7 @@ create table torihikisaki_furikomisaki_ext(
 );
 
 --支払依頼Extテーブル作成
-create table shiharai_irai_ext(
+create table if not exists shiharai_irai_ext(
   denpyou_id varchar(19) not null
   , furikomi_ginkou_id smallint not null
   , constraint shiharai_irai_ext_PKEY primary key (denpyou_id)
@@ -55,8 +55,5 @@ comment on column shiharai_irai_ext.furikomi_ginkou_id is '振込銀行ID';
 \copy master_kanri_ichiran FROM '.\files\csv\master_kanri_ichiran_ext.csv' WITH CSV header ENCODING 'SHIFT-JIS';
 \copy master_kanri_hansuu FROM '.\files\csv\master_kanri_hansuu_ext.csv' WITH CSV header ENCODING 'SHIFT-JIS';
 \copy gamen_kengen_seigyo FROM '.\files\csv\gamen_kengen_seigyo_ext.csv' WITH CSV header ENCODING 'SHIFT-JIS';
-
--- 設定情報に追加
-\copy setting_info FROM '.\files\csv\setting_info_sias.csv' WITH CSV header ENCODING 'SHIFT-JIS';
 
 commit;
