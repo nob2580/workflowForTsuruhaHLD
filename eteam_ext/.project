@@ -37,47 +37,47 @@
 		<link>
 			<name>bat_org</name>
 			<type>2</type>
-			<locationURI>WORKSPACE_LOC/eteam/bat</locationURI>
+			<location>C:/eteam/workspace/icsp/ver23053133/eteam/bat</location>
 		</link>
 		<link>
 			<name>def_org</name>
 			<type>2</type>
-			<locationURI>WORKSPACE_LOC/eteam/def</locationURI>
+			<location>C:/eteam/workspace/icsp/ver23053133/eteam/def</location>
 		</link>
 		<link>
 			<name>src_org</name>
 			<type>2</type>
-			<locationURI>WORKSPACE_LOC/eteam/src</locationURI>
+			<location>C:/eteam/workspace/icsp/ver23053133/eteam/src</location>
 		</link>
 		<link>
 			<name>xls_org</name>
 			<type>2</type>
-			<locationURI>WORKSPACE_LOC/eteam/xls</locationURI>
+			<location>C:/eteam/workspace/icsp/ver23053133/eteam/xls</location>
 		</link>
 		<link>
 			<name>WebContent/META-INF</name>
 			<type>2</type>
-			<locationURI>WORKSPACE_LOC/eteam/WebContent/META-INF</locationURI>
+			<location>C:/eteam/workspace/icsp/ver23053133/eteam/WebContent/META-INF</location>
 		</link>
 		<link>
 			<name>WebContent/WEB-INF</name>
 			<type>2</type>
-			<locationURI>WORKSPACE_LOC/eteam/WebContent/WEB-INF</locationURI>
+			<location>C:/eteam/workspace/icsp/ver23053133/eteam/WebContent/WEB-INF</location>
 		</link>
 		<link>
 			<name>WebContent/error</name>
 			<type>2</type>
-			<locationURI>WORKSPACE_LOC/eteam/WebContent/error</locationURI>
+			<location>C:/eteam/workspace/icsp/ver23053133/eteam/WebContent/error</location>
 		</link>
 		<link>
 			<name>WebContent/jsp</name>
 			<type>2</type>
-			<locationURI>WORKSPACE_LOC/eteam/WebContent/jsp</locationURI>
+			<location>C:/eteam/workspace/icsp/ver23053133/eteam/WebContent/jsp</location>
 		</link>
 		<link>
 			<name>WebContent/static</name>
 			<type>2</type>
-			<locationURI>WORKSPACE_LOC/eteam/WebContent/static</locationURI>
+			<location>C:/eteam/workspace/icsp/ver23053133/eteam/WebContent/static</location>
 		</link>
 	</linkedResources>
 </projectDescription>

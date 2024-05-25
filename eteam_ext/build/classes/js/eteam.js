@@ -4053,3 +4053,94 @@ function delCalculator(target){
 		target.next("img:first").remove();
 	}
 }
+
+/**
+ * 会社切替選択ボタン押下時Function
+ * 'dialog'id内に会社切替選択画面をロードする。
+ *
+ * 会社切替選択ダイアログで会社切替を選択して閉じた場合、呼び出し元画面に反映する。
+ *
+ * 以下、呼び出し時のルール。
+ * どちらかで呼んでください。
+ *
+ * ①当function呼び出し前に、呼び出し元画面-選択結果反映先inputタグのjQueryオブジェクトを以下のグローバス変数にセットされたい。
+ * 　反映不要な項目については、セット不要（必要な項目分のグローバル変数のみセットすればよい）。
+ * 		グローバル変数名			：
+ * 		----------------------------------------
+ * 		dialogRetKaishaKirikaeCd	：スキーマコード
+ * 		dialogRetKaishaKirikaeName	：スキーマ名
+ *
+ * ②当function呼び出し前に、コールバックfunctionを以下のグローバル変数にセット。
+ * 		dialogRetKaishaKirikaeSentakuCallback(引数は選択したaタグ)
+ */
+function commonKaishaKirikaeSentaku() {
+	var width = "800";
+	if(windowSizeChk()) {
+		width = $(window).width() * 0.9;
+	}
+	$("#dialog")
+	.dialog({
+		modal: true,
+		width: width,
+		height: "400",
+		title: "会社切替選択",
+		buttons: {閉じる: function() {$(this).dialog("close");}}
+	}).load("kaisha_kirikae_sentaku");
+}
+
+/**
+ * 会社切替イベント<br>
+ * 選択されたスキーマの画面に移動する。
+ *
+ * @param obj 会社切替select
+ * @param schema 現在のスキーマ
+ * @param usrId ログインユーザID
+ * @returns {Boolean}
+ */
+function commonKaishaKirikaeChange(obj, schema, usrId, gyoumuRole){
+	var schemeCd = $(obj).val();
+	var schemeName = $(obj).find("option:selected").text();
+	var msg = schemeName + "\r\nに会社を切り替えますか？";
+	if (confirm(msg)){
+		// 現在のURLを取得する。
+		var nowUrl = window.location.href;
+		// 現在のURLからスキーマ名を置換する。
+		var moveUrl = nowUrl.replace(schema, schemeCd);
+		var url = encodeURIComponent( moveUrl );
+		// 引き渡しパラメータを設定する
+		var pUserId = "?userId=" + usrId;
+		var pGyoumuR = "&gyoumuRole=" + gyoumuRole;
+		var pMotoSchema = "&motoSchema=" + schema;
+		var pSchema = "&schema=" + schemeCd;
+		var pUrl = "&redirectURL=" + url;
+		// 置換したURLを '/' で分解する。
+		var arrayUrl = moveUrl.split("/");
+		// 会社切替用のURLを設定する。
+		for (var i = 0, moveUrl = ""; i < 6; i++){
+			moveUrl = moveUrl + arrayUrl[i] + "/";
+		}
+		// 現在のページのURLを指定したURLに置換してページ移動する。
+//		alert("moveUrl=[" + moveUrl + "kaisha_kirikae" + pUserId + pUrl + "]");
+		window.location.replace(moveUrl + "kaisha_kirikae" + pUserId + pGyoumuR + pMotoSchema + pSchema + pUrl);
+	}else{
+		return false;
+	}
+}
+
+/**
+ * 案件予算入力部品の詳細表示切替イベント
+ *
+ * @param btn
+ */
+function ankenYosanDetail(btn) {
+	var area = $(btn).parent().find("#ankenYosanDetail");
+	if (area.css('display') == 'none') {
+		area.show(300);
+		$("[name=ankenYosanDetailBtn]").text("詳細を隠す");
+	} else {
+		area.hide(300);
+		$("[name=ankenYosanDetailBtn]").text("詳細を表示");
+	}
+}
+//カスタマイズここまで
+

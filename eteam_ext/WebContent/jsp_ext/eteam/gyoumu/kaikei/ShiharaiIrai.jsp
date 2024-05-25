@@ -52,13 +52,22 @@
 <div id='kaikeiContent' class='form-horizontal'>
 		
 	<section class='print-unit' id="shinseiSection">
-
+	<!-- ▼カスタマイズ -->
+<!-- 	<form id='uploadForm' class='form-horizontal' enctype="multipart/form-data" method='post'> -->
+		<div class='control-group'id='csvUpload' style='display:none'>
+			<input type='file' name='csvUploadFile' value='${su:htmlEscape(csvUploadFile)}'>
+		</div>
+<!-- 	</form> -->
+		<div style='text-align:right'>
+		<button type='button' name='csvFileSentakuButton' class='btn btn-small' >ファイル選択</button>
+		</div>
+	<!-- ▲カスタマイズ -->
 		<h2>申請内容</h2>
 			<input type='hidden' name='manekinName' value='${su:htmlEscape(manekinName)}'>
 			<input type='hidden' name='ichigenFlg' value='${su:htmlEscape(ichigenFlg)}'>
 			<!-- ▼カスタマイズ CSVフラグ追加 -->
 			<input type='hidden' name='csvUploadFlag' value='${su:htmlEscape(csvUploadFlag)}'>
-
+			<input type='hidden' name="csvImportFlag"		value='${su:htmlEscape(csvImportFlag)}'>
 			<!-- 入力方式 -->
 			<c:if test='${ks.nyuryokuHoushiki.hyoujiFlg}'>
 				<div class="control-group invoiceOnly" style="float:right;<c:if test='${invoiceDenpyou eq "1"}'>display:none</c:if>">
@@ -199,8 +208,8 @@
 			</div>
 			
 	</section>
-	
-	<%@ include file="/jsp/eteam/gyoumu/kaikei/kogamen/ShiharaiIraiMeisaiList.jsp" %>
+<!-- 	▼カスタマイズ -->
+	<%@ include file="/jsp_ext/eteam/gyoumu/kaikei/kogamen/ShiharaiIraiMeisaiList.jsp" %>
 	 
 	<!-- 支払金額合計／本体金額合計／消費税額合計／消費税率 -->
 	<section class='print-unit' id="goukeiSection">
@@ -486,6 +495,18 @@ $(document).ready(function(){
 	$('#zeigakuShousaiButton').on('click', function() {
 	    commonShouhizeiShousai($("input[name=denpyouKbn]").val());
 	  });
+	
+	//▼カスタマイズ
+	//csvアップロードの処理をクリックした時
+	//(直接押されるのではなくファイル選択処理から飛ばす)
+	$('#csvUpload').on('input',function(){
+		var formObject = document.getElementById("workflowForm");
+		formObject.action = 'shiharai_irai_csv_upload';
+	//	formObject.method = 'post';
+		formObject.target = '_self';
+		$(formObject).submit();
+	});
+	//▲カスタマイズ
 });
 
 /**
@@ -677,4 +698,11 @@ $("#furikomisakiSentakuButton").click(function(){
 		})
 		.load("furikomisaki_sentaku?torihikisakiCd=" + convTorihikisakiCd4Sentaku(torihikisakiCd));
 })
+
+//csvファイル選アクション
+ $("button[name=csvFileSentakuButton]").click(function(){
+	//アップロード処理のファンクションを実行
+	 $("input[name='csvUploadFile']").trigger("click");
+	
+ })
 </script>

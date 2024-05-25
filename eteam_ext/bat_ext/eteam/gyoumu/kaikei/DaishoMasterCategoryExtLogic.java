@@ -16,6 +16,9 @@ public class DaishoMasterCategoryExtLogic extends DaishoMasterCategoryLogic {
 	public GMap findFurikomisaki(String torihikisakiCd, String furikomiGinkouId) {
 		//パッケージ番の振込先リスト
 		GMap torihikisaki = super.findFurikomisaki(torihikisakiCd);
+		if(torihikisaki==null) {
+			return torihikisaki;
+		}
 		//銀行IDをint型に変換
 		int ginkouId = (isEmpty(furikomiGinkouId))	? 1:Integer.parseInt(furikomiGinkouId);
 		if(ginkouId== 1) {

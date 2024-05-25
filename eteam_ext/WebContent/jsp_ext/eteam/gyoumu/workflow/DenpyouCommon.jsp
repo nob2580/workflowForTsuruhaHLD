@@ -696,11 +696,31 @@ span.ebunshoMeisaiRecord {
 							</div>
 		</c:forEach>
 						</div>
+				</div>
 	</c:if>
-					</div>
 </c:if>
 					<div style="clear:both"></div>
 
+					<!-- ▼カスタマイズ -->
+					<c:if test="${denpyouKbn eq  'A013' && wfSeigyo.fileTenpuRef}">
+					<div class='non-print'>
+					<h2>URL情報</h2>
+					<div id='urlList' style="clear:right" class='container'>
+				<c:forEach var="i" begin="0" end="${urlcnt}" step="1">
+					<div class='newurlDiv'>
+					<div style="clear:both"></div>
+						<div class="urlinfo">
+							<input name="urlinfo" class="input-xxlarge" maxlength=500 value="${su:htmlEscape(urlinfo[i])}" type="text">
+							<button type='button' name='urlAdd' class='btn btn-mini'>+</button>
+							<button type='button' name='urlDelete' class='btn btn-mini'>-</button>
+						</div>
+						<div style="clear:both"></div>
+					</div>
+				</c:forEach>
+					</div>
+					</div>
+					</c:if>
+					<!-- ▲カスタマイズ -->
 					<!-- 承認状況 -->
 					<div class='non-print'>
 						<h2>承認状況</h2>
@@ -3140,6 +3160,10 @@ $(document).ready(function(){
 	// 添付ファイルのアクション紐付け
 	$("body").on("click","button[name=tenpuFileAdd]",tenpuFileAdd);
 	$("body").on("click","button[name=tenpuFileDelete]",tenpuFileDelete);
+	//▼カスタマイズ
+	$("body").on("click","button[name=urlAdd]",urlAdd);
+	$("body").on("click","button[name=urlDelete]",urlDelete);
+	//▲カスタマイズ
 	$("body").on("change","input[name=denshitorihikiCheckbox]",changeDenshitorihiki);
 	$("body").on("change","input[name=tsfuyoCheckbox]",changeTsfuyo);
 	$("body").on("change","input[name=ebunshoCheckbox]",setEbunshoDeletable);
@@ -3505,6 +3529,10 @@ $(document).ready(function(){
 	$("#ringiKingakuCommentSection").find("textarea").prop("disabled", true);
 	$("#denpyouJouhou").find("select").prop("disabled", true);
 	$("#kaikeiContent").find("select[name=nyuryokuHoushiki]").prop("disabled", true);
+	//▼カスタマイズ
+	$("#urlList").find("input[name=urlinfo]").prop("disabled",true);
+	$("#urlList").find("button").prop("disabled",true);
+	//▲カスタマイズ
 </c:if>
 
 	//WEB印刷ボタンが非表示の場合
@@ -3798,6 +3826,8 @@ $(document).on('click', 'button', function() {
 	    changeInvoiceDenpyou();
 	}
 });
+
+
 </script>
 <jsp:include page='<%= JspUtil.makeJspPath("eteam/include/Custmize.jsp") %>' />
 </body>

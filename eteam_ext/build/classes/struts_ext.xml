@@ -11,6 +11,102 @@
 		拡張 アクション定義
 		********************
 		-->
+		<!-- ■■■メニュー■■■ -->
+		<!-- ■■■ユーザー認証■■■ -->
+		<!-- ログイン画面 -->
+        <action name="login" class="eteam.gyoumu.user.LoginExtAction" method="init">
+             <result name="success">/jsp/eteam/gyoumu/user/Login.jsp</result> 
+            <interceptor-ref name="eteamBeforeLoginGetIntercepter"/>
+        </action> 
+        <action name="forceLoginDummy" class="eteam.gyoumu.user.LoginExtAction" method="forceLogin">
+            <result name="success" type="redirect">../../${schemaName}/appl/login?kbn=${kbn}</result>
+        </action>
+        <action name="login_login" class="eteam.gyoumu.user.LoginExtAction" method="login">
+            <result name="roleSentaku" type="redirect">../../${schemaName}/appl/role_sentaku</result>
+            <result name="loginBack" type="redirect">../../${schemaName}/appl/${originalURL}</result>
+            <result name="success" type="redirect">../../${schemaName}/appl/</result>
+            <result name="error">/jsp/eteam/gyoumu/user/Login.jsp</result>
+            <interceptor-ref name="eteamBeforeLoginPostIntercepter"/>
+        </action>
+		<!-- 強制パスワード変更画面 -->
+        <action name="forcepass" class="eteam.gyoumu.user.ForcePasswordChangeExtAction" method="initForcePassword">
+            <result name="success">/jsp/eteam/gyoumu/user/ForcePasswordChange.jsp</result>
+            <interceptor-ref name="eteamIntercepter"/>
+			<interceptor-ref name="defaultStack"/>
+			<interceptor-ref name="eteamLoginIntercepter"/>
+        </action>
+        <action name="forcepass_koushin" class="eteam.gyoumu.user.ForcePasswordChangeExtAction" method="updateForcePassword">
+            <result name="loginBack" type="redirect">../../${schemaName}/appl/${originalURL}</result>
+            <result name="success" type="redirect">../../${schemaName}/appl/</result>
+            <result name="error">/jsp/eteam/gyoumu/user/ForcePasswordChange.jsp</result>
+            <interceptor-ref name="eteamAfterLoginPostIntercepter"/>
+        </action>
+		<!-- カスタマイズ -->
+		<!-- 会社切替選択ダイアログ -->
+		<action name="kaisha_kirikae_sentaku" class="eteam.common.kogamen.KaishaKirikaeSentakuAction" method="init">
+			<result name="success">/jsp_ext/eteam/common/KaishaKirikaeSentaku.jsp</result>
+			<result name="error">/jsp_ext/eteam/common/KaishaKirikaeSentaku.jsp</result>
+			<interceptor-ref name="eteamAfterLoginGetIntercepter"/>
+		</action>
+<!-- ■■■ユーザー情報管理■■■ -->
+		<!-- ユーザー検索 -->
+		<action name="user_kensaku" class="eteam.gyoumu.userjouhoukanri.UserKensakuExtAction" method="init">
+            <result name="success">/jsp/eteam/gyoumu/userjouhoukanri/UserKensaku.jsp</result>
+            <result name="error">/jsp/eteam/gyoumu/userjouhoukanri/UserKensaku.jsp</result>
+            <interceptor-ref name="eteamAfterLoginGetIntercepter"/>
+		</action>
+		<!-- ユーザー検索－検索イベント -->
+		<action name="user_kensaku_kensaku" class="eteam.gyoumu.userjouhoukanri.UserKensakuExtAction" method="kensaku">
+            <result name="success">/jsp/eteam/gyoumu/userjouhoukanri/UserKensaku.jsp</result>
+            <result name="error">/jsp/eteam/gyoumu/userjouhoukanri/UserKensaku.jsp</result>
+            <interceptor-ref name="eteamAfterLoginGetIntercepter"/>
+		</action>
+		<!-- ユーザー追加 -->
+		<action name="user_tsuika" class="eteam.gyoumu.userjouhoukanri.UserJouhouTsuikaExtAction" method="init">
+            <result name="success">/jsp_ext/eteam/gyoumu/userjouhoukanri/UserTsuika.jsp</result>
+            <result name="error">/jsp_ext/eteam/gyoumu/userjouhoukanri/UserTsuika.jsp</result>
+            <interceptor-ref name="eteamAfterLoginGetIntercepter"/>
+		</action>
+		<!-- ユーザー追加－登録イベント -->
+		<action name="user_tsuika_touroku" class="eteam.gyoumu.userjouhoukanri.UserJouhouTsuikaExtAction" method="touroku">
+            <result name="success">/jsp_ext/eteam/gyoumu/userjouhoukanri/UserTsuika.jsp</result>
+            <result name="error">/jsp_ext/eteam/gyoumu/userjouhoukanri/UserTsuika.jsp</result>
+            <interceptor-ref name="eteamAfterLoginPostIntercepter"/>
+		</action>
+		<!-- ユーザー追加－代表負担部門取得AJAXイベント -->
+		<action name="user_tsuika_get_daihyou_bumon_name" class="eteam.gyoumu.userjouhoukanri.UserJouhouTsuikaExtAction" method="getDaihyouBumonName">
+            <result name="success" type="plainText">
+                <param name="charSet">utf-8</param>
+                <!-- locationはNullPointException対策 -->
+                <param name="location">/jsp_ext/eteam/gyoumu/userjouhoukanri/UserTsuika.jsp</param>
+            </result>
+            <interceptor-ref name="eteamAfterLoginGetIntercepter"/>
+		</action>
+		<!-- ユーザー情報 -->
+		<action name="user_jouhou" class="eteam.gyoumu.userjouhoukanri.UserJouhouExtAction" method="init">
+            <result name="success">/jsp_ext/eteam/gyoumu/userjouhoukanri/UserJouhou.jsp</result>
+            <result name="error">/jsp_ext/eteam/gyoumu/userjouhoukanri/UserJouhou.jsp</result>
+            <interceptor-ref name="eteamAfterLoginGetIntercepter"/>
+		</action>
+		<!-- ユーザー情報－更新イベント -->
+		<action name="user_jouhou_koushin" class="eteam.gyoumu.userjouhoukanri.UserJouhouExtAction" method="koushin">
+            <result name="success">/jsp_ext/eteam/gyoumu/userjouhoukanri/UserJouhou.jsp</result>
+            <result name="error">/jsp_ext/eteam/gyoumu/userjouhoukanri/UserJouhou.jsp</result>
+            <interceptor-ref name="eteamAfterLoginPostIntercepter"/>
+		</action>
+		<!-- ユーザー情報－削除イベント -->
+		<action name="user_jouhou_sakujo" class="eteam.gyoumu.userjouhoukanri.UserJouhouExtAction" method="sakujo">
+            <result name="success">/jsp_ext/eteam/gyoumu/userjouhoukanri/UserJouhou.jsp</result>
+            <result name="error">/jsp_ext/eteam/gyoumu/userjouhoukanri/UserJouhou.jsp</result>
+            <interceptor-ref name="eteamAfterLoginPostIntercepter"/>
+		</action>
+		<!-- カスタマイズ-->
+		<!-- 会社切替イベント-->
+		<action name="kaisha_kirikae" class="eteam.gyoumu.user.KaishaKirikaeAction" method="redirect">
+			<result name="success" type="redirect">${redirectURL}</result>
+			<result name="error">/jsp_ext/eteam/gyoumu/menu/Menu.jsp</result>
+			<interceptor-ref name="eteamBeforeLoginGetIntercepter"/>
+		</action>
 		<!-- 支払依頼申請 -->
 		<action name="shiharai_irai" class="eteam.gyoumu.kaikei.ShiharaiIraiExtAction" method="init">
 			<result name="success">/jsp_ext/eteam/gyoumu/workflow/DenpyouCommon.jsp</result>
@@ -72,11 +168,76 @@
             <result name="error">/jsp/eteam/gyoumu/kaikei/ShiharaiIraiCSVUploadKakunin.jsp</result>
             <interceptor-ref name="eteamAfterLoginPostIntercepter"/>
 		</action>
+		<!-- ▼カスタマイズ追加 -->
+		<!-- 支払依頼csv登録 -->
+		<action name="shiharai_irai_csv_upload" class="eteam.gyoumu.kaikei.ShiharaiIraiExtAction" method="csvUpload">
+            <result name="success">/jsp_ext/eteam/gyoumu/workflow/DenpyouCommon.jsp</result>
+			<result name="error">/jsp_ext/eteam/gyoumu/workflow/DenpyouCommon.jsp</result>
+            <interceptor-ref name="eteamAfterLoginPostIntercepter"/>
+		</action>
 		<!-- 振込先選択 -->
 			<action name="furikomisaki_sentaku" class="eteam.gyoumu.kaikei.kogamen.FurikomisakiSentakuAction" method="init">
             <result name="success">/jsp_ext/eteam/gyoumu/kaikei/kogamen/FurikomisakiSentaku.jsp</result>
             <result name="error">/jsp_ext/eteam/gyoumu/kaikei/kogamen/FurikomisakiSentaku.jsp</result>
             <interceptor-ref name="eteamAfterLoginGetIntercepter"/>
+		</action>
+		<!-- ■■■ユーザー一括登録■■■ -->
+		<!-- ユーザー一括登録（CSVアップロード）-->
+		<action name="user_ikkatsu_touroku" class="eteam.gyoumu.userjouhoukanri.IkkatsuTourokuUserExtAction" method="init">
+            <result name="success">/jsp_ext/eteam/gyoumu/userjouhoukanri/IkkatsuTourokuUser.jsp</result>
+            <result name="error">/jsp_ext/eteam/gyoumu/userjouhoukanri/IkkatsuTourokuUser.jsp</result>
+            <interceptor-ref name="eteamAfterLoginGetIntercepter"/>
+		</action>
+		<!-- ユーザー一括登録（CSVアップロード）（アップロード）-->
+		<action name="user_ikkatsu_touroku_upload" class="eteam.gyoumu.userjouhoukanri.IkkatsuTourokuUserExtAction" method="upload">
+            <result name="success" type="redirect">../../${schemaName}/appl/ikkatsu_touroku_user_csv_upload_kakunin</result>
+            <result name="error">/jsp_ext/eteam/gyoumu/userjouhoukanri/IkkatsuTourokuUser.jsp</result>
+            <interceptor-ref name="eteamAfterLoginPostIntercepter"/>
+		</action>
+		<!-- ユーザー一括登録（CSVアップロード確認）-->
+		<action name="ikkatsu_touroku_user_csv_upload_kakunin" class="eteam.gyoumu.userjouhoukanri.IkkatsuTourokuUserCsvUploadKakuninExtAction" method="init">
+            <result name="success">/jsp_ext/eteam/gyoumu/userjouhoukanri/IkkatsuTourokuUserCsvUploadKakunin.jsp</result>
+            <result name="error">/jsp_ext/eteam/gyoumu/userjouhoukanri/IkkatsuTourokuUserCsvUploadKakunin.jsp</result>
+            <interceptor-ref name="eteamAfterLoginGetIntercepter"/>
+		</action>
+		<!-- ユーザー一括登録（CSVアップロード確認）（登録）-->
+		<action name="ikkatsu_touroku_user_csv_upload_kakunin_touroku" class="eteam.gyoumu.userjouhoukanri.IkkatsuTourokuUserCsvUploadKakuninExtAction" method="touroku">
+            <result name="success">/jsp_ext/eteam/gyoumu/userjouhoukanri/IkkatsuTourokuUserCsvUploadKakunin.jsp</result>
+            <result name="error">/jsp_ext/eteam/gyoumu/userjouhoukanri/IkkatsuTourokuUserCsvUploadKakunin.jsp</result>
+            <interceptor-ref name="eteamAfterLoginPostIntercepter"/>
+		</action>
+		<!-- ユーザー一括削除 -->
+		<action name="user_ikkatsu_sakujo" class="eteam.gyoumu.userjouhoukanri.IkkatsuTourokuUserExtAction" method="sakujo">
+            <result name="success">/jsp_ext/eteam/gyoumu/userjouhoukanri/IkkatsuTourokuUser.jsp</result>
+            <result name="error">/jsp_ext/eteam/gyoumu/userjouhoukanri/IkkatsuTourokuUser.jsp</result>
+            <interceptor-ref name="eteamAfterLoginPostIntercepter"/>
+		</action>
+		<!-- ユーザー一括ダウンロード（ユーザー情報） -->
+		<action name="user_ikkatsu_download_user_info" class="eteam.gyoumu.userjouhoukanri.IkkatsuTourokuUserExtAction" method="downloadUserInfo">
+            <result name="success" type="stream">
+                <param name="contentType">${contentType}</param>
+                <param name="contentDisposition">${contentDisposition}</param>
+            </result>
+            <result name="error">/jsp_ext/eteam/gyoumu/userjouhoukanri/IkkatsuTourokuUser.jsp</result>
+            <interceptor-ref name="eteamAfterLoginPostIntercepter"/>
+		</action>
+		<!-- ユーザー一括ダウンロード（所属部門割り当て） -->
+		<action name="user_ikkatsu_download_shozoku_bumon_wariate" class="eteam.gyoumu.userjouhoukanri.IkkatsuTourokuUserExtAction" method="downloadShozokuBumonWariate">
+            <result name="success" type="stream">
+                <param name="contentType">${contentType}</param>
+                <param name="contentDisposition">${contentDisposition}</param>
+            </result>
+            <result name="error">/jsp_ext/eteam/gyoumu/userjouhoukanri/IkkatsuTourokuUser.jsp</result>
+            <interceptor-ref name="eteamAfterLoginPostIntercepter"/>
+		</action>
+		<!-- ユーザー一括ダウンロード（会社切替） -->
+		<action name="user_ikkatsu_download_kaisha_kirikae" class="eteam.gyoumu.userjouhoukanri.IkkatsuTourokuUserExtAction" method="downloadKaishaKirikae">
+            <result name="success" type="stream">
+                <param name="contentType">${contentType}</param>
+                <param name="contentDisposition">${contentDisposition}</param>
+            </result>
+            <result name="error">/jsp_ext/eteam/gyoumu/userjouhoukanri/IkkatsuTourokuUser.jsp</result>
+            <interceptor-ref name="eteamAfterLoginPostIntercepter"/>
 		</action>
     </package>
 </struts>
