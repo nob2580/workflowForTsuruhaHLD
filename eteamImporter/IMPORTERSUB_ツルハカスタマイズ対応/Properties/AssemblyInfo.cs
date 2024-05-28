@@ -27,8 +27,8 @@ using System.Runtime.InteropServices;
 // ビルドおよびリビジョン番号を既定値にすることができます。:
 
 [assembly: AssemblyVersion("1.1.1.0")]
-[assembly: AssemblyFileVersion("02.28.01.02")]
-[assembly: AssemblyInformationalVersion("02.28.01.02")]
+[assembly: AssemblyFileVersion("02.28.01.03")]
+[assembly: AssemblyInformationalVersion("02.28.01.03")]
 
 #region 新規区分追加時の注意事項
 // 新規に区分追加を行う際は必ず下記の変数及び関数を修正してください。
@@ -144,4 +144,5 @@ using System.Runtime.InteropServices;
 // 2023/12/26    Ver02.28.01        電子取引（タイムスタンプなし）の添付ファイルの拡張子制限排除対応    #121547（関する財務チケット #118151）
 // 2024/03/29    Ver02.28.01.01 　  自動分離した仮払消費税・仮受消費税科目に固定部門を付加する対応＝起動パラメータ１項目追加　←　ツルハホールディングス様用カスタマイズ
 // 2024/04/01    Ver02.28.01.02     途中で連携エラーになった場合、すでに登録されていてプライマリキーエラーとなるため、自動登録前に再度存在チェック
+// 2024/05/26    Ver02.28.01.03     当期に部門科目の登録がなく、翌期では登録がある場合プライマリキーエラー
 #endregion

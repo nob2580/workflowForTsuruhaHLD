@@ -28901,9 +28901,11 @@ namespace IMPORTERSUB
             if (L_Exist == false)
             {
     // -*
-                // 決算期単位で反復します。最大2周(当期の場合、翌期まで)
-                for (L_KesnCnt = L_Kesn; L_KesnCnt <= (L_Kesn == H_Touki ? L_Kesn + 1 : L_Kesn); L_KesnCnt++)
-                {
+        // Ver02.28.01.03 *-
+        //  期ごとに登録するためループをやめる（今回処理伝票日付の期のみ登録）
+        //        // 決算期単位で反復します。最大2周(当期の場合、翌期まで)
+        //      for (L_KesnCnt = L_Kesn; L_KesnCnt <= (L_Kesn == H_Touki ? L_Kesn + 1 : L_Kesn); L_KesnCnt++)
+        //      {
                     L_Cmd = H_Con.CreateCommand();
 
                     L_Cmd.CommandText = "INSERT INTO BKZAN ( " +
@@ -28934,7 +28936,7 @@ namespace IMPORTERSUB
                                                 "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 )";
                         L_Cmd.ExecuteNonQuery();
                     }
-                }
+        //      }
             }
         }
         // *===========================================================================================*
@@ -28968,12 +28970,14 @@ namespace IMPORTERSUB
             if (L_Exist == false)
             {
     // -*
-                // 決算期単位で反復します。最大2周(当期の場合、翌期まで)
-                for (L_KesnCnt = L_Kesn; L_KesnCnt <= (L_Kesn == H_Touki ? L_Kesn + 1 : L_Kesn); L_KesnCnt++)
-                {
+        // Ver02.28.01.03 *-
+        //  期ごとに登録するためループをやめる（今回処理伝票日付の期のみ登録）
+        //      // 決算期単位で反復します。最大2周(当期の場合、翌期まで)
+        //      for (L_KesnCnt = L_Kesn; L_KesnCnt <= (L_Kesn == H_Touki ? L_Kesn + 1 : L_Kesn); L_KesnCnt++)
+        //      {
                     L_Cmd = H_Con.CreateCommand();
 
-                    // 部門科目残高テーブル
+                    // 取引先科目残高テーブル
                     L_Cmd.CommandText = "INSERT INTO TRZAN ( " +
                                                 "KESN, TRCD, KICD, ESGN, GTNK, " +
                                                 "R000, S000, R010, S010, R015, S015, R020, S020, R025, S025, R030, S030, " +
@@ -28989,7 +28993,7 @@ namespace IMPORTERSUB
                                                 "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " +
                                                 "0, 0)";
                     L_Cmd.ExecuteNonQuery();
-                    // 部門科目予算１～４テーブル
+                    // 取引先科目予算１～４テーブル
                     for (int i = 1; i < 5; i++)
                     {
                         L_Cmd.CommandText = "INSERT INTO TRYSN" + i.ToString("0") + "( " +
@@ -29002,7 +29006,7 @@ namespace IMPORTERSUB
                                                 "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 )";
                         L_Cmd.ExecuteNonQuery();
                     }
-                }
+        //      }
             }
         }
 // ▲ ツルハ様カスタマイズ ▲
