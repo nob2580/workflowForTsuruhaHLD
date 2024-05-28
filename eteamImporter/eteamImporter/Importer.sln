@@ -5,7 +5,11 @@ VisualStudioVersion = 15.0.28307.1525
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Importer_SIAS", "Importer\Importer_SIAS.csproj", "{691BBE86-D10E-4E98-9565-FC17613E76B5}"
 EndProject
+<<<<<<< HEAD:eteamImporter/eteamImporter（Ver01.02.04.02）/Importer.sln
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMPORTERSUB", "..\IMPORTERSUB(V02280103)_20240526ツルハカスタマイズ対応\IMPORTERSUB.csproj", "{6921B2C4-29DD-4C2D-AE74-2682225C8CBA}"
+=======
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMPORTERSUB", "..\IMPORTERSUB(V02280102)_20240401ツルハカスタマイズ対応\IMPORTERSUB.csproj", "{6921B2C4-29DD-4C2D-AE74-2682225C8CBA}"
+>>>>>>> origin/main:eteamImporter/eteamImporter（Ver01.02.04.01）/Importer.sln
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

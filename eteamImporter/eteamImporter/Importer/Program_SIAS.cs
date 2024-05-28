@@ -598,8 +598,18 @@ namespace Importer
                                 C_Siwake_Link SLink = new C_Siwake_Link();
                                 SLink.LNO  = shiwake.LNO;
                                 SLink.LNAM = linkRow[0];                                            //リンク名称
-                                SLink.FLG1 = Convert.ToInt16(linkRow[1]);                           //2:通常ファイル、3:e文書(スキャナ)、4:e文書(電子取引・タイムスタンプあり)、5:e文書(電子取引・タイムスタンプ無し)
-                                SLink.LINK = System.IO.Path.Combine(impFileFolderFull, linkRow[2]); //ファイルパス                  
+                                SLink.FLG1 = Convert.ToInt16(linkRow[1]);                           //0:URL、2:通常ファイル、3:e文書(スキャナ)、4:e文書(電子取引・タイムスタンプあり)、5:e文書(電子取引・タイムスタンプ無し)
+// Ver01.02.04.02 *-
+//                              SLink.LINK = System.IO.Path.Combine(impFileFolderFull, linkRow[2]); //ファイルパス                  
+                                if (SLink.FLG1 == 0)
+                                {
+                                    SLink.LINK = linkRow[2];
+                                }
+                                else
+                                {
+                                    SLink.LINK = System.IO.Path.Combine(impFileFolderFull, linkRow[2]);
+                                }
+// -*
                                 //以下e文書専用
                                 if (SLink.FLG1 == 3 || SLink.FLG1 == 4 || SLink.FLG1 == 5)
                                 {

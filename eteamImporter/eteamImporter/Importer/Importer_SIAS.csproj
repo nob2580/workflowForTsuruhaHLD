@@ -75,7 +75,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD:eteamImporter/eteamImporter（Ver01.02.04.02）/Importer/Importer_SIAS.csproj
+    <ProjectReference Include="..\..\IMPORTERSUB%28V02280103%29_20240526ツルハカスタマイズ対応\IMPORTERSUB.csproj">
+=======
     <ProjectReference Include="..\..\IMPORTERSUB%28V02280102%29_20240401ツルハカスタマイズ対応\IMPORTERSUB.csproj">
+>>>>>>> origin/main:eteamImporter/eteamImporter（Ver01.02.04.01）/Importer/Importer_SIAS.csproj
       <Project>{6921b2c4-29dd-4c2d-ae74-2682225c8cba}</Project>
       <Name>IMPORTERSUB</Name>
     </ProjectReference>
